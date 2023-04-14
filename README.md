@@ -6,4 +6,4 @@ Repository for CT006-2 Python Project
 2. Create a virtual enviroment (python3 -m venv nameofthevenv)
 3. source /nameofthevenv/bin/activate
 4. pip3 -r requirements.txt
-5. flask --app backend/main.py run
+5. flask --app backend/app.py run
