@@ -1,6 +1,6 @@
 version: "3.8"
 services:
-  postgres:
+  db:
     image: postgres
     restart: always
     environment:
@@ -15,8 +15,24 @@ services:
       - "5432:5432"
     volumes:
       - ./db:/var/lib/postgresql/data
+    networks:
+      - app-network
+
   web:
-    build: "."
-    network_mode: host
+    image: python:3
+    restart: always
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      - ./flask/code:/app
+      - ./flask/requirements.txt:/app/requirements.txt
+    command: sh -c "pip3 install --no-cache-dir -r requirements.txt && python app.py"
     ports:
-      - "5000:5000"
+      - "5001:5000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
