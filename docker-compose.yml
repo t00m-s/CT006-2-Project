@@ -1,17 +1,22 @@
-version: '3.8'
+version: "3.8"
 services:
-    postgres:
-        image: postgres
-        restart: always
-        environment:
-          - POSTGRES_USER=${POSTGRES_USER}
-          - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-          - POSTGRES_DB=${POSTGRES_USER}
-        logging:
-          options:
-            max-size: 10m
-            max-file: "3"
-        ports:
-          - '5432:5432'
-        volumes:
-          - ./db:/var/lib/postgresql/data
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_USER}
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./db:/var/lib/postgresql/data
+  web:
+    build: "."
+    network_mode: host
+    ports:
+      - "5000:5000"
