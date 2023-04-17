@@ -3,7 +3,6 @@ from sqlalchemy import *
 from urllib.parse import quote_plus
 import os
 
-url='ciao'
 def get_db_engine():
     user=os.getenv('POSTGRES_USER')
     password=(os.getenv('POSTGRES_PASSWORD'))
@@ -20,7 +19,7 @@ def hello_world():
         is_connesso = 'SONO CONNESSO AL DATABASE'
         engine.connect()
     except Exception as e:
-        is_connesso = 'non riesco a connettermi al db :( <br> Errore:'+str(e)+url
+        is_connesso = 'non riesco a connettermi al db :( <br> Errore:'+str(e)
 
     return "Hello, World! Docker funziona!<br>"+ is_connesso
 
