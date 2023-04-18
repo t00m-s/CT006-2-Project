@@ -19,7 +19,7 @@ services:
       - app-network
 
   web:
-    image: python:3
+    image: python:3.9-slim-bullseye
     restart: always
     working_dir: /app
     env_file:
