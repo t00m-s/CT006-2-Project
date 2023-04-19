@@ -6,7 +6,7 @@ services:
     environment:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_DB=${POSTGRES_USER}
+      - POSTGRES_DB=${POSTGRES_DB}
     logging:
       options:
         max-size: 10m
@@ -19,6 +19,7 @@ services:
       - app-network
 
   web:
+    build: .
     image: python:3.9-slim-bullseye
     restart: always
     working_dir: /app
@@ -27,7 +28,6 @@ services:
     volumes:
       - ./flask/code:/app
       - ./flask/requirements.txt:/app/requirements.txt
-    command: sh -c "pip3 install --no-cache-dir -r requirements.txt && python app.py"
     ports:
       - "5001:5000"
     networks:
