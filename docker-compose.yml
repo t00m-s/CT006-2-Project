@@ -15,8 +15,6 @@ services:
       - "5432:5432"
     volumes:
       - ./db:/var/lib/postgresql/data
-    networks:
-      - app-network
 
   web:
     build: .
@@ -30,9 +28,3 @@ services:
       - ./flask/requirements.txt:/app/requirements.txt
     ports:
       - "5001:5000"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
