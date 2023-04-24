@@ -135,3 +135,5 @@ dmypy.json
 .pyre/
 
 /flask/code/requirements.txt
+*.DS_Store
+db/*
