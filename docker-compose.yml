@@ -15,17 +15,17 @@ services:
       - custom_connection
 
   web:
-    build: .
     image: python:3.9-slim-bullseye
+    build: .
     restart: always
     working_dir: /app
     env_file:
       - .env
     volumes:
       - ./flask/code:/app
-      - ./flask/requirements.txt:/app/requirements.txt
     ports:
       - "5001:5000"
+    command: bash -c "flask run --host=0.0.0.0"
     networks:
       - custom_connection
 

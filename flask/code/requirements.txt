@@ -5,7 +5,7 @@ Jinja2==3.1.2
 MarkupSafe==2.1.2
 Werkzeug==2.2.3
 python-dotenv
-Flask-SQLAlchemy
+sqlalchemy
 psycopg2-binary
 
 
