@@ -1,11 +1,7 @@
-import sqlalchemy
-from sqlalchemy import *
-from sqlalchemy.orm import declarative_base, relationship
-from sqlalchemy.orm import sessionmaker
-from role import Role
+from ..engine import *
 
 
-engine = create_engine('sqlite://', echo=True)
+engine = get_engine()
 
 Base = declarative_base()  # tabella = classe che eredita da Base
 Session = sessionmaker(bind=engine)
