@@ -1,10 +1,13 @@
 from flask import *
-from backend.database.engine import *
-from frontend.src.index import *
+from .backend.database.engine import *
+from .backend.database.migration import *
+from .frontend.src.index import *
 import sys
 
 app = Flask(__name__)
 app.register_blueprint(index_blueprint)
+
+migrate()
 
 
 @app.route("/test")

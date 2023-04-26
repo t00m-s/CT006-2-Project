@@ -1,12 +1,8 @@
-
-from ..engine import *
-
-
-engine = get_engine()
+from sqlalchemy import *
+from sqlalchemy.orm import *
+from sqlalchemy.ext.declarative import declarative_base
 
 Base = declarative_base()  # tabella = classe che eredita da Base
-Session = sessionmaker(bind=engine)
-session = Session()
 
 
 class Role(Base):
@@ -18,21 +14,5 @@ class Role(Base):
     # configuro le relationship e la politica di cascading
     users = relationship("User", back_populates='role')
 
-
     def __repr__(self):
         return "<Role(id='%d', name='%s',is_reviewer='%r')>" % (self.id, self.name, self.is_reviewer)
-
-
-
-Base.metadata.create_all(engine)
-
-
-
-"""
-TEST
-
-
-new_role = Role(name = 'sgrodo', is_reviewer = False)
-session.add(new_role)
-session.commit()
-"""
