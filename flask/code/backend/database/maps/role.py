@@ -1,9 +1,12 @@
-from ..engine import *
+from sqlalchemy import *
+from sqlalchemy.orm import declarative_base, relationship
+from sqlalchemy.orm import sessionmaker
+from user import User
 
-engine = get_engine()
+engine = create_engine('sqlite://', echo=True)
 
 Base = declarative_base()  # tabella = classe che eredita da Base
-Session = sessionmaker(pbind=engine)
+Session = sessionmaker(bind=engine)
 session = Session()
 
 
@@ -16,5 +19,21 @@ class Role(Base):
     # configuro le relationship e la politica di cascading
     users = relationship("User", back_populates='role')
 
+
     def __repr__(self):
-        return "<Product(maker='%s', model='%d',type='%s')>" % (self.maker, self.model, self.type)
+        return "<Role(id='%d', name='%s',is_reviewer='%r')>" % (self.id, self.name, self.is_reviewer)
+
+
+
+Base.metadata.create_all(engine)
+
+
+
+"""
+TEST
+
+
+new_role = Role(name = 'sgrodo', is_reviewer = False)
+session.add(new_role)
+session.commit()
+"""
