@@ -3,7 +3,6 @@ from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from .role import Role
-
 Base = declarative_base()  # tabella = classe che eredita da Base
 
 
@@ -16,7 +15,7 @@ class User(Base):
     password = Column(String, nullable=False)
     id_role = Column(Integer, ForeignKey(Role.id))
     birth_date = Column(DateTime)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
+    created_at = Column(DateTime, nullable=False, default=func.now())
     # configuro le relationship e la politica di cascading
     role = relationship("Role", back_populates='users')
     projects = relationship("Project", back_populates='project')
