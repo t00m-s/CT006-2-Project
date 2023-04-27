@@ -16,9 +16,10 @@ class User(Base):
     password = Column(String, nullable=False)
     id_role = Column(Integer, ForeignKey(Role.id))
     birth_date = Column(DateTime)
-    created_at = Column(DateTime, nullable=False, default=datetime.now())
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     # configuro le relationship e la politica di cascading
     role = relationship("Role", back_populates='users')
+    projects = relationship("Project", back_populates='project')
 
     def __repr__(self):
         return "<Role(id='%d', name='%s', surname='%s',email='%s',password='%s',id_role='%d')>" % \
