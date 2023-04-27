@@ -11,6 +11,7 @@ class Type(Base):
 
     # Volendo possiamo settare la size della string
     name = Column(String, nullable=False)
+    projects = Relationship("Project", back_populates='type')
 
     def __repr__(self):
         return "<Type(id='%d', name='%s')>" % (self.id, self.name)
