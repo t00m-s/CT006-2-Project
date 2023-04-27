@@ -8,8 +8,8 @@ Base = declarative_base()  # tabella = classe che eredita da Base
 class Role(Base):
     __tablename__ = 'Role'  # obbligatorio
     id = Column(Integer, primary_key=True)
-    name = Column(String)
-    is_reviewer = Column(Boolean)
+    name = Column(String, nullable=False)
+    is_reviewer = Column(Boolean, nullable=False)
 
     # configuro le relationship e la politica di cascading
     users = relationship("User", back_populates='role')
