@@ -2,11 +2,12 @@ from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from .role import Role
+
 Base = declarative_base()  # tabella = classe che eredita da Base
 
 
 class User(Base):
-    __tablename__ = 'User'  # obbligatorio
+    __tablename__ = 'users'  # obbligatorio
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     surname = Column(String, nullable=False)

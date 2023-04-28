@@ -6,7 +6,7 @@ Base = declarative_base()
 
 
 class Type(Base):
-    __tablename__ = 'Type'
+    __tablename__ = 'types'
     id = Column(Integer, primary_key=True)
 
     # Volendo possiamo settare la size della string

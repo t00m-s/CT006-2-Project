@@ -8,7 +8,7 @@ Base = declarative_base()  # tabella = classe che eredita da Base
 
 
 class Project(Base):
-    __tablename__ = 'Project'
+    __tablename__ = 'projects'
     id = Column(Integer, primary_key=True)
     id_user = Column(Integer, ForeignKey(User.id), nullable=False)
     id_type = Column(Integer, ForeignKey(Type.id), nullable=False)
