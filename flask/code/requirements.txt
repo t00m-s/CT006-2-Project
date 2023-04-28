@@ -7,5 +7,4 @@ Werkzeug==2.2.3
 python-dotenv
 sqlalchemy
 psycopg2-binary
-
-
+flask-login
