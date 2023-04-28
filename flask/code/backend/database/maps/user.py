@@ -1,7 +1,6 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
 from .role import Role
 Base = declarative_base()  # tabella = classe che eredita da Base
 

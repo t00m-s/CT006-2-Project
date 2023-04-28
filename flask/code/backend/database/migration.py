@@ -15,3 +15,6 @@ def migrate():
 
     from .maps.project import Project, Base
     Base.metadata.create_all(engine)
+
+    from .maps.state import State, Base
+    Base.metadata.create_all(engine)
