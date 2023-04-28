@@ -20,22 +20,3 @@ def test():
         is_connesso = 'non riesco a connettermi al db :( <br> Errore:' + str(e)
 
     return "Hello, World! Docker funziona!<br>" + is_connesso
-
-
-def get_static_resource(path, resource):
-    if path[0] == '/':
-        path = path[1::]
-    if os.path.exists(path + '/' + resource):
-        return open('./' + path + '/' + resource).read()
-    else:
-        return 'error'
-
-
-@app.route(boostrap_scirpt_path + '/<resource>')
-def boostrap_script(resource):
-    return get_static_resource(boostrap_scirpt_path, resource)
-
-
-@app.route(jquery_scirpt_path + '/<resource>')
-def jquery_script(resource):
-    return get_static_resource(jquery_scirpt_path, resource)
