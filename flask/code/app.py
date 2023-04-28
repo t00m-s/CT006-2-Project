@@ -10,6 +10,12 @@ app.register_blueprint(index_blueprint)
 migrate()
 
 
+# Test route for DB migrations
+@app.route("/")
+def main():
+    connection = get_engine()
+
+
 @app.route("/test")
 def test():
     connection = get_engine()

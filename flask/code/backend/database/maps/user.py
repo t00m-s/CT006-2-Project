@@ -20,5 +20,9 @@ class User(Base):
     projects = relationship("Project", back_populates='project')
 
     def __repr__(self):
-        return "<Role(id='%d', name='%s', surname='%s',email='%s',password='%s',id_role='%d')>" % \
-            (self.id, self.name, self.surname, self.email, self.password, self.id_role)
+        return f"<User(id={self.id}," \
+               f"name={self.name}," \
+               f"surname={self.surname}," \
+               f"email={self.email}," \
+               f"id_role={self.id_role}," \
+               f"birth_date={self.birth_date})>"

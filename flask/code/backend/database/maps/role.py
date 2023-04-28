@@ -15,4 +15,6 @@ class Role(Base):
     users = relationship("User", back_populates='role')
 
     def __repr__(self):
-        return "<Role(id='%d', name='%s',is_reviewer='%r')>" % (self.id, self.name, self.is_reviewer)
+        return f"<Role(id={self.id}," \
+               f"name={self.name}," \
+               f"is_reviewer={self.is_reviewer})>"

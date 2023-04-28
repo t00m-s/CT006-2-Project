@@ -14,4 +14,5 @@ class Type(Base):
     projects = Relationship("Project", back_populates='type')
 
     def __repr__(self):
-        return "<Type(id='%d', name='%s')>" % (self.id, self.name)
+        return f"<Type(id={self.id}, " \
+               f"name={self.name})>"

@@ -10,9 +10,8 @@ class State(Base):
     is_closed = Column(Boolean, nullable=False)
     created_at = Column(DateTime, default=func.now())
 
-    '''
-    Non sono sicuro che sia %c per stampare
-    '''
     def __repr__(self):
-        return "<State(id='%d', name='%s', is_closed='%r', created_at='%c)>" % \
-            (self.id, self.name, self.is_closed, self.created_at)
+        return f"<State(id={self.id}," \
+               f"name={self.name}," \
+               f"is_closed={self.is_closed}," \
+               f"created_at={self.created_at})>"

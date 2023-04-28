@@ -1,7 +1,6 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
-from datetime import datetime
 from .user import User
 from .type import Type
 
@@ -25,4 +24,8 @@ class Project(Base):
     '''
 
     def __repr__(self):
-        return "" % (self.id, self.name, self.created_at)
+        return f"<Type(id={self.id}, " \
+               f"id_user={self.id_user}, " \
+               f"id_type={self.id_type}, " \
+               f"name={self.name}, " \
+               f"created_at={self.created_at})>"
