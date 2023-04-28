@@ -1,12 +1,14 @@
+from flask import render_template
+
 from flask import *
 import os
 
 index_blueprint = Blueprint('index', __name__, template_folder="../templates")
 
 static_path = '/frontend/static'
-boostrap_scirpt_path = static_path + '/js/bootstrap'
+boostrap_script_path = static_path + '/js/bootstrap'
 boostrap_css_path = static_path + '/css/bootstrap'
-jquery_scirpt_path = static_path + '/js/jquery'
+jquery_script_path = static_path + '/js/jquery'
 
 
 def get_static_resource(path, resource):
@@ -22,20 +24,20 @@ def get_static_resource(path, resource):
 # CON URL '/' IN MODO CHE TUTTE INCLUDANO base.html COSI DA AVERE TUTTI I FILE JS CSS IN OGNI ROTTA
 @index_blueprint.route("/")
 def index():
-    boostrap_js = [boostrap_scirpt_path + '/' + val for val in os.listdir('.' + boostrap_scirpt_path)]
+    boostrap_js = [boostrap_script_path + '/' + val for val in os.listdir('.' + boostrap_script_path)]
     boostrap_css = [boostrap_css_path + '/' + val for val in os.listdir('.' + boostrap_css_path)]
-    jquery_js = [jquery_scirpt_path + '/' + val for val in os.listdir('.' + jquery_scirpt_path)]
+    jquery_js = [jquery_script_path + '/' + val for val in os.listdir('.' + jquery_script_path)]
     return render_template("base.html", boostrap_js=boostrap_js, jquery_js=jquery_js, boostrap_css=boostrap_css)
 
 
-@index_blueprint.route(boostrap_scirpt_path + '/<resource>')
+@index_blueprint.route(boostrap_script_path + '/<resource>')
 def boostrap_script(resource):
-    return get_static_resource(boostrap_scirpt_path, resource)
+    return get_static_resource(boostrap_script_path, resource)
 
 
-@index_blueprint.route(jquery_scirpt_path + '/<resource>')
+@index_blueprint.route(jquery_script_path + '/<resource>')
 def jquery_script(resource):
-    return get_static_resource(jquery_scirpt_path, resource)
+    return get_static_resource(jquery_script_path, resource)
 
 
 @index_blueprint.route(boostrap_css_path + '/<resource>')
