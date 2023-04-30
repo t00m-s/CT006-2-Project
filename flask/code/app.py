@@ -1,11 +1,15 @@
 from flask import *
 from .backend.database.engine import *
 from .backend.database.migration import *
+from .backend.src.login_register import *
 from .frontend.src.index import *
+from .frontend.src.home import *
 import sys
 
 app = Flask(__name__)
 app.register_blueprint(index_blueprint, url_prefix='/')
+app.register_blueprint(login_register_blueprint, url_prefix='/')
+app.register_blueprint(home_blueprint, url_prefix='/')
 
 migrate()  # we want to generate the db table on app load
 
