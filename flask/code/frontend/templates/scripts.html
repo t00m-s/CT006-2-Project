@@ -1,8 +1,8 @@
 {% for b_js in boostrap_js %}
-<script src="{{b_js}}"></script>
+{{b_js|safe}}
 {% endfor %}
 
 {% for j_js in jquery_js %}
-<script src="{{j_js}}"></script>
+{{j_js|safe}}
 {% endfor %}
 
