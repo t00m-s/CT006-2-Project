@@ -1,9 +1,5 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
-
-Session = sessionmaker(bind=engine)
-session = Session()
-
 import os
 
 

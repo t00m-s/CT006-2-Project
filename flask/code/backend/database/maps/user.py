@@ -1,7 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
-from .role import Role
+from .role import *
 
 Base = declarative_base()  # tabella = classe che eredita da Base
 
@@ -17,8 +17,7 @@ class User(Base):
     birth_date = Column(DateTime)
     created_at = Column(DateTime, nullable=False, default=func.now())
     # configuro le relationship e la politica di cascading
-    role = relationship("Role", back_populates='users')
-    projects = relationship("Project", back_populates='project')
+    role = relationship(Role, back_populates='users')
 
     def __repr__(self):
         return f"<User(id={self.id}," \
@@ -27,3 +26,6 @@ class User(Base):
                f"email={self.email}," \
                f"id_role={self.id_role}," \
                f"birth_date={self.birth_date})>"
+
+
+Role.users = relationship(User, back_populates='role')

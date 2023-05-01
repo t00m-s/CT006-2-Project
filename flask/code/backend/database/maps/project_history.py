@@ -2,9 +2,9 @@ from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 
-from .project import Project
-from .state import State
-from .user import User
+from .project import *
+from .state import *
+from .user import *
 
 Base = declarative_base()
 
@@ -18,10 +18,9 @@ class ProjectHistory(Base):
     note = Column(Text)
     created_at = Column(DateTime, default=func.now())
 
-    reviewer = Relationship('User', back_populates='user')
-    state = Relationship('State', back_populates='state')
-    project = Relationship('Project', back_populates='project')
-    files = Relationship('ProjectFiles', back_populates='project_file')
+    reviewer = Relationship(User, back_populates='reviewed_histories')
+    state = Relationship(State, back_populates='attributed_histories')
+    project = Relationship(Project, back_populates='histories')
 
     def __repr__(self):
         return f"<Project_History(id={self.id}," \
@@ -29,3 +28,8 @@ class ProjectHistory(Base):
                f"id_state={self.id_state}," \
                f"id_user={self.id_user}," \
                f"created_at={self.created_at})>"
+
+
+Project.histories = relationship(ProjectHistory, back_populates='project')
+User.reviewed_histories = relationship(ProjectHistory, back_populates='reviewer')
+State.attributed_histories = relationship(ProjectHistory, back_populates='state')

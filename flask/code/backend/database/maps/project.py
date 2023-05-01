@@ -16,8 +16,8 @@ class Project(Base):
     description = Column(Text)
     created_at = Column(DateTime, default=func.now())
 
-    user = relationship("User", back_populates="projects")
-    type = relationship("Type", back_populates="projects")
+    user = relationship(User, back_populates="projects")
+    type = relationship(Type, back_populates="projects")
     '''
     Non metto description nella stringa
     per comodità
@@ -29,3 +29,7 @@ class Project(Base):
                f"id_type={self.id_type}, " \
                f"name={self.name}, " \
                f"created_at={self.created_at})>"
+
+
+User.projects = relationship(Project, back_populates='user')
+Type.projects = Relationship(Project, back_populates='type')
