@@ -17,7 +17,17 @@
   {% set messages = None %} <!-- Evita di ristampare lo stesso problema se ricarico la pagina. TODO: scoprire se serve o no-->
   {% endwith %}
 <div class="form">
-    <form id="user-login-form" action="/login" method="POST">
+    <form id="user-login-form" action="/register" method="POST">
+        <div class="form-group">
+            <label for="user_name">Name</label>
+            <input type="text" class="form-control" name="name" id="user_name"
+                   placeholder="Inserisci il tuo nome" required>
+        </div>
+        <div class="form-group">
+            <label for="user_surname">Cognome</label>
+            <input type="text" class="form-control" name="surname" id="user_surname"
+                   placeholder="Inserisci il tuo cognome" required>
+        </div>
         <div class="form-group">
             <label for="user_email">Email</label>
             <input type="email" class="form-control" name="email" id="user_email"
@@ -27,6 +37,11 @@
             <label for="user_password">Password</label>
             <input type="password" id="user_password" name="password" 
                    placeholder="Inserisci la tua password" required>
+        </div>
+        <div class="form-group">
+          <label for="user_birth_date">Data di nascita</label>
+          <input type="date" id="user_birth_date" name="birth_date" 
+                 placeholder="Inserisci la tua data di nascita">
         </div>
         <button type="submit" class="btn btn-success">Login</button>
     </form>

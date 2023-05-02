@@ -3,7 +3,7 @@ import os
 
 index_blueprint = Blueprint('index', __name__, template_folder="../templates")
 
-static_path = '/frontend/static'
+static_path = # capire come spostare in register'/frontend/static'
 
 """
 boostrap_script_path = static_path + '/js/bootstrap'
@@ -11,7 +11,7 @@ boostrap_css_path = static_path + '/css/bootstrap'
 jquery_script_path = static_path + '/js/jquery'
 """
 
-
+'''
 def get_static_resource(path, resource):
     if path[0] == '/':
         path = path[1::]
@@ -19,7 +19,7 @@ def get_static_resource(path, resource):
         return open('./' + path + '/' + resource).read()
     else:
         return 'error'
-
+'''
 
 @index_blueprint.route("/")
 def index():
