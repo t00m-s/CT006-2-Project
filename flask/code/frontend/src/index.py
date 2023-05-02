@@ -22,6 +22,12 @@ def get_static_resource(path, resource):
         return 'error'
 '''
 
+style_css_path = static_path + '/css'
+
+@index_blueprint.route(style_css_path + '/<resource>')
+def style_css(resource):
+    return get_static_resource(style_css_path, resource)
+
 @index_blueprint.route("/")
 def index():
    return render_with_lib("index.html")

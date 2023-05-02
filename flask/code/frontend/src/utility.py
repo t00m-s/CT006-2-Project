@@ -14,4 +14,10 @@ def render_with_lib(page : str):
         '<script src="https://cdnjs.cloudflare.com/ajax/libs/toastify-js/1.6.1/toastify.min.js" integrity="sha512-79j1YQOJuI8mLseq9icSQKT6bLlLtWknKwj1OpJZMdPt2pFBry3vQTt+NZuJw7NSd1pHhZlu0s12Ngqfa371EA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>'
     ]
 
-    return render_template(page, boostrap_js=boostrap_js, jquery_js=jquery_js, boostrap_css=boostrap_css, online_css=online_css, js_libraries=js_libraries)
+    style_css = [
+        '<link rel = "stylesheet" href="frontend/static/css/style.css">'
+    ]
+
+
+
+    return render_template(page, boostrap_js=boostrap_js, jquery_js=jquery_js, boostrap_css=boostrap_css, online_css=online_css, js_libraries=js_libraries, style_css = style_css)
