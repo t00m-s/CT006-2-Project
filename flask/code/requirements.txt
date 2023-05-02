@@ -8,4 +8,4 @@ python-dotenv
 sqlalchemy
 psycopg2-binary
 flask-login
-python-passlib
+passlib

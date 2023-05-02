@@ -1,6 +1,7 @@
 from flask import Blueprint, request, redirect, url_for, flash, render_template
 from flask_login import *
 from passlib.hash import sha512_crypt
+from ...frontend.src.utility import render_with_lib
 from ..database.session import *
 from ..database.maps.user import *
 from ..database.maps.role import *
@@ -22,9 +23,11 @@ def login():
     else:
         return redirect(url_for('index.index'))
 
+# TODO fare una cosa fatta bene...
 @login_register_blueprint.route('/register', methods=['GET'])
 def register_page():
-    return render_template("register.html")
+    return render_with_lib("register.html")
+
 
 @login_register_blueprint.route('/register', methods=['POST'])
 def register_back():
