@@ -2,8 +2,22 @@
 
 
 {% block content %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+      <script>
+          let temp = Toastify({
+            text: "{{ message }}",
+            duration: 3000
+          });
+          temp.showToast();
+      </script>
+      {% endfor %}
+    {% endif %}
+  {% set messages = None %} <!-- Evita di ristampare lo stesso problema se ricarico la pagina.-->
+  {% endwith %}
 <div class="form">
-    <form id="user-login-form" action="/login" method="post">
+    <form id="user-login-form" action="/login" method="POST">
         <div class="form-group">
             <label for="user_email">Email</label>
             <input type="email" class="form-control" name="email" id="user_email"

@@ -1,4 +1,4 @@
-from flask import *
+from flask import Flask, Blueprint, request, redirect, url_for, flash
 from flask_login import *
 from ..database.session import *
 
@@ -13,7 +13,8 @@ def login():
     if request.method == 'POST':
         user = get_session().query(User).filter_by(email=request.form['email']).first()
         if user is None or user.password is None:
-            return redirect(url_for('index.index'))  # TODO user non trovato
+            flash("User not found")
+            return redirect(url_for('index.index')) 
         # TODO fare sha256 di request.form['user_email'] e confrontare il risultato con user.passwrd,  di fatto salveremo nel db lo sha256 della password
         if user.password == request.form['password']:
             return redirect(url_for('home.home'))
@@ -26,13 +27,13 @@ def login():
 @login_register_blueprint.route('/register', methods=['POST'])
 def register_back():
     if request.form['email'] is None:
-        return 'Errore mail'  # todo erroe email obblgiatoria tornare alla pagina di registrazione
+       return 'Errore mail'   # TODO errore email obblgiatoria tornare alla pagina di registrazione
     if request.form['password'] is None:
-        return 'Errore password'  # todo erroe pass obblgiatoria tornare alla pagina di registrazione
+        return 'Errore password'  # TODO errore pass obblgiatoria tornare alla pagina di registrazione
     if request.form['name'] is None:
-        return 'Errore name'  # todo erroe nome obblgiatoria tornare alla pagina di registrazione
+        return 'Errore name'  # TODO errore nome obblgiatorio tornare alla pagina di registrazione
     if request.form['surname'] is None:
-        return 'Errore surname'  # todo erroe surnome obblgiatoria tornare alla pagina di registrazione
+        return 'Errore surname'  # TODO errore surname obblgiatorio tornare alla pagina di registrazione
 
     # TODO fare tutti i controlli password di almeno 8 caratteri maiuscole minuscole ecc
     # TODO fare tutti i controlli email valida
