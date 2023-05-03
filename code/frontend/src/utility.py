@@ -15,9 +15,15 @@ def render_with_lib(page : str):
     ]
 
     style_css = [
-        '<link rel = "stylesheet" href="frontend/static/css/style.css">'
+        '<link rel = "stylesheet" href="/app/frontend/static/css/style.css">'
     ]
 
 
 
-    return render_template(page, boostrap_js=boostrap_js, jquery_js=jquery_js, boostrap_css=boostrap_css, online_css=online_css, js_libraries=js_libraries, style_css = style_css)
+    return render_template(page,
+                           boostrap_js=boostrap_js,
+                           jquery_js=jquery_js,
+                           boostrap_css=boostrap_css,
+                           online_css=online_css,
+                           js_libraries=js_libraries,
+                           style_css = style_css)
