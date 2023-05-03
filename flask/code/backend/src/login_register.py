@@ -15,7 +15,7 @@ def login():
         if user is None or user.password is None:
             flash("User not found.")
             return redirect(url_for('index.index')) 
-        if sha512_crypt.verify(request['password'], user.password): #TODO: test this
+        if sha512_crypt.verify(request.form['password'], user.password): #TODO: test this
             return redirect(url_for('home.home'))
         else:
             flash("Wrong password.")
@@ -59,7 +59,9 @@ def register_back():
                         surname=request.form['surname'],
                         email=request.form['email'],
                         password=sha512_crypt.hash(request.form['password']),
-                        birth_date=request.form['birth_date'] if request.form['birth_date'] is not None else None)
+                        birth_date=request.form['birth_date'] if request.form['birth_date'] is not None else None,
+                        id_role=None)
+        get_session().add(new_user)
         get_session().commit()
         return redirect(url_for('login_register.login'))
     else:
