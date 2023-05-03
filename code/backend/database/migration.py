@@ -2,7 +2,11 @@ from .engine import *
 
 engine = get_engine()
 
-
+'''
+Loads all ORM classes and then creates the tables
+to the database.
+'''
+# TODO find a better way to do this
 def migrate():
     from .maps.role import Base
     Base.metadata.create_all(engine)
