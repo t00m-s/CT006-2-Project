@@ -34,16 +34,19 @@ def register_back():
     if request.method == 'POST': #TODO forse rimuovere questi controlli sotto?
         if request.form['email'] is None:
             flash("You forgot the email")
-            return redirect(url_for('index.index'))
+            return redirect(url_for('login_register.register_page'))
         if request.form['password'] is None:
             flash("You forgot the password")
-            return redirect(url_for('index.index'))
+            return redirect(url_for('login_register.register_page'))
         if request.form['name'] is None:
             flash("Did you forget your name?")
-            return redirect(url_for('index.index'))
+            return redirect(url_for('login_register.register_page'))
         if request.form['surname'] is None:
             flash("Did you forget your surname?")
-            return redirect(url_for('index.index'))
+            return redirect(url_for('login_register.register_page'))
+        if request.form['password'] != request.form['password_2']:
+            flash("Your passwords do not match.")
+            return redirect(url_for('login_register.register_page'))
 
         # TODO fare tutti i controlli password di almeno 8 caratteri maiuscole minuscole ecc
         # TODO fare tutti i controlli email valida

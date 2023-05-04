@@ -22,7 +22,7 @@ services:
     env_file:
       - .env
     volumes:
-      - ./flask/code:/app
+      - ./code:/app
     ports:
       - "5001:5000"
     command: bash -c "flask run --host=0.0.0.0"
