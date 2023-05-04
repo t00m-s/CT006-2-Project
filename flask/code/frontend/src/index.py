@@ -22,7 +22,7 @@ def get_static_resource(path, resource):
         return 'error'
 '''
 
-style_css_path = static_path + '/css'
+style_css_path = 'code/frontend/static/css/style.css'
 
 @index_blueprint.route(style_css_path + '/<resource>')
 def style_css(resource):
