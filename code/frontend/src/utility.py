@@ -15,7 +15,7 @@ def render_with_lib(page : str):
     ]
 
     style_css = [
-        '<link rel = "stylesheet" href="/app/frontend/static/css/style.css">'
+        '<link rel = "stylesheet" href="/frontend/static/css">'
     ]
 
 
