@@ -18,6 +18,9 @@ def render_with_lib(page):
     style_css = [
         '/frontend/static/css/style.css'
     ]
+    custom_javascirpt = [
+        '/frontend/static/js/scripts.js'
+    ]
 
     return render_template(page,
                            boostrap_js=boostrap_js,
@@ -25,4 +28,5 @@ def render_with_lib(page):
                            boostrap_css=boostrap_css,
                            online_css=online_css,
                            js_libraries=js_libraries,
-                           style_css=style_css)
+                           style_css=style_css,
+                           custom_javascirpt=custom_javascirpt)

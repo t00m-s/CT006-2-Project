@@ -1,0 +1,17 @@
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            <script>
+                Toastify({
+                    text: "{{ message }}",
+                    duration: 3000,
+                    close: true,
+                    className: "info",
+                    backgroundColor: "rgb(220, 20, 60)"
+                }).showToast();
+            </script>
+        {% endfor %}
+    {% endif %}
+    {% set messages = None %}
+    <!-- Evita di ristampare lo stesso problema se ricarico la pagina. -->
+{% endwith %}
