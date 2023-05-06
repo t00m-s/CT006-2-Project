@@ -2,11 +2,12 @@ from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from .role import *
+from flask_login import *
 
 Base = declarative_base()  # tabella = classe che eredita da Base
 
 
-class User(Base):
+class User(Base, UserMixin):
     __tablename__ = 'users'  # obbligatorio
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)

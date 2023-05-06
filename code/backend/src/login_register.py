@@ -1,5 +1,4 @@
 from flask import Blueprint, request, redirect, url_for, flash, render_template
-from flask_login import *
 from passlib.hash import sha512_crypt
 from ...frontend.src.utility import render_with_lib
 from ..database.session import *
@@ -33,7 +32,7 @@ def register_page():
 
 @login_register_blueprint.route('/register', methods=['POST'])
 def register_back():
-    if request.method == 'POST':  # TODO forse rimuovere questi controlli sotto?
+    if request.method == 'POST':
         if request.form['email'] is None:
             flash("You forgot the email")
             return redirect(url_for('login_register.register_page'))
@@ -70,4 +69,4 @@ def register_back():
         get_session().commit()
         return redirect(url_for('login_register.login'))
     else:
-        return redirect(url_for('login_register.register_page'))  # TODO: importare bootstrap
+        return redirect(url_for('login_register.register_page'))
