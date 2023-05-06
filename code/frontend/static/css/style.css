@@ -1,12 +1,16 @@
-.card-title{
-    min-width : 33%;
+.card-title {
+    min-width: 33%;
     text-align: center;
 }
 
-.color-text{
-    color: seagreen; !important;
+.color-text {
+    color: seagreen;
 }
 
-.color-button{
+body {
+    background-color: red !important;
+}
 
+h1 {
+    color: red !important;
 }

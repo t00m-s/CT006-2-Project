@@ -134,7 +134,6 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-/flask/code/requirements.txt
 *.DS_Store
 db/*
 *.run/
