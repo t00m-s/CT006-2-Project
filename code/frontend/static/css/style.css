@@ -4,13 +4,10 @@
 }
 
 .color-text {
-    color: seagreen;
+    color: seagreen !important;
 }
 
-body {
-    background-color: red !important;
+.color-button {
+
 }
 
-h1 {
-    color: red !important;
-}

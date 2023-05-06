@@ -16,7 +16,7 @@ def render_with_lib(page):
     ]
 
     style_css = [
-        '<link rel = "stylesheet" href="/frontend/static/css/style.css">'
+        '/frontend/static/css/style.css'
     ]
 
     return render_template(page,

@@ -1,12 +1,12 @@
 {% for b_css in boostrap_css %}
-{{b_css|safe}}
+    {{ b_css|safe }}
 {% endfor %}
 
 {% for css in online_css %}
-{{css|safe}}
+    {{ css|safe }}
 {% endfor %}
 
 
 {% for style in style_css %}
-{{style|safe}}
+    <link rel="stylesheet" type="text/css" href="{{ style }}">
 {% endfor %}
