@@ -7,7 +7,7 @@ Base = declarative_base()  # tabella = classe che eredita da Base
 class State(Base):
     __tablename__ = 'states'
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False, unique=True)
     is_closed = Column(Boolean, nullable=False)
     created_at = Column(DateTime, default=func.now())
 

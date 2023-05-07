@@ -8,7 +8,7 @@ Base = declarative_base()
 class Role(Base):
     __tablename__ = 'roles'
     id = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    name = Column(String, nullable=False, unique=True)
     is_reviewer = Column(Boolean, nullable=False)
 
     # configuro le relationship e la politica di cascading
