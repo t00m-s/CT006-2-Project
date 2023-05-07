@@ -37,8 +37,3 @@ def style_css(resource):
 @index_blueprint.route(style_js_path + '/<resource>')
 def js_script(resource):
     return get_static_resource(style_js_path, resource, 'js')
-
-
-@index_blueprint.route("/login")
-def index():
-    return render_with_lib("login.html")
