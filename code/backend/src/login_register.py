@@ -81,9 +81,10 @@ def register_back():
             return redirect(url_for('login_register.show_register'))
         # TODO fare la regex anche per la data di nascita: attenzione non è un campo obbligatorio
 
-
+        # html salva l'input date secondo il formato year-month-day
+        # separo l'input e salvo in una list di dimensione 3
         dateTokens = request.form['birth_date'].split('-')
-        print(dateTokens)
+        #creo l'oggetto date di python
         pythonDate = date(int(dateTokens[0]),int(dateTokens[1]),int(dateTokens[2]))
         if date.today() < pythonDate :
             flash("Are you a time traveller? Your birth date is later than today")
