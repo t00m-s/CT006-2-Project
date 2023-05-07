@@ -2,7 +2,9 @@
 Repository for CT006-2 Python Project
 
 ## TODO
-- [ ] Registration 
+- [ ] Urgetne: Far passare a render template una quantità indefinita di varabili in modo posizionale
+- [ ] Sistemare il settaggio dell'utente di flask_login
+- [ ] Registration
 - [ ] Login
 
 ## DONE
