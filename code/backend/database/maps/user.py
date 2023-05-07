@@ -2,8 +2,8 @@ from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from .role import *
+from ..session import get_session
 import hashlib
-
 from flask_login import *
 
 Base = declarative_base()  # tabella = classe che eredita da Base
@@ -48,6 +48,15 @@ class User(Base):
         hash_object = hashlib.sha512(self.password.encode('utf-8'))
         self.password = hash_object.hexdigest()
 
+    def set_role(self):
+        if self.id_role is None:  # nel caso in cui non sto impostando nessun valore, di default sarà un ricercatore
+            self.id_role = 3  # provvisoriamete metto l'id forzato
+            # FIXME self.role = get_session().query(Role).filter_by(name='Researcher').first().id
+            # va in errore, penso sia perchè non posso usare la sessione per fare una select finchè ho una sessione per fare l'inser
+            # il che mi sembra assurdo
+        else:
+            self.id_role = self.id_role
+
 
 Role.users = relationship(User, back_populates='role')
 
@@ -57,6 +66,7 @@ def my_before_insert_listener(mapper, connection, target: User):
     target.set_surname()
     target.set_email()
     target.set_password()
+    target.set_role()
 
 
 event.listen(User, 'before_insert', my_before_insert_listener)

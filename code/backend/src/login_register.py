@@ -1,5 +1,5 @@
 from flask import Blueprint, request, redirect, url_for, flash, render_template
-from .home import load_user
+from .home import set_user
 import hashlib
 import re
 from ...frontend.src.utility import render_with_lib
@@ -96,7 +96,7 @@ def register_back():
                         id_role=None)
         get_session().add(new_user)
         get_session().commit()
-        load_user(new_user.id)
+        set_user(new_user.id)
         return redirect(url_for('home.index'))
     else:
         return redirect(url_for('login_register.show_register'))

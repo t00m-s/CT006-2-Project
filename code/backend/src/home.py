@@ -9,7 +9,7 @@ import sys
 import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'src'))
-from home import *
+from front_home import *
 
 # endregion
 
@@ -25,11 +25,23 @@ class LoggedUser(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    my_user = get_session().query(User).filter_by(id=user_id).first()
-    return LoggedUser(my_user.email, my_user)
+    my_user = get_session().query(User).first()
+    return LoggedUser(my_user.id, my_user)
 
 
 @home_blueprint.route('/')
 @login_required
 def index():
-    return home()
+    user = current_user
+    return home(user)
+
+
+@home_blueprint.route('/logout')
+def logout():
+    logout_user()  # chiamata a Flask-Login return redirect(url_for(’home’))
+    return redirect(url_for('home.index'))
+
+
+def set_user(user_id):
+    user = load_user(user_id)
+    login_user(user)
