@@ -6,7 +6,8 @@ from ...frontend.src.utility import render_with_lib
 from ..database.session import *
 from ..database.maps.user import *
 from ..database.maps.role import *
-
+from datetime import date
+from datetime import datetime
 # region per importare file molto distanti dal package corrent
 import sys
 import os
@@ -79,6 +80,14 @@ def register_back():
             flash("Email malformed.")
             return redirect(url_for('login_register.show_register'))
         # TODO fare la regex anche per la data di nascita: attenzione non è un campo obbligatorio
+
+
+        dateTokens = request.form['birth_date'].split('-')
+        print(dateTokens)
+        pythonDate = date(int(dateTokens[0]),int(dateTokens[1]),int(dateTokens[2]))
+        if date.today() < pythonDate :
+            flash("Are you a time traveller? Your birth date is later than today")
+            return redirect(url_for('login_register.show_register'))
 
         user = get_session().query(User).filter_by(email=request.form['email']).first()
         if user is not None and user.password is not None:
