@@ -26,14 +26,16 @@ class LoggedUser(UserMixin):
 @login_manager.user_loader
 def load_user(user_id):
     my_user = get_session().query(User).filter_by(id=user_id).first()  # TODO testare
-    return LoggedUser(my_user.id, my_user)
+    if my_user is not None:
+        return LoggedUser(my_user.id, my_user)
 
 
 @home_blueprint.route('/')
 @login_required
 def index():
     user = current_user
-    return home(user)
+    if user is not None:
+        return home(user)
 
 
 @home_blueprint.route('/logout')

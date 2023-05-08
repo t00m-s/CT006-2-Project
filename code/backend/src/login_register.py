@@ -107,6 +107,6 @@ def register_back():
         get_session().add(new_user)
         get_session().commit()
         set_user(new_user.id)
-        return redirect(url_for('home.index'))
+        return redirect(url_for('login_register.show_login'))
     else:
         return redirect(url_for('login_register.show_register'))
