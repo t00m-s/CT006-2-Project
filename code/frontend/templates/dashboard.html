@@ -2,6 +2,6 @@
 
 
 {% block main_frame %}
-    You are logged in
-    {{ user.user_map.email }}
+    You are logged in as
+    {{ user.user_map.name + " " + user.user_map.surname }}
 {% endblock %}
