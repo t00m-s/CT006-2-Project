@@ -25,6 +25,6 @@ def render_with_lib(page, **kwargs):
     kwargs['custom_javascirpt'] = [
         '/frontend/static/js/scripts.js'
     ]
-    kwargs['logo'] = '/frontend/static/img/logo_unive.png'
+    kwargs['logo'] = '/frontend/static/img/logo_unive_white.png'
 
     return render_template(page, **kwargs)

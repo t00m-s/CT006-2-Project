@@ -8,6 +8,7 @@
                     <div class="card-title d-flex justify-content-center">
                         <h1 class="color-text"> Login </h1>
                     </div>
+                    <hr>
                     <div class="form">
                         <form id="user-login-form" action="/login" method="POST">
                             <div class="form-group">
@@ -17,12 +18,29 @@
                             </div>
                             <div class="form-group mb-3">
                                 <label for="user_password">Password</label>
+                                <i class="bi bi-eye-slash" id="togglePassword"></i>
                                 <input type="password" class="form-control" id="user_password" name="password"
                                        placeholder="Inserisci la tua password" required>
                             </div>
 
+
+                            <script>
+                                    const togglePassword = document.querySelector("#togglePassword");
+                                    const password = document.querySelector("#user_password");
+
+                                    togglePassword.addEventListener("click", function () {
+                                        // toggle the type attribute
+                                        const type = password.getAttribute("type") === "password" ? "text" : "password";
+                                        password.setAttribute("type", type);
+
+                                        // toggle the icon
+                                        this.classList.toggle("bi-eye");
+                                    });
+                                </script>
+
+
                             <div class="d-flex justify-content-center mb-3">
-                                <button type="submit" class="btn btn-success">Login</button>
+                                <button type="submit" class="btn btn-success btn-form">Login</button>
                             </div>
                             <div class="d-flex justify-content-center">
                                 <p>

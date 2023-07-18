@@ -11,6 +11,27 @@
     box-sizing: border-box;
 }
 
+.btn-form{
+    background-color: #AD1637 !important;
+    border-color: #86112a;
+}
+
+.btn-form:hover{
+    background-color: #86112a !important;
+
+    border-color: #86112a;
+}
+
+.nav-logo{
+    width:25%;
+    height: 100%;
+}
+
+#navbarNav{
+   background-color: #AD1637; !important;
+    color: white;
+}
+
 body {
     background-color: #f6f7fb;
     color: #888da8;
