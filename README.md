@@ -2,14 +2,13 @@
 Repository for CT006-2 Python Project
 
 ## TODO
-- [x] Urgetne: Far passare a render template una quantità indefinita di varabili in modo posizionale
-- [x] Sistemare il settaggio dell'utente di flask_login (sembra okay)
+- [ ] Test LoggedUser
 - [ ] Registration
 - [ ] Login
 
 ## DONE
 - [x] Database 
-
+- [x] Passare argomenti infiniti a render_template
 ## How to run the project:
 1. Clone the repository
 2. docker-compose up -d
