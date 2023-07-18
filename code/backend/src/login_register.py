@@ -40,10 +40,8 @@ def login():
             return redirect(url_for('login_register.show_login'))
         hash_object = hashlib.sha512(request.form['password'].encode('utf-8'))
         password = hash_object.hexdigest()
-        if password == user.password:
-            login_user(user)
-            flash("Logged in successfully")
-            return redirect(url_for('home.index'))
+        if password == user.password and login_user(user): 
+           return redirect(url_for('home.index'))
         else:
             flash("Wrong password.")
             return redirect(url_for('login_register.show_login'))
