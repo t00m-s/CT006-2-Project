@@ -67,15 +67,6 @@ def register_back():
         if request.form['password'] != request.form['password_2']:
             flash("Your passwords do not match.")
             return redirect(url_for('login_register.show_register'))
-        if not re.match(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{8,}$',
-                        request.form['password']):
-            flash("Your passwords must be at least 8 chars. <br> At least: "
-                  "<ul>"
-                  "<li>1 Upper case</li>"
-                  "<li>1 Lower case</li>"
-                  "<li>1 Number</li>"
-                  "</ul> ")
-            return redirect(url_for('login_register.show_register'))
         if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', request.form['email']):
             flash("Email malformed.")
             return redirect(url_for('login_register.show_register'))
