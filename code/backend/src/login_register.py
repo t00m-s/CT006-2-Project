@@ -1,5 +1,5 @@
 from flask import Blueprint, request, redirect, url_for, flash, render_template
-from .home import set_user
+from flask_login import login_user
 import hashlib
 import re
 from ...frontend.src.utility import render_with_lib
@@ -35,17 +35,19 @@ def show_register():
 def login():
     if request.method == 'POST':
         user = get_session().query(User).filter_by(email=request.form['email']).first()
-        if user is None or user.password is None:
+        if user is None:
             flash("User not found.")
             return redirect(url_for('login_register.show_login'))
         hash_object = hashlib.sha512(request.form['password'].encode('utf-8'))
         password = hash_object.hexdigest()
         if password == user.password:
+            login_user(user)
+            flash("Logged in successfully")
             return redirect(url_for('home.index'))
         else:
             flash("Wrong password.")
             return redirect(url_for('login_register.show_login'))
-    else:
+    else: # GET
         return redirect(url_for('login_register.show_login'))
 
 
@@ -96,8 +98,7 @@ def register_back():
                                                                  request.form['birth_date'] != '' else None,
                         id_role=None)
         get_session().add(new_user)
-        get_session().commit()
-        set_user(new_user.id)
+        get_session().commit() 
         return redirect(url_for('login_register.show_login'))
     else:
         return redirect(url_for('login_register.show_register'))

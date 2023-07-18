@@ -19,6 +19,8 @@ class User(Base):
     id_role = Column(Integer, ForeignKey(Role.id), nullable=False)
     birth_date = Column(DateTime)
     created_at = Column(DateTime, nullable=False, default=func.now())
+    is_authenticated = Column(Boolean, nullable=False, default=False)
+    is_active = Column(Boolean, nullable=False, default=True)
     # configuro le relationship e la politica di cascading
     role = relationship(Role, back_populates='users')
 
@@ -28,10 +30,46 @@ class User(Base):
                f"surname={self.surname}," \
                f"email={self.email}," \
                f"id_role={self.id_role}," \
-               f"birth_date={self.birth_date})>"
+               f"birth_date={self.birth_date}," \
+               f"is_authenticated={self.is_authenticated}," \
+               f"is_active={self.is_active} )>"
+
+    '''
+    List of methods useful for login_manager
+    '''
+    def is_active(self):
+        """
+        Checks if the user can access the site. 
+        @params self User
+        """
+        return self.is_active
+
+    def get_id(self):
+        """
+        Gets the user id
+        @params self User
+        """
+        return str(self.id)
+
+    def is_anonymous(self):
+        """ 
+        Needed for flask-login but disabled here because 
+        anonymouse users are not supported. 
+        @params self User
+        """
+        return False
+
+    def is_authenticated(self):
+        """ 
+        Checks if the user is logged in 
+        @params self User
+        """
+        return self.is_authenticated
+
 
     """
-    Questi metodi vengono eseguiti per far si che quando vado a salvare i dati, siano nel formato desiderato
+    Questi metodi vengono eseguiti per far si che quando vado a salvare i dati
+    essi siano nel formato desiderato
     Grazie all'event (settato dopo aver definito la classe) li uso
     """
 
