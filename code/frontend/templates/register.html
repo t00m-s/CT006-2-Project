@@ -11,7 +11,7 @@
                         <div class="form">
                             <form id="user-login-form" action="/register" method="POST">
                                 <div class="form-group">
-                                    <label for="user_name">Name</label>
+                                    <label for="user_name">Nome</label>
                                     <input type="text" class="form-control" name="name" id="user_name"
                                            placeholder="Mario" required>
                                 </div>
@@ -27,16 +27,55 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="user_password">Password</label>
-                                    <br>
-                                    <input type="password" class="form-control" id="user_password" name="password"
+                                    <i class="bi bi-eye-slash" id="togglePassword"></i>
+                                    <input type="password" value = "" class="form-control" id="user_password" name="password"
                                            placeholder="Inserisci la tua password" required>
+
                                 </div>
                                 <div class="form-group">
-                                    <label for="user_password_2">Password</label>
-                                    <br>
+                                    <label for="user_password_2">Conferma Password </label>
+
+                                    <i class="bi bi-eye-slash" id="togglePassword_2"></i>
                                     <input type="password" class="form-control" id="user_password_2" name="password_2"
                                            placeholder="Inserisci nuovamente la password" required>
+
+
                                 </div>
+
+
+                                 <script>
+                                    const togglePassword = document.querySelector("#togglePassword");
+                                    const password = document.querySelector("#user_password");
+
+                                    togglePassword.addEventListener("click", function () {
+                                        // toggle the type attribute
+                                        const type = password.getAttribute("type") === "password" ? "text" : "password";
+                                        password.setAttribute("type", type);
+
+                                        // toggle the icon
+                                        this.classList.toggle("bi-eye");
+                                    });
+
+                                    const togglePassword_2 = document.querySelector("#togglePassword_2");
+                                    const password_2 = document.querySelector("#user_password_2");
+
+                                    togglePassword_2.addEventListener("click", function () {
+                                        // toggle the type attribute
+                                        const type_2 = password_2.getAttribute("type") === "password" ? "text" : "password";
+                                        password_2.setAttribute("type", type_2);
+
+                                        // toggle the icon
+                                        this.classList.toggle("bi-eye");
+                                    });
+
+                                    // prevent form submit
+                                    const form = document.querySelector("form");
+                                    form.addEventListener('submit', function (e) {
+                                        e.preventDefault();
+                                    });
+                                </script>
+
+
                                 <div class="form-group">
                                     <label for="user_birth_date">Data di nascita</label>
                                     <br>

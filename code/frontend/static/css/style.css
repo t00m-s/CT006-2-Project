@@ -4,7 +4,7 @@
 }
 
 .color-text {
-    color: seagreen !important;
+    color: #AD1637 !important;
 }
 
 * {
@@ -295,6 +295,11 @@ a:hover {
     left: 69px;
     padding-left: 15px;
 }
+
+form i {
+            cursor: pointer;
+        }
+
 
 @media only screen and (max-width: 992px) {
     #left-menu,
