@@ -3,12 +3,14 @@
     text-align: center;
 }
 
+
 .color-text {
     color: #AD1637 !important;
 }
 
-* {
-    box-sizing: border-box;
+.navbar{
+    padding-left: 3%;
+    padding-right: 3%;
 }
 
 .btn-form{
