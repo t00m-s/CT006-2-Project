@@ -8,7 +8,7 @@ import sys
 import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'src'))
-from front_home import *
+from front_home import * 
 
 # endregion
 
@@ -29,13 +29,23 @@ def user_loader(user_id):
 @home_blueprint.route('/')
 @login_required
 def index():
-    user = current_user
-    if user is not None:
-        return home(user)
-
+    '''
+    Returns the route for the current user.
+    '''
+    return home(current_user)
 
 @home_blueprint.route('/logout')
 def logout():
+    '''
+    Returns the route for logout
+    '''
     logout_user() 
     return redirect(url_for('home.index'))
 
+@home_blueprint.route('/project')
+@login_required
+def projects():
+    '''
+    Returns the route for project
+    '''
+    return project(current_user)

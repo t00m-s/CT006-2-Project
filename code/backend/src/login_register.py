@@ -77,7 +77,7 @@ def register_back():
         dateTokens = request.form['birth_date'].split('-')
         #creo l'oggetto date di python
         pythonDate = date(int(dateTokens[0]),int(dateTokens[1]),int(dateTokens[2]))
-        if date.today() < pythonDate :
+        if date.today() < pythonDate:
             flash("Are you a time traveller? Your birth date is later than today")
             return redirect(url_for('login_register.show_register'))
 
