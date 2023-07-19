@@ -32,7 +32,7 @@ def index():
     '''
     Returns the route for the current user.
     '''
-    return home(current_user)
+    return render_home(current_user)
 
 @home_blueprint.route('/logout')
 def logout():
@@ -48,4 +48,4 @@ def projects():
     '''
     Returns the route for project
     '''
-    return project(current_user)
+    return render_project(current_user)

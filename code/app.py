@@ -13,7 +13,7 @@ app.register_blueprint(index_blueprint, url_prefix='/')
 app.register_blueprint(login_register_blueprint, url_prefix='/')
 app.register_blueprint(home_blueprint, url_prefix='/')
 
-app.secret_key = os.getenv("SECRET_KEY")  # Secret Key for session management and flash message and flash messages
+app.secret_key = os.getenv("SECRET_KEY")  # Secret Key for session management and flash messages
 migrate()  # we want to generate the db table on app load
 
 login_manager.init_app(app)
@@ -29,4 +29,9 @@ def test():
     except Exception as e:
         is_connesso = 'non riesco a connettermi al db :( <br> Errore:' + str(e)
 
-    return "Hello, World! Docker funziona!<br>" + is_connesso
+    return os.path.join(app.root_path, 'frontend','static','img', 'favicon.ico') 
+
+@app.route('/favicon.ico')
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'frontend', 'static', 'img'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
