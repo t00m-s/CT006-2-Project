@@ -20,17 +20,6 @@ login_manager.init_app(app)
 login_manager.login_view = 'login_register.login'
 
 
-@app.route("/test")
-def test():
-    connection = get_engine()
-    try:
-        is_connesso = 'SONO CONNESSO AL DATABASE<br>Il mio interprete python è: ' + sys.executable
-        connection.connect()
-    except Exception as e:
-        is_connesso = 'non riesco a connettermi al db :( <br> Errore:' + str(e)
-
-    return os.path.join(app.root_path, 'frontend','static','img', 'favicon.ico') 
-
 @app.route('/favicon.ico')
 def favicon():
     return send_from_directory(os.path.join(app.root_path, 'frontend', 'static', 'img'),
