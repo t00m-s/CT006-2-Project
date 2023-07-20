@@ -40,12 +40,12 @@ def login():
             return redirect(url_for('login_register.show_login'))
         hash_object = hashlib.sha512(request.form['password'].encode('utf-8'))
         password = hash_object.hexdigest()
-        if password == user.password and login_user(user): 
-           return redirect(url_for('home.index'))
+        if password == user.password and login_user(user):
+            return redirect(url_for('home.index'))
         else:
             flash("Wrong password.")
             return redirect(url_for('login_register.show_login'))
-    else: # GET
+    else:  # GET
         return redirect(url_for('login_register.show_login'))
 
 
@@ -70,16 +70,17 @@ def register_back():
         if not re.match(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$', request.form['email']):
             flash("Email malformed.")
             return redirect(url_for('login_register.show_register'))
-        # TODO fare la regex anche per la data di nascita: attenzione non è un campo obbligatorio
 
         # html salva l'input date secondo il formato year-month-day
         # separo l'input e salvo in una list di dimensione 3
-        dateTokens = request.form['birth_date'].split('-')
-        #creo l'oggetto date di python
-        pythonDate = date(int(dateTokens[0]),int(dateTokens[1]),int(dateTokens[2]))
-        if date.today() < pythonDate:
-            flash("Are you a time traveller? Your birth date is later than today")
-            return redirect(url_for('login_register.show_register'))
+        if hasattr(request.form, 'birth_date') and request.form['birth_date'] is not None and request.form[
+            'birth_date'] != '':
+            dateTokens = request.form['birth_date'].split('-')
+            # creo l'oggetto date di python
+            pythonDate = date(int(dateTokens[0]), int(dateTokens[1]), int(dateTokens[2]))
+            if date.today() < pythonDate:
+                flash("Are you a time traveller? Your birth date is later than today")
+                return redirect(url_for('login_register.show_register'))
 
         user = get_session().query(User).filter_by(email=request.form['email']).first()
         if user is not None and user.password is not None:
@@ -94,9 +95,9 @@ def register_back():
                         password=request.form['password'],
                         birth_date=request.form['birth_date'] if request.form['birth_date'] is not None and
                                                                  request.form['birth_date'] != '' else None,
-                        id_role=None) #TODO: set default id to researcher
+                        id_role=3)  # set default id to researcher
         get_session().add(new_user)
-        get_session().commit() 
+        get_session().commit()
         return redirect(url_for('login_register.show_login'))
     else:
         return redirect(url_for('login_register.show_register'))

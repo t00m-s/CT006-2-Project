@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
+    <style>
+        body {
+            padding: 0;
+        }
+    </style>
     <div class="container justify-content-center">
         <div class="row justify-content-center">
             <div class="col-sm-9 col-md-7 col-lg-5 justify-content-center">
@@ -29,7 +34,8 @@
                                 <div class="form-group">
                                     <label for="user_password">Password</label>
                                     <i class="bi bi-eye-slash" id="togglePassword"></i>
-                                    <input type="password" value = "" class="form-control" id="user_password" name="password"
+                                    <input type="password" value="" class="form-control" id="user_password"
+                                           name="password"
                                            placeholder="Inserisci la tua password" required>
 
                                 </div>
@@ -44,7 +50,7 @@
                                 </div>
 
 
-                                 <script>
+                                <script>
                                     const togglePassword = document.querySelector("#togglePassword");
                                     const password = document.querySelector("#user_password");
 
