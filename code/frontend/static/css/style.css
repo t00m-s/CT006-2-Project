@@ -13,7 +13,12 @@
     padding-right: 3%;
 }
 
-
+.text-github{
+  color: #495057;
+}
+.text-github:hover{
+  color: #24292e;
+}
 
 .btn-form{
     background-color: #AD1637 !important;

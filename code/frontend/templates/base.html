@@ -19,6 +19,57 @@
 {% block content %}
 {% endblock %}
 {% block footer %}
+
+
+<div class="container">
+  <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top">
+
+        <div class="col-md-4 d-flex align-items-center">
+          <span class="mb-3 mb-md-0 text-body-secondary">© 2023 Developed&nbspby:</span>
+        </div>
+
+        <ul class="nav justify-content-end list-unstyled d-flex" id ="myItems">
+            <li class="ms-3"> <a href="https://github.com/Paniz2002" class ="bi bi-github text-decoration-none text-github"> </a> Nicola&nbspPanizzolo </li>
+            <li class="ms-3"> <a href="https://github.com/t00m-s/" class ="bi bi-github text-decoration-none text-github"> </a> Tommaso&nbspSoncin </li>
+            <li class="ms-3"> <a href="https://github.com/ciolo2002" class ="bi bi-github text-decoration-none text-github"> </a> Michael&nbspSarto </li>
+        </ul>
+
+        <script>
+        // Funzione per randomizzare l'ordine di un array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Funzione per randomizzare l'ordine della lista
+        function randomizeListOrder() {
+            const list = document.getElementById("myItems");
+            const items = list.getElementsByTagName("li");
+
+            const itemsArray = Array.from(items);
+            shuffleArray(itemsArray);
+
+            // Rimuove gli elementi dalla lista
+            while (list.firstChild) {
+                list.removeChild(list.firstChild);
+            }
+
+            // Aggiunge gli elementi randomizzati alla lista
+            itemsArray.forEach(item => {
+                list.appendChild(item);
+            });
+        }
+
+        // Richiama la funzione per randomizzare l'ordine all'avvio della pagina
+        randomizeListOrder();
+    </script>
+
+  </footer>
+</div>
+
+
 {% endblock %}
 </body>
 </html>
