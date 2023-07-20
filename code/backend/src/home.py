@@ -2,7 +2,7 @@ from flask import *
 from flask_login import LoginManager, current_user
 from ..database.session import get_session
 from ..database.maps.user import *
-
+from ..database.maps.project import *
 # region per importare file molto distanti dal package corrent
 import sys
 import os
@@ -61,9 +61,9 @@ def projects(project_type):
     else:
         pass #TODO render error page
     query = None
-    if type == None:
-       query = get_session().query(Project).values('id', 'id_type', 'name') 
+    if type is None:
+       query = get_session().query(Project.id, Project.id_type, Project.name).order_by(Project.id_type).all()
     else:
-        query = get_session().query(Project).filter_by(id_type=type).values('id', 'name')
+        query = get_session().query(Project.id, Project.name).filter_by(id_type=type).all()
     return render_project(current_user, project_type, query)
 

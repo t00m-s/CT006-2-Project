@@ -9,10 +9,10 @@ def render_home(user):
     '''
     return render_with_lib('admin_dashboard.html', user=user)
 
-def render_project(user, project_type: Number, ):
+def render_project(user, project_type, query):
     '''
     Renders the project page
     '''
     # approved 1, submitted 2, changes 3, not approved 4
-    return render_with_lib('project.html', user=user, name="Una prova")
+    return render_with_lib('project.html', user=user, query=query)
 
