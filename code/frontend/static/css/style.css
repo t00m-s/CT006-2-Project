@@ -13,6 +13,8 @@
     padding-right: 3%;
 }
 
+
+
 .btn-form{
     background-color: #AD1637 !important;
     border-color: #86112a;
@@ -40,8 +42,19 @@
 
 .bg-red{
     background-color: #AD1637;
+}
 
-    color: white; !important;
+.bg-red-offcanvas {
+  --bs-bg-opacity: 1;
+  background-color: #b91738; !important;
+}
+
+.bg-light-red{
+    background-color: #AD1637;
+}
+
+.text-bg-dark{
+
 }
 
 

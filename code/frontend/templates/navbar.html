@@ -1,35 +1,45 @@
-
-
-<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-red">
-  <a class="navbar-brand " href="">
-      <img src="{{ logo }}" class=" align-top nav-logo" alt="logo_unive">
-  </a>
-
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarNav">
-
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Progetti
+<nav class="navbar fixed-top navbar-expand-md navbar-dark bg-red " id ="nav">
+    <div class="container-fluid">
+        <a class="navbar-brand " href="">
+            <img src="{{ logo }}" class=" align-top nav-logo" alt="logo_unive">
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Approvati</a>
-          <a class="dropdown-item" href="#">Sottomessi per valutazione</a>
-          <a class="dropdown-item" href="#">Richiedono modifiche</a>
-          <a class="dropdown-item" href="#">Non approvati</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Nuovo progetto</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Valutazioni</a>
-      </li>
-    </ul>
 
-  </div>
+        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="offcanvas offcanvas-end bg-red-offcanvas " tabindex="-1" id="navbarNav" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header bg-red text-white">
+                <h5 class="offcanvas-title px-3" id="offcanvasNavbarLabel">Menu</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                    <li class="nav-item dropdown px-3">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Progetti
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="#">Approvati</a></li>
+                            <li><a class="dropdown-item" href="#">Sottomessi per valutazione</a></li>
+                            <li><a class="dropdown-item" href="#">Richiedono modifiche</a></li>
+                            <li><a class="dropdown-item" href="#">Non approvati</a></li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" aria-current="page" href="#">Nuovo progetto</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item px-3">
+                        <a class="nav-link" aria-current="page" href="#">Valutazioni</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </nav>
 <br>
