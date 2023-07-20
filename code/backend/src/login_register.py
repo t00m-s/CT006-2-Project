@@ -94,7 +94,7 @@ def register_back():
                         password=request.form['password'],
                         birth_date=request.form['birth_date'] if request.form['birth_date'] is not None and
                                                                  request.form['birth_date'] != '' else None,
-                        id_role=None)
+                        id_role=None) #TODO: set default id to researcher
         get_session().add(new_user)
         get_session().commit() 
         return redirect(url_for('login_register.show_login'))

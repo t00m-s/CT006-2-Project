@@ -1,17 +1,15 @@
 {% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            <script>
-                $(document).ready(function () {
-                    Toastify({
-                        text: "{{ message|safe }}",
-                        duration: 3000,
-                        close: true,
-                        className: "info",
-                        backgroundColor: "rgb(220, 20, 60)"
-                    }).showToast();
-                });
-            </script>
-        {% endfor %}
-    {% endif %}
+{% for message in messages %}
+<script>
+    $(document).ready(function () {
+        Toastify({
+            text: "{{ message|safe }}",
+            duration: 3000,
+            close: true,
+            className: "info",
+            backgroundColor: "rgb(220, 20, 60)"
+        }).showToast();
+    });
+</script>
+{% endfor %}
 {% endwith %}
