@@ -1,6 +1,10 @@
-{% extends "home.html" %}
+{% extends "base.html" %}
 
-{% block main_frame %}
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
     You are logged in as
     {{ user.name + " " + user.surname }}
 {% endblock %}

@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 
-<div class="container-fluid">
     {% block navbar %}
         {% include "navbar.html" %}
     {% endblock %}
     {% block content %}
     <div class="container-fluid">
-        <br><br><br> <!-- TODO: fix this to not spam br and go under navbar
-    by default--> 
     <div class="row">
         <div class="col-10 offset-1">
             <h1>Progetti approvati</h1>
@@ -16,5 +13,6 @@
         </div><!-- First two columns and last two are empty -->
 
     </div>
+    </div>
     {% endblock %}
-</div>
+
