@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
+        <form>
+            <div class="row">
+                <div class="col-10 offset-1 mb-2">
+                    <h1>Il tuo Account</h1> <h5 id="email">{{ user.email }}</h5>
+                    <div class="row border border-secondary rounded justify-content-center"
+                         style="background-color: #F6F4F4">
+                    </div>
+                </div>
+                <div class="col-md-4 col-10 offset-1 mt-3">
+                    <div class="form-group">
+                        <h5><label for="user_name">Nome</label></h5>
+                        <input type="text" class="form-control" name="name" id="user_name"
+                               placeholder="Mario" required value="{{ user.name }}">
+                    </div>
+                    <div class="row border rounded justify-content-center mt-2" style="border: #eeeeee">
+                    </div>
+                </div>
+                <div class="col-md-4 col-10 offset-1 mt-3">
+                    <div class="form-group">
+                        <h5><label for="user_surname">Cognome</label></h5>
+                        <input type="text" class="form-control" name="surname" id="user_surname"
+                               placeholder="Rossi" required value="{{ user.surname }}">
+                    </div>
+                    <div class="row border rounded justify-content-center mt-2" style="border: #eeeeee">
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-10 offset-1 mt-3">
+                    <div class="form-group">
+                        <h5><label for="user_surname">Email</label></h5>
+                        <div class="d-flex">
+                            <input type="email" class="form-control" name="email" id="user_email"
+                                   placeholder="mario.rossi@example.com" disabled readonly required
+                                   value="{{ user.email }}">
+                            <button type="button" class="btn btn-warning" id="show_email"><i
+                                    class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+                    <div class="row border rounded justify-content-center mt-2" style="border: #eeeeee">
+                    </div>
+                </div>
+                <div class="col-md-4 col-10 offset-1 mt-3">
+                    <div class="form-group">
+                        <h5><label for="birth_date">Data Di Nascita</label></h5>
+                        <input type="date" class="form-control" name="birth_date" id="birth_date"
+                               placeholder="dd/mm/yyyy" required value="{{ dob }}">
+                    </div>
+                    <div class="row border rounded justify-content-center mt-2" style="border: #eeeeee">
+                    </div>
+                </div>
+                <div class="col-md-4 col-10 offset-1 mt-3">
+                    <div class="form-group">
+                        <h5><label for="user_password">Password</label></h5>
+                        <div class="d-flex">
+                            <input type="password" class="form-control" name="password" id="user_password"
+                                   placeholder="secret" required value="secret" disabled readonly>
+                            <button type="button" class="btn btn-warning" id="edit_password"><i
+                                    class="bi bi-pencil-square"></i></button>
+                        </div>
+                    </div>
+                    <div class="row border rounded justify-content-center mt-2" style="border: #eeeeee">
+                    </div>
+                </div>
+                <div class="col-md-4 col-10 offset-1 mt-3" id="hidden_conferma">
+                    <div class="form-group">
+                        <h5><label for="user_password_2">Conferma Password</label></h5>
+                        <div class="d-flex">
+                            <input type="password" class="form-control" name="user_password_2" id="user_password_2"
+                                   placeholder="secret" required disabled readonly>
+                        </div>
+                    </div>
+                    <div class="row border rounded justify-content-center mt-2" style="border: #eeeeee">
+                    </div>
+                </div>
+                <div class="col-2 offset-8 mt-4">
+                    <div class="d-flex mt-2" style="justify-content: space-between">
+                        <button type="reset" id="reset" class="btn btn-lg btn-danger">Reset</button>
+                        <button type="submit" class="btn btn-lg btn-primary">Salva</button>
+                    </div>
+                </div>
+                <div class="col-10 offset-1 mb-2">
+                    <div class="row border border-secondary rounded justify-content-center mt-5"
+                         style="background-color: #F6F4F4">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
