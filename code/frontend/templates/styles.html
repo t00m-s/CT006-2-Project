@@ -8,7 +8,9 @@
 
 
 {% for style in custom_css %}
-    <link rel="stylesheet" type="text/css" href="{{ style }}">
+    <link rel="stylesheet" type="text/css" href="{{ style|safe }}">
 {% endfor %}
 
-{{ icons|safe }}
+{% for icon in icons_css %}
+    {{ icon|safe}}
+{% endfor %}
