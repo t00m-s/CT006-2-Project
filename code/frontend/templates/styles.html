@@ -2,12 +2,12 @@
     {{ b_css|safe }}
 {% endfor %}
 
-{% for css in online_css %}
+{% for css in online_lib_css %}
     {{ css|safe }}
 {% endfor %}
 
 
-{% for style in style_css %}
+{% for style in custom_css %}
     <link rel="stylesheet" type="text/css" href="{{ style }}">
 {% endfor %}
 
