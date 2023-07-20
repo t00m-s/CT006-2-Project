@@ -25,7 +25,6 @@ def user_loader(user_id):
     '''
     return get_session().query(User).filter_by(id=user_id).first()
 
-
 @home_blueprint.route('/')
 @login_required
 def index():
@@ -42,10 +41,29 @@ def logout():
     logout_user() 
     return redirect(url_for('home.index'))
 
-@home_blueprint.route('/project')
+@home_blueprint.route('/project/<project_type>')
 @login_required
-def projects():
+def projects(project_type):
     '''
     Returns the route for project
-    '''
-    return render_project(current_user)
+    ''' 
+    type = None
+    if project_type == 'all':
+        pass
+    elif project_type == 'approved': 
+        type = 1
+    elif project_type == 'submitted':
+        type = 2
+    elif project_type == 'changes': #TODO find a better name 
+        type = 3
+    elif project_type == 'rejected':
+        type = 4
+    else:
+        pass #TODO render error page
+    query = None
+    if type == None:
+       query = get_session().query(Project).values('id', 'id_type', 'name') 
+    else:
+        query = get_session().query(Project).filter_by(id_type=type).values('id', 'name')
+    return render_project(current_user, project_type, query)
+
