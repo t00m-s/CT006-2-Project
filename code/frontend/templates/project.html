@@ -5,6 +5,16 @@
         {% include "navbar.html" %}
     {% endblock %}
     {% block content %}
-        <h1>Zio pera...</h1>        
+    <div class="container-fluid">
+        <br><br><br> <!-- TODO: fix this to not spam br and go under navbar
+    by default--> 
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h1>Progetti approvati</h1>
+            <div class="row border border-secondary rounded justify-content-center" style="background-color: #F6F4F4"> {{ name }} 
+            </div>
+        </div><!-- First two columns and last two are empty -->
+
+    </div>
     {% endblock %}
 </div>
