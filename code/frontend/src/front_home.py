@@ -8,7 +8,7 @@ def render_home(user):
     '''
     Renders the home page
     '''
-    return render_with_lib('dashboard.html', user=user)
+    return render_with_lib('admin_dashboard.html', user=user)
 
 def render_project(user):
     '''
