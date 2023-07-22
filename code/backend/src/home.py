@@ -63,12 +63,21 @@ def projects(project_type):
         type = 4
     else:
         pass #TODO render error page
-    query = None
-    if type is None:
-       query = get_session().query(Project.id, Project.id_type, Project.name).order_by(Project.id_type).all()
-    else:
-        query = get_session().query(Project.id, Project.name).filter_by(id_type=type).all()
-    return render_project(current_user, project_type, query)
+
+    temp = get_session().query(Project.id, Project.id_type, Project.name).all()
+    query = {'approved': [], 'submitted':[], 'changes':[], 'rejected':[]}
+
+    for row in temp:
+        if row.id_type == 1 and (type is None or type == 1):
+            query['approved'].append(row)
+        elif row.id_type == 2 and (type is None or type == 2):
+            query['submitted'].append(row)
+        elif row.id_type == 3 and (type is None or type == 3):
+            query['changes'].append(row)
+        elif row.id_type == 4 and (type is None or type == 4):
+            query['rejected'].append(row)
+
+    return render_project(current_user, query)
 
 @home_blueprint.route('/viewproject/<project_id>')
 @login_required
@@ -82,5 +91,5 @@ def viewproject(project_id):
     if project_id is None:
         pass # TODO render custom error page
 
-
-    return render_viewproject(current_user, project_id)
+    query = get_session().query(Project)
+    return render_viewproject(current_user, project_id, query)
