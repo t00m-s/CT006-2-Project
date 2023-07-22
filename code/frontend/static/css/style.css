@@ -60,7 +60,9 @@
     width: 200px;
 }
 
-
+.bg-dark-red{
+    background-color: #85102b;
+}
 
 .bg-red{
     background-color: #AD1637;
