@@ -87,7 +87,17 @@ def projects(project_type):
 @home_blueprint.route('/viewproject/<project_id>')
 @login_required
 def viewproject(project_id):
-    return render_project(current_user)
+    '''
+    Route that shows a single project given the id in input
+
+    @params project_id ID of the project
+    '''
+
+    if project_id is None:
+        pass  # TODO render custom error page
+
+    query = get_session().query(Project).filter_by(id=project_id).first()
+    return render_viewproject(current_user, query)
 
 
 @home_blueprint.route('/account')

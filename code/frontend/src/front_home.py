@@ -21,6 +21,13 @@ def render_project(user, query):
     return render_with_lib('project.html', user=user, query=query)
 
 
+def render_viewproject(user, id_project):
+    '''
+    Renders the viewproject page
+    '''
+    return render_with_lib('viewproject.html', user=user, id_project=id_project)
+
+
 def render_account(user):
     '''
     Renders the user account page
