@@ -41,7 +41,7 @@ def logout():
     logout_user() 
     return redirect(url_for('home.index'))
 
-@home_blueprint.route('/project/<project_type>')
+@home_blueprint.route('/projects/<project_type>')
 @login_required
 def projects(project_type):
     '''
@@ -71,10 +71,16 @@ def projects(project_type):
     return render_project(current_user, project_type, query)
 
 @home_blueprint.route('/viewproject/<project_id>')
-def project_view(id_project):
+@login_required
+def viewproject(project_id):
     '''
-    Route that shows a single project given in input
+    Route that shows a single project given the id in input
 
     @params project_id ID of the project
     '''
-    return render_viewproject(current_user)
+
+    if project_id is None:
+        pass # TODO render custom error page
+
+
+    return render_viewproject(current_user, project_id)
