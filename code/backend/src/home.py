@@ -100,7 +100,7 @@ def viewproject(project_id):
     return render_viewproject(current_user, query)
 
 
-@home_blueprint.route('/account')
+@home_blueprint.route('/account', methods=['GET'])
 @login_required
 def account():
     '''

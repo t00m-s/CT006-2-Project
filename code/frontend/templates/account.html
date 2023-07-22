@@ -5,7 +5,7 @@
 {% endblock %}
 {% block content %}
     <div class="container-fluid">
-        <form>
+        <form method="POST" action="/account">
             <div class="row">
                 <div class="col-10 offset-1 mb-2">
                     <h1>Il tuo Account</h1> <h5 id="email">{{ user.email }}</h5>
@@ -72,7 +72,7 @@
                     <div class="form-group">
                         <h5><label for="user_password_2">Conferma Password</label></h5>
                         <div class="d-flex">
-                            <input type="password" class="form-control" name="user_password_2" id="user_password_2"
+                            <input type="password" class="form-control" name="password_2" id="user_password_2"
                                    placeholder="secret" required disabled readonly>
                         </div>
                     </div>

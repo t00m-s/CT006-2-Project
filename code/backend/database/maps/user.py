@@ -118,3 +118,4 @@ def my_before_insert_listener(mapper, connection, target: User):
 
 
 event.listen(User, 'before_insert', my_before_insert_listener)
+event.listen(User, 'before_update', my_before_insert_listener)
