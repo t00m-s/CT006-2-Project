@@ -2,7 +2,7 @@
 Repository for CT006-2 Python Project
 
 ## TODO
-- [ ] Project route
+- [ ] Print project info route
 - [ ] My account page
 
 ## DONE
@@ -11,6 +11,7 @@ Repository for CT006-2 Python Project
 - [x] Registration
 - [x] Test flask-login functionalities 
 - [x] Test login
+- [x] Project route
 
 
 ## How to run the project:
