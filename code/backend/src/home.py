@@ -26,6 +26,7 @@ def user_loader(user_id):
     '''
     return get_session().query(User).filter_by(id=user_id).first()
 
+
 @home_blueprint.route('/')
 @login_required
 def index():
@@ -43,12 +44,8 @@ def logout():
     logout_user()
     return redirect(url_for('home.index'))
 
-<<<<<<< HEAD
-@home_blueprint.route('/projects/<project_type>')
-=======
 
 @home_blueprint.route('/project')
->>>>>>> 2229714d32a1d5acee6b8b765542c39772294d51
 @login_required
 def projects(project_type):
     '''
@@ -56,23 +53,23 @@ def projects(project_type):
     with the given parameter
 
     @params project_type Type of the project
-    ''' 
+    '''
     type = None
     if project_type == 'all':
         pass
-    elif project_type == 'approved': 
+    elif project_type == 'approved':
         type = 1
     elif project_type == 'submitted':
         type = 2
-    elif project_type == 'changes': #TODO find a better name 
+    elif project_type == 'changes':  # TODO find a better name
         type = 3
     elif project_type == 'rejected':
         type = 4
     else:
-        pass #TODO render error page
+        pass  # TODO render error page
 
     temp = get_session().query(Project.id, Project.id_type, Project.name).all()
-    query = {'approved': [], 'submitted':[], 'changes':[], 'rejected':[]}
+    query = {'approved': [], 'submitted': [], 'changes': [], 'rejected': []}
 
     for row in temp:
         if row.id_type == 1 and (type is None or type == 1):
@@ -86,22 +83,10 @@ def projects(project_type):
 
     return render_project(current_user, query)
 
+
 @home_blueprint.route('/viewproject/<project_id>')
 @login_required
 def viewproject(project_id):
-    '''
-<<<<<<< HEAD
-    Route that shows a single project given the id in input
-
-    @params project_id ID of the project
-    '''
-
-    if project_id is None:
-        pass # TODO render custom error page
-
-    query = get_session().query(Project)
-    return render_viewproject(current_user, project_id, query)
-=======
     return render_project(current_user)
 
 
@@ -112,4 +97,3 @@ def account():
     Returns the route for project
     '''
     return render_account(current_user)
->>>>>>> 2229714d32a1d5acee6b8b765542c39772294d51
