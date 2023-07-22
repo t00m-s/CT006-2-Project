@@ -8,33 +8,35 @@
     color: #AD1637 !important;
 }
 
-.navbar{
+.navbar {
     padding-left: 3%;
     padding-right: 3%;
 }
 
-.text-github{
-  color: #495057;
-}
-.text-github:hover{
-  color: #24292e;
+.text-github {
+    color: #495057;
 }
 
-.nav-white{
-    color:white;
+.text-github:hover {
+    color: #24292e;
 }
 
-.nav-white:hover{
-    color: #c2bfbf; !important;
+.nav-white {
+    color: white;
 }
 
-.btn-form{
+.nav-white:hover {
+    color: #c2bfbf;
+!important;
+}
+
+.btn-form {
     background-color: #AD1637 !important;
     border-color: #86112a;
 }
 
 
-.btn-form:hover{
+.btn-form:hover {
     background-color: #86112a !important;
 
     border-color: #86112a;
@@ -42,11 +44,22 @@
 
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
-	.navbar .nav-item .dropdown-menu{ display: none; }
-	.navbar .nav-item:hover .nav-link{   }
-	.navbar .nav-item:hover .dropdown-menu{ display: block; }
-	.navbar .nav-item .dropdown-menu{ margin-top:0; }
+    .navbar .nav-item .dropdown-menu {
+        display: none;
+    }
+
+    .navbar .nav-item:hover .nav-link {
+    }
+
+    .navbar .nav-item:hover .dropdown-menu {
+        display: block;
+    }
+
+    .navbar .nav-item .dropdown-menu {
+        margin-top: 0;
+    }
 }
+
 /* ============ desktop view .end// ============ */
 
 .navbar-brand {
@@ -55,35 +68,36 @@
     padding-right: 50px;
 }
 
-.navbar-brand img
-{
+.navbar-brand img {
     width: 200px;
 }
 
+.bg-dark-red {
+    background-color: #85102b;
+}
 
-
-.bg-red{
+.bg-red {
     background-color: #AD1637;
 }
 
 .bg-red-offcanvas {
-  --bs-bg-opacity: 1;
-  background-color: #d51c41; !important;
+    --bs-bg-opacity: 1;
+    background-color: #d51c41;
+!important;
 }
 
-.bg-light-red{
+.bg-light-red {
     --bs-bg-opacity: 1;
     background-color: #d51c41;
 }
 
-.bg-light-red:hover{
+.bg-light-red:hover {
     background-color: #AD1637;
 }
 
-.text-bg-dark{
+.text-bg-dark {
 
 }
-
 
 
 body {
@@ -312,10 +326,6 @@ a:hover {
     cursor: pointer;
 }
 
-#main-content {
-    min-height: calc(100vh - 60px);
-    clear: both;
-}
 
 #page-container {
     padding-left: 300px;
@@ -373,8 +383,8 @@ a:hover {
 }
 
 form i {
-            cursor: pointer;
-        }
+    cursor: pointer;
+}
 
 
 @media only screen and (max-width: 992px) {

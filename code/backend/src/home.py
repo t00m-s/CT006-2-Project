@@ -8,12 +8,13 @@ import sys
 import os
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'src'))
-from front_home import * 
+from front_home import *
 
 # endregion
 
 home_blueprint = Blueprint('home', __name__)
 login_manager = LoginManager()
+
 
 @login_manager.user_loader
 def user_loader(user_id):
@@ -33,15 +34,21 @@ def index():
     '''
     return render_home(current_user)
 
+
 @home_blueprint.route('/logout')
 def logout():
     '''
     Returns the route for logout
     '''
-    logout_user() 
+    logout_user()
     return redirect(url_for('home.index'))
 
+<<<<<<< HEAD
 @home_blueprint.route('/projects/<project_type>')
+=======
+
+@home_blueprint.route('/project')
+>>>>>>> 2229714d32a1d5acee6b8b765542c39772294d51
 @login_required
 def projects(project_type):
     '''
@@ -83,6 +90,7 @@ def projects(project_type):
 @login_required
 def viewproject(project_id):
     '''
+<<<<<<< HEAD
     Route that shows a single project given the id in input
 
     @params project_id ID of the project
@@ -93,3 +101,15 @@ def viewproject(project_id):
 
     query = get_session().query(Project)
     return render_viewproject(current_user, project_id, query)
+=======
+    return render_project(current_user)
+
+
+@home_blueprint.route('/account')
+@login_required
+def account():
+    '''
+    Returns the route for project
+    '''
+    return render_account(current_user)
+>>>>>>> 2229714d32a1d5acee6b8b765542c39772294d51

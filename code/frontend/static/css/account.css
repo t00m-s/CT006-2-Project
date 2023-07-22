@@ -1,0 +1,16 @@
+h1 {
+    color: #24292e;
+    margin: 0;
+}
+
+h5 {
+    color: #353c41;
+}
+
+#email {
+    padding-left: 5px;
+}
+
+#hidden_conferma {
+    display: none;
+}
