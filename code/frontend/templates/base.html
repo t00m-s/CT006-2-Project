@@ -16,12 +16,15 @@
 <body>
 {% block navbar %}
 {% endblock %}
-<div id="main-content">
-{% block content %}
-{% endblock %}
+<div id="container-fluid">
+    <div id="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+
+    {% block footer %}
+        {% include "footer.html" %}
+    {% endblock %}
 </div>
-{% block footer %}
-    {% include "footer.html" %}
-{% endblock %}
 </body>
 </html>

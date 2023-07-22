@@ -326,6 +326,17 @@ a:hover {
     cursor: pointer;
 }
 
+#footer {
+    background-color: #f6f7fb !important;
+}
+
+#content {
+    padding-bottom: 120pt;
+}
+
+#myItems {
+    font-size: 12pt;
+}
 
 #page-container {
     padding-left: 300px;

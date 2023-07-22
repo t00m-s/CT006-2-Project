@@ -1,4 +1,5 @@
 from flask import render_template
+from datetime import datetime
 
 
 def render_with_lib(page, **kwargs):
@@ -41,5 +42,7 @@ def render_with_lib(page, **kwargs):
         ]
     else:
         kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js', kwargs['custom_javascript']]
+
+    kwargs['year'] = datetime.today().year
 
     return render_template(page, **kwargs)

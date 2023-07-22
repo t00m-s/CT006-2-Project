@@ -15,7 +15,7 @@ function shuffleArray(array) {
 // Funzione per randomizzare l'ordine della lista
 function randomizeListOrder() {
     const list = document.getElementById("myItems");
-    const items = list.getElementsByTagName("li");
+    const items = list.getElementsByTagName("div");
 
     const itemsArray = Array.from(items);
     shuffleArray(itemsArray);
