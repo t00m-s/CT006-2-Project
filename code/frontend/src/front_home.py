@@ -23,7 +23,7 @@ def render_viewproject(user, id_project):
     '''
     Renders the viewproject page
     '''
-    return render_with_lib('viewproject.html', user=user)
+    return render_with_lib('viewproject.html', user=user, id_project=id_project)
 
 def render_account(user):
     '''

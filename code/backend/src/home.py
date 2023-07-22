@@ -92,8 +92,8 @@ def viewproject(project_id):
     if project_id is None:
         pass # TODO render custom error page
 
-    query = get_session().query(Project)
-    return render_viewproject(current_user)
+    query = get_session().query(Project).filter_by(id = project_id).first()
+    return render_viewproject(current_user, query)
 
 
 @home_blueprint.route('/account')
