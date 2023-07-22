@@ -52,4 +52,6 @@ def render_with_lib(page, **kwargs):
             if a.type is not None:
                 kwargs['types_nav'].append(a.type)
 
+    # TODO FARE LO STESSO PER QUANTO RIGUARDA GLI STATI DEL PROGETTO, PER FARLO: PER OGNI PROGETTO PRENDERE L'ULTIMO STATO
+
     return render_template(page, **kwargs)
