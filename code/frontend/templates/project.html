@@ -10,7 +10,7 @@
             <h1>Progetti approvati</h1>
             {% for row in query %}
             <div class="row border border-secondary rounded justify-content-center mt-4" style="background-color: #F6F4F4"> 
-                <a class="justify-content-center" href="#"> {{ row.name }}</a>
+                <a class="justify-content-center" href="/viewproject/{{ row.id }}"> {{ row.name }}</a>
                <!--TODO fix center text --> 
             </div>
             {% endfor %}

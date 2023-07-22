@@ -45,7 +45,10 @@ def logout():
 @login_required
 def projects(project_type):
     '''
-    Returns the route for project
+    Route that lists all the projects 
+    with the given parameter
+
+    @params project_type Type of the project
     ''' 
     type = None
     if project_type == 'all':
@@ -67,3 +70,11 @@ def projects(project_type):
         query = get_session().query(Project.id, Project.name).filter_by(id_type=type).all()
     return render_project(current_user, project_type, query)
 
+@home_blueprint.route('/viewproject/<project_id>')
+def project_view(id_project):
+    '''
+    Route that shows a single project given in input
+
+    @params project_id ID of the project
+    '''
+    return render_viewproject(current_user)

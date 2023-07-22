@@ -16,3 +16,8 @@ def render_project(user, project_type, query):
     # approved 1, submitted 2, changes 3, not approved 4
     return render_with_lib('project.html', user=user, query=query)
 
+def render_viewproject(user):
+    '''
+    Renders the viewproject page
+    '''
+    return render_with_lib('viewproject.html', user=user)
