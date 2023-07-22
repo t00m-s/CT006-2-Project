@@ -2,6 +2,8 @@ from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from .role import *
+from .type import *
+
 from ..session import get_session
 import hashlib
 from flask_login import *
@@ -34,9 +36,8 @@ class User(Base):
                f"is_authenticated={self.is_authenticated}," \
                f"is_active={self.is_active} )>"
 
-    '''
-    List of methods useful for login_manager
-    '''
+    # region List of methods useful for login_manager
+
     def is_active(self):
         """
         Checks if the user can access the site. 
@@ -66,8 +67,11 @@ class User(Base):
         """
         return self.is_authenticated
 
+    # endregion
 
+    # region setter
     """
+    
     Questi metodi vengono eseguiti per far si che quando vado a salvare i dati
     essi siano nel formato desiderato
     Grazie all'event (settato dopo aver definito la classe) li uso
@@ -94,6 +98,12 @@ class User(Base):
             # il che mi sembra assurdo
         else:
             self.id_role = self.id_role
+
+    # endregion
+
+    def getTypesNames(self):
+        return ''
+        # return get_session().query(Type.name).join(Project).join(User).filter(User.id == self.id).all()
 
 
 Role.users = relationship(User, back_populates='role')

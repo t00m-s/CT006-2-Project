@@ -1,5 +1,6 @@
-from flask import render_template
 from datetime import datetime
+
+from flask import render_template
 
 
 def render_with_lib(page, **kwargs):
@@ -44,5 +45,11 @@ def render_with_lib(page, **kwargs):
         kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js', kwargs['custom_javascript']]
 
     kwargs['year'] = datetime.today().year
+
+    if 'user' in kwargs and kwargs['user'] is not None:
+        kwargs['types_nav'] = []
+        for a in kwargs['user'].projects:
+            if a.type is not None:
+                kwargs['types_nav'].append(a.type)
 
     return render_template(page, **kwargs)

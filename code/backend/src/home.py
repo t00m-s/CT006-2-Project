@@ -1,5 +1,7 @@
 from flask import *
 from flask_login import LoginManager, current_user
+from sqlalchemy.exc import SQLAlchemyError
+
 from ..database.session import get_session
 from ..database.maps.user import *
 from ..database.maps.project import *
@@ -45,54 +47,41 @@ def logout():
     return redirect(url_for('home.index'))
 
 
+@home_blueprint.route('/projects')
 @home_blueprint.route('/projects/<project_type>')
 @login_required
-def projects(project_type):
-    '''
-    Route that lists all the projects 
+def projects(project_type=None):
+    """
+    Route that lists all the projects
     with the given parameter
 
     @params project_type Type of the project
-    '''
+    """
 
-    stringa = ''
-    for typ in get_session().query(Type).all():
-        stringa += (str(typ.name))
+    values = {}
+    if project_type is not None and not project_type.isdigit():
+        return 'Error value not integer'  # TODO error page
 
-    # stampa i valori
-    return stringa
+    types = get_session().query(Type)
+    projects = get_session().query(Project).filter(Project.id_user == current_user.id)
+    if project_type is not None:
+        types = types.filter(Type.id == project_type)
+        projects = projects.filter(Project.id_user == current_user.id).filter(Project.id_type == project_type)
 
-    if project_type == 'all':
-        pass
+    types = types.all()
+    projects = projects.all()
+    if len(types) <= 0:
+        return 'Error, type not found'  # TODO 404 page
 
-    '''elif project_type == 'approved':
-        type = 1
-    elif project_type == 'submitted':
-        type = 2
-    elif project_type == 'changes':  # TODO find a better name
-        type = 3
-    elif project_type == 'rejected':
-        type = 4
-    else:
-        pass  # TODO render error page
-    '''
+    for type in types:
+        values[type.id] = {
+            'name': type.name,
+            'projects': []
+        }
+    for p in projects:
+        values[p.id_type]['projects'].append(p)
 
-    temp = get_session().query(Project.id, Project.id_type, Project.name).all()
-    query = {}
-    return temp
-    for row in temp:
-        '''
-        if row.id_type == 1 and (type is None or type == 1):
-            query['approved'].append(row)
-        elif row.id_type == 2 and (type is None or type == 2):
-            query['submitted'].append(row)
-        elif row.id_type == 3 and (type is None or type == 3):
-            query['changes'].append(row)
-        elif row.id_type == 4 and (type is None or type == 4):
-            query['rejected'].append(row)
-        '''
-
-    return render_project(current_user, query)
+    return render_project(current_user, values)
 
 
 @home_blueprint.route('/viewproject/<project_id>')

@@ -3,6 +3,7 @@ from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from .user import User
 from .type import Type
+from ..session import get_session
 
 Base = declarative_base()  # tabella = classe che eredita da Base
 
@@ -29,6 +30,9 @@ class Project(Base):
                f"id_type={self.id_type}, " \
                f"name={self.name}, " \
                f"created_at={self.created_at})>"
+
+    def getTypes(self):
+        return get_session().query(Type).join(Project).filter(Project.id == self.id)
 
 
 User.projects = relationship(Project, back_populates='user')

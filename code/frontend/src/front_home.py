@@ -13,12 +13,12 @@ def render_home(user):
     return render_with_lib('admin_dashboard.html', user=user)
 
 
-def render_project(user, query):
+def render_project(user, values):
     '''
     Renders the project page
     '''
     # approved 1, submitted 2, changes 3, not approved 4
-    return render_with_lib('project.html', user=user, query=query)
+    return render_with_lib('project.html', user=user, values=values)
 
 
 def render_viewproject(user, id_project):
