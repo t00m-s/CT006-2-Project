@@ -54,10 +54,18 @@ def projects(project_type):
 
     @params project_type Type of the project
     '''
-    type = None
+
+    stringa = ''
+    for typ in get_session().query(Type).all():
+        stringa += (str(typ.name))
+
+    # stampa i valori
+    return stringa
+
     if project_type == 'all':
         pass
-    elif project_type == 'approved':
+
+    '''elif project_type == 'approved':
         type = 1
     elif project_type == 'submitted':
         type = 2
@@ -67,11 +75,13 @@ def projects(project_type):
         type = 4
     else:
         pass  # TODO render error page
+    '''
 
     temp = get_session().query(Project.id, Project.id_type, Project.name).all()
-    query = {'approved': [], 'submitted': [], 'changes': [], 'rejected': []}
-
+    query = {}
+    return temp
     for row in temp:
+        '''
         if row.id_type == 1 and (type is None or type == 1):
             query['approved'].append(row)
         elif row.id_type == 2 and (type is None or type == 2):
@@ -80,6 +90,7 @@ def projects(project_type):
             query['changes'].append(row)
         elif row.id_type == 4 and (type is None or type == 4):
             query['rejected'].append(row)
+        '''
 
     return render_project(current_user, query)
 

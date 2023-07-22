@@ -1,47 +1,44 @@
 {% extends "base.html" %}
 
-    {% block navbar %}
-        {% include "navbar.html" %}
-    {% endblock %}
-    {% block content %}
-    <div class="container-fluid">    
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+    <div class="container-fluid">
         <div class="col-10 offset-1">
-            <!--<h1>Progetti approvati</h1> -->
-            <!--{% for row in query %} -->
-            <!--<div class="row border border-secondary rounded justify-content-center mt-4" style="background-color: #F6F4F4"> --> 
-            <!--    <a class="justify-content-center" href="/viewproject/{{ row.id }}"> {{ row.name }}</a> -->
-            <!--   <!-1-TODO fix center text -1-> --> 
-            <!--</div> -->
-            <!--{% endfor %} -->
-<!-- TODO URGENT: make one single query and then parse data -->
+            <!-- TODO URGENT: make one single query and then parse data -->
             {% if query['approved'] %}
                 <h1>Progetti approvati</h1>
                 {% for row in query['approved'] %}
-                    <div class="row border border-secondary rounded justify-content-center mt-4" style="background-color: #F6F4F4">
+                    <div class="row border border-secondary rounded justify-content-center mt-4"
+                         style="background-color: #F6F4F4">
                         <a class="justify-content-center" href="/viewproject/{{ row.id }}">
                             {{ row.name }}
                         </a>
-                        <i class="bi bi-check2-circle"></i>                                      </div>
+                        <i class="bi bi-check2-circle"></i>
+                    </div>
                 {% endfor %}
             {% endif %}
 
 
             {% if query['submitted'] %}
-            <h1>Progetti sottomessi per valutazione</h1>
+                <h1>Progetti sottomessi per valutazione</h1>
                 {% for row in query['submitted'] %}
-                    <div class="row border border-secondary rounded justify-content-center mt-4" style="background-color: #F6F4F4">
+                    <div class="row border border-secondary rounded justify-content-center mt-4"
+                         style="background-color: #F6F4F4">
                         <a class="justify-content-center" href="/viewproject/{{ row.id }}">
                             {{ row.name }}
                         </a>
-                        <i class="bi bi-dash-circle"></i> 
+                        <i class="bi bi-dash-circle"></i>
                     </div>
                 {% endfor %}
             {% endif %}
 
             {% if query['changes'] %}
-            <h1>Progetti che richiedono modifiche</h1>
+                <h1>Progetti che richiedono modifiche</h1>
                 {% for row in query['changes'] %}
-                    <div class="row border border-secondary rounded justify-content-center mt-4" style="background-color: #F6F4F4">
+                    <div class="row border border-secondary rounded justify-content-center mt-4"
+                         style="background-color: #F6F4F4">
                         <a class="justify-content-center" href="/viewproject/{{ row.id }}">
                             {{ row.name }}
                         </a>
@@ -51,9 +48,10 @@
             {% endif %}
 
             {% if query['rejected'] %}
-            <h1>Progetti non approvati</h1>
+                <h1>Progetti non approvati</h1>
                 {% for row in query['rejected'] %}
-                    <div class="row border border-secondary rounded justify-content-center mt-4" style="background-color: #F6F4F4">
+                    <div class="row border border-secondary rounded justify-content-center mt-4"
+                         style="background-color: #F6F4F4">
                         <a class="justify-content-center" href="/viewproject/{{ row.id }}">
                             {{ row.name }}
                         </a>
@@ -61,7 +59,7 @@
                     </div>
                 {% endfor %}
             {% endif %}
-         </div>  
+        </div>
     </div>
 {% endblock %}
 
