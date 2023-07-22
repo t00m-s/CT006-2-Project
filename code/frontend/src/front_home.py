@@ -13,7 +13,7 @@ def render_home(user):
     return render_with_lib('admin_dashboard.html', user=user)
 
 
-def render_project(user):
+def render_project(user, query):
     '''
     Renders the project page
     '''

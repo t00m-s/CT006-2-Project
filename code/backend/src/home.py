@@ -45,7 +45,7 @@ def logout():
     return redirect(url_for('home.index'))
 
 
-@home_blueprint.route('/project')
+@home_blueprint.route('/projects/<project_type>')
 @login_required
 def projects(project_type):
     '''
