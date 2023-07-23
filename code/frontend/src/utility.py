@@ -49,7 +49,7 @@ def render_with_lib(page, **kwargs):
     if 'user' in kwargs and kwargs['user'] is not None:
         kwargs['types_nav'] = []
         for a in kwargs['user'].projects:
-            if a.type is not None:
+            if a.type is not None and a.type not in kwargs['types_nav']:
                 kwargs['types_nav'].append(a.type)
 
     # TODO FARE LO STESSO PER QUANTO RIGUARDA GLI STATI DEL PROGETTO, PER FARLO: PER OGNI PROGETTO PRENDERE L'ULTIMO STATO
