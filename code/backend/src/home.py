@@ -100,7 +100,16 @@ def viewproject(project_id):
     query = get_session().query(Project).filter_by(id=project_id).first()
     return render_viewproject(current_user, query)
 
-
+@home_blueprint.route('/addproject', methods=['GET', 'POST'])
+@login_required
+def addproject():
+    '''
+    Returns the route for addproject page
+    '''
+    if request.method == 'GET':
+        return render_addproject(current_user)
+    else:
+        return redirect(url_for('home.index'))
 @home_blueprint.route('/account', methods=['GET'])
 @login_required
 def account():
