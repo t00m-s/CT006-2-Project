@@ -70,7 +70,7 @@ def projects(project_type=None):
 
     types = types.all()
     projects = projects.all()
-    if len(types) <= 0:
+    if len(types) == 0:
         return 'Error, type not found'  # TODO 404 page
 
     for type in types:
@@ -78,8 +78,9 @@ def projects(project_type=None):
             'name': type.name,
             'projects': []
         }
-    for p in projects:
-        values[p.id_type]['projects'].append(p)
+
+    for project in projects:
+        values[project.id_type]['projects'].append(project)
 
     return render_project(current_user, values)
 
