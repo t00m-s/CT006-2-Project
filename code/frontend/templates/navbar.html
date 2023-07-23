@@ -28,7 +28,7 @@
                     <ul class="dropdown-menu bg-red-offcanvas">
                         <li><a class="dropdown-item bg-light-red text-white" href="/projects">Progetti</a></li>
                         <li>
-                            <hr class="dropdown-divider">
+                            <hr class="dropdown-divider"/>
                         </li>
                         {% for tipo in types_nav %}
                             <li><a class="dropdown-item bg-light-red text-white"
@@ -36,6 +36,9 @@
                             </li>
                         {% endfor %}
                         {# TODO FARE LO STESSO PER QUANTO RIGUARDA GLI STATI DEL PROGETTO, PER FARLO: PER OGNI PROGETTO PRENDERE L'ULTIMO STATO #}
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
                         <li>
                             <a class="dropdown-item bg-light-red text-white" aria-current="page" href="#">
                                 Nuovo progetto</a>
