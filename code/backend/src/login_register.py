@@ -136,8 +136,11 @@ def register_back():
         test = checkPassword(request, backurl)
         if test is not None:
             return test
-
-        user = get_session().query(User).filter_by(email=request.form['email']).first()
+        user = None
+        try:
+            user = get_session().query(User).filter_by(email=request.form['email']).first()
+        except:
+            get_session().rollback()
         if user is not None and user.password is not None:
             flash("User already registered.")
             return redirect(url_for('login_register.show_login'))

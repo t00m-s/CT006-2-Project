@@ -20,7 +20,7 @@ class User(Base):
     password = Column(String, nullable=False)
     id_role = Column(Integer, ForeignKey(Role.id), nullable=False)
     birth_date = Column(DateTime)
-    created_at = Column(DateTime, nullable=False, default=func.now())
+    created_at = Column(DateTime, nullable=False, default=func.now(), server_default=func.now())
     is_authenticated = Column(Boolean, nullable=False, default=False)
     is_active = Column(Boolean, nullable=False, default=True)
     # configuro le relationship e la politica di cascading

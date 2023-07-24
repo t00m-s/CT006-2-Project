@@ -9,7 +9,7 @@ class State(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False, unique=True)
     is_closed = Column(Boolean, nullable=False)
-    created_at = Column(DateTime, default=func.now())
+    created_at = Column(DateTime, default=func.now(), server_default=func.now())
 
     def __repr__(self):
         return f"<State(id={self.id}," \

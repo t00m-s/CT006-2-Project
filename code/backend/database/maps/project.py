@@ -15,7 +15,7 @@ class Project(Base):
     id_type = Column(Integer, ForeignKey(Type.id), nullable=False)
     name = Column(String, nullable=False)
     description = Column(Text)
-    created_at = Column(DateTime, default=func.now())
+    created_at = Column(DateTime, default=func.now(), server_default=func.now())
 
     user = relationship(User, back_populates="projects")
     type = relationship(Type, back_populates="projects")

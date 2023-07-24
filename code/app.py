@@ -16,7 +16,7 @@ app.register_blueprint(home_blueprint, url_prefix='/')
 app.register_blueprint(project_blueprint, url_prefix='/')
 
 app.secret_key = os.getenv("SECRET_KEY")  # Secret Key for session management and flash messages
-# migrate()  # we want to generate the db table on app load
+migrate()  # we want to generate the db table on app load
 
 login_manager.init_app(app)
 login_manager.login_view = 'login_register.login'
