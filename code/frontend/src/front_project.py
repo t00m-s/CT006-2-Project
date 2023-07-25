@@ -20,6 +20,7 @@ def render_addproject(user):
     '''
     Renders the addproject page
     '''
-    return render_with_lib('addproject.html', user=user)
+    return render_with_lib('addproject.html', user=user, custom_javascript='/frontend/static/js/upload.js',
+                                                         custom_css='/frontend/static/css/upload.css')
 
 
