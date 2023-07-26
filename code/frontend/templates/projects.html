@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-<title>Projects</title>
+    <title>Projects</title>
 {% endblock %}
 
 {% block navbar %}
@@ -10,20 +10,34 @@
 {% block content %}
     <div class="container-fluid">
         <div class="col-10 offset-1">
-            {% for key,value in values.items() %}
-                {% if value.projects |length >0 %}
-                    <h1>{{ value.name }}</h1>
-                    {% for row in value.projects %}
-                        <div class="row border border-secondary rounded justify-content-center mt-4"
-                             style="background-color: #F6F4F4">
-                            <a class="justify-content-center" href="/viewproject/{{ row.id }}">
-                                {{ row.name }}<i class="bi bi-check2-circle"></i>
+            {% if valeues |length >0 %}
+                {% for key,value in values.items() %}
+                    {% if value.projects |length >0 %}
+                        <h1>{{ value.name }}</h1>
+                        {% for row in value.projects %}
+                            <div class="row border border-secondary rounded justify-content-center mt-4"
+                                 style="background-color: #F6F4F4">
+                                <a class="justify-content-center" href="/viewproject/{{ row.id }}">
+                                    <span>{{ row.name }}</span>
+                                    <i class="bi bi-check2-circle"></i>
 
-                            </a>
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endfor %}
+                                </a>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                {% endfor %}
+            {% else %}
+                <h1>Nessun Progetto</h1>
+                <div class="row border border-secondary rounded justify-content-center mt-4"
+                     style="background-color: #F6F4F4">
+                </div>
+                <span style="font-size: large">Invia il tuo primo progetto
+                <a class="justify-content-center" href="/addproject">
+                    qui<i class="bi bi-check2-circle " style="margin-left: 2pt "></i>
+                </a>
+                </span>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

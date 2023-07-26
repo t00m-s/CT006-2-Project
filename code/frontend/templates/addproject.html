@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-<title>Add a new project</title>
+    <title>Add a new project</title>
 {% endblock %}
 
 {% block navbar %}
@@ -9,18 +9,18 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
-  <div class="card">
-    <h3>Upload Files</h3>
-    <div class="drop_box">
-      <header>
-        <h4>Select File here</h4>
-      </header>
-      <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
-      <input type="file" hidden accept=".doc,.docx,.pdf" id="fileID" style="display:none;">
-      <button class="btn btn-success btn-form">Choose File</button>
-    </div>
+    <div class="container-fluid">
+        <div class="card">
+            <h3>Upload Files</h3>
+            <div class="drop_box">
+                <header>
+                    <h4>Select File here</h4>
+                </header>
+                <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
+                <input type="file" accept=".doc,.docx,.pdf" id="fileID">
+                <button class="btn btn-success btn-form" id="btn-form">Choose File</button>
+            </div>
 
-  </div>
-</div>
+        </div>
+    </div>
 {% endblock %}

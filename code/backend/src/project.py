@@ -16,6 +16,8 @@ project_blueprint = Blueprint('project', __name__)
 login_manager = LoginManager()
 
 from front_project import *
+
+
 # I wanted to import it from home but flask does not run
 @login_manager.user_loader
 def user_loader(user_id):
@@ -41,7 +43,7 @@ def projects(project_type=None):
 
     values = {}
     if project_type is not None and not project_type.isdigit():
-        return 'Error value not integer'  # TODO error page
+        return 'Error value not integer'
 
     types = get_session().query(Type)
     projects = get_session().query(Project).filter(Project.id_user == current_user.id)
@@ -51,6 +53,9 @@ def projects(project_type=None):
 
     types = types.all()
     projects = projects.all()
+    if len(projects) == 0:
+        return render_project(current_user, [])
+
     if len(types) == 0:
         return 'Error, type not found'  # TODO 404 page
 
@@ -81,6 +86,7 @@ def viewproject(project_id):
     query = get_session().query(Project).filter_by(id=project_id).first()
     return render_viewproject(current_user, query)
 
+
 @project_blueprint.route('/addproject', methods=['GET', 'POST'])
 @login_required
 def addproject():
@@ -91,4 +97,3 @@ def addproject():
         return render_addproject(current_user)
     else:
         return redirect(url_for('home.index'))
-
