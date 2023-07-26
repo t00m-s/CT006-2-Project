@@ -42,6 +42,10 @@
     border-color: #86112a;
 }
 
+.font-responsive{
+    font-size: calc(8px + 0.390625vw);
+}
+
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
