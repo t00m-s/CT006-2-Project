@@ -1,3 +1,4 @@
+from front_project import *
 from flask import Blueprint, request
 from flask_login import LoginManager, current_user, login_required
 
@@ -5,18 +6,21 @@ from ..database.session import get_session
 from ..database.maps.user import User
 from ..database.maps.project import Project
 from ..database.maps.type import Type
-
+from ..database.maps.project_files import ProjectFiles
+from ..database.maps.project_history import ProjectHistory
 import sys
 import os
 
 # Region per importare file distanti
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'src'))
+sys.path.append(os.path.join(os.path.dirname(
+    __file__), '..', '..', 'frontend', 'src'))
 # endregion
 project_blueprint = Blueprint('project', __name__)
 login_manager = LoginManager()
 
-from front_project import *
 # I wanted to import it from home but flask does not run
+
+
 @login_manager.user_loader
 def user_loader(user_id):
     '''
@@ -44,10 +48,12 @@ def projects(project_type=None):
         return 'Error value not integer'  # TODO error page
 
     types = get_session().query(Type)
-    projects = get_session().query(Project).filter(Project.id_user == current_user.id)
+    projects = get_session().query(Project).filter(
+        Project.id_user == current_user.id)
     if project_type is not None:
         types = types.filter(Type.id == project_type)
-        projects = projects.filter(Project.id_user == current_user.id).filter(Project.id_type == project_type)
+        projects = projects.filter(Project.id_user == current_user.id).filter(
+            Project.id_type == project_type)
 
     types = types.all()
     projects = projects.all()
@@ -79,7 +85,10 @@ def viewproject(project_id):
         pass  # TODO render custom error page
 
     query = get_session().query(Project).filter_by(id=project_id).first()
-    return render_viewproject(current_user, query)
+    files = get_session().query(ProjectFiles).join(
+        ProjectHistory).filter_by(id_user=current_user.id).all()
+    return render_viewproject(current_user, query, files)
+
 
 @project_blueprint.route('/addproject', methods=['GET', 'POST'])
 @login_required
@@ -92,3 +101,13 @@ def addproject():
     else:
         return redirect(url_for('home.index'))
 
+
+@project_blueprint.route('/viewfile/<file_id>')
+@login_required
+def viewfile(file_id):
+    '''
+    Returns a route for the viewfile page
+    '''
+    query = get_session().query(ProjectFiles).join(
+        ProjectHistory).filter_by(id_user=current_user.id, id=file_id).all()
+    return query

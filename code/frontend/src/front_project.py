@@ -1,7 +1,9 @@
 from flask import Blueprint
 from utility import render_with_lib
 
-project_blueprint = Blueprint('project', __name__, template_folder="../templates")
+project_blueprint = Blueprint(
+    'project', __name__, template_folder="../templates")
+
 
 def render_project(user, values):
     '''
@@ -10,16 +12,20 @@ def render_project(user, values):
     # approved 1, submitted 2, changes 3, not approved 4
     return render_with_lib('projects.html', user=user, values=values)
 
-def render_viewproject(user, project):
+
+def render_viewproject(user, project, files):
     '''
     Renders the viewproject page
     '''
-    return render_with_lib('viewproject.html', user=user, project=project)
+    if project.description is None:
+        project.description = ''
+
+    files = [1, 2, 3]
+    return render_with_lib('viewproject.html', user=user, project=project, files=files, custom_javascript='/frontend/static/js/project.js')
+
 
 def render_addproject(user):
     '''
     Renders the addproject page
     '''
     return render_with_lib('addproject.html', user=user)
-
-
