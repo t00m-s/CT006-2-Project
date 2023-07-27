@@ -10,17 +10,23 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="card">
-            <h3>Upload Files</h3>
-            <div class="drop_box">
-                <header>
-                    <h4>Select File here</h4>
-                </header>
-                <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
-                <input type="file" accept=".doc,.docx,.pdf" id="fileID">
-                <button class="btn btn-success btn-form" id="btn-form">Choose File</button>
-            </div>
 
-        </div>
+        <form method="POST" class="dropzone" action="/addproject" id="form_upload" enctype="multipart/form-data">
+            <div class="card">
+                <h3>Upload Files</h3>
+                <!--<header>
+                    <h4>Select File here</h4>
+                </header> -->
+                <div id="drop_box" class="dropzone"></div>
+                <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
+                <button type="button" class=" btn btn-success btn-form" id="btn-form">Choose File
+                </button>
+
+
+            </div>
+            <input type="text" name="username"/>
+            <input type="text" name="test"/>
+            <button type="submit">Submit data and files!</button>
+        </form>
     </div>
 {% endblock %}

@@ -96,4 +96,4 @@ def addproject():
     if request.method == 'GET':
         return render_addproject(current_user)
     else:
-        return redirect(url_for('home.index'))
+        return str(request.form) + str(request.files)

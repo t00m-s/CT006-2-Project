@@ -21,8 +21,9 @@ def render_viewproject(user, project):
 
 def render_addproject(user):
     '''
-    Renders the addproject page
+    Renders the addproject pages
     '''
-
-    return render_with_lib('addproject.html', user=user, custom_javascript='/frontend/static/js/upload.js',
-                           custom_css='/frontend/static/css/upload.css')
+    custom_javascript = ['https://unpkg.com/dropzone@5/dist/min/dropzone.min.js', '/frontend/static/js/upload.js']
+    custom_css = ['https://unpkg.com/dropzone@5/dist/min/dropzone.min.css', '/frontend/static/css/upload.css']
+    return render_with_lib('addproject.html', user=user, custom_javascript=custom_javascript,
+                           custom_css=custom_css)
