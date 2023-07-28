@@ -10,23 +10,38 @@
 
 {% block content %}
     <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <form method="POST" class="dropzone" action="/addproject" id="form_upload"
+                      enctype="multipart/form-data">
+                    <div class="card">
+                        <h3>Upload Files</h3>
+                        <!--<header>
+                            <h4>Select File here</h4>
+                        </header> -->
+                        <div id="drop_box" class="dropzone"></div>
+                        <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
+                        <button type="button" class=" btn btn-success btn-form" id="btn-form">
+                            Choose File
+                        </button>
 
-        <form method="POST" class="dropzone" action="/addproject" id="form_upload" enctype="multipart/form-data">
-            <div class="card">
-                <h3>Upload Files</h3>
-                <!--<header>
-                    <h4>Select File here</h4>
-                </header> -->
-                <div id="drop_box" class="dropzone"></div>
-                <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
-                <button type="button" class=" btn btn-success btn-form" id="btn-form">Choose File
-                </button>
 
+                        <div class="d-grip gap-2">
+                            <div id="card-dropdown" style="display:none ">
+                                <hr>
+                                Username:
+                                <input class="form-control" type="text" name="username"/>
+                                Test:
+                                <input class="form-control" type="text" name="test"/>
 
+                                <button class="btn btn-primary mt-3" id="submitBtn" type="submit">Submit data and files!</button>
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
-            <input type="text" name="username"/>
-            <input type="text" name="test"/>
-            <button type="submit">Submit data and files!</button>
-        </form>
+        </div>
+
     </div>
 {% endblock %}

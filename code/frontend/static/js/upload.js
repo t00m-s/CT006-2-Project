@@ -1,5 +1,6 @@
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
+
     console.log('test');
 
     let input_box = $("#drop_box").dropzone({
@@ -32,4 +33,15 @@ $(document).ready(function () {
 
         $('#fileID').click();
     }); */
+});
+
+// funzione per mostrare il blocco submit quando viene cliccato il pulsante per caricare un file
+
+$(document).ready(function(){
+
+    $("#btn-form").click(function (){
+        if($("#card-dropdown:visible").length == 0){
+            $("#card-dropdown").toggle();
+        }
+    });
 });

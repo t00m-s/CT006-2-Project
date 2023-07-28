@@ -157,14 +157,6 @@ button.btn {
     box-shadow: none !important;
 }
 
-button.btn.btn-primary {
-    background-color: #0e9aee !important;
-}
-
-button.btn.btn-primary:hover {
-    background-color: #0879c8 !important;
-}
-
 #left-menu {
     position: fixed;
     top: 0;
