@@ -42,6 +42,10 @@
     border-color: #86112a;
 }
 
+.font-responsive{
+    font-size: calc(8px + 0.390625vw);
+}
+
 /* ============ desktop view ============ */
 @media all and (min-width: 992px) {
     .navbar .nav-item .dropdown-menu {
@@ -151,14 +155,6 @@ input {
 button.btn {
     border-radius: 2px !important;
     box-shadow: none !important;
-}
-
-button.btn.btn-primary {
-    background-color: #0e9aee !important;
-}
-
-button.btn.btn-primary:hover {
-    background-color: #0879c8 !important;
 }
 
 #left-menu {

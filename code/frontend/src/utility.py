@@ -35,19 +35,25 @@ def render_with_lib(page, **kwargs):
             '/frontend/static/css/style.css'
         ]
     else:
-        kwargs['custom_css'] = ['/frontend/static/css/style.css', kwargs['custom_css']]
+        kwargs['custom_css'] = ['/frontend/static/css/style.css'] + ([
+                                                                         kwargs['custom_css']] if not isinstance(
+            kwargs['custom_css'], list) else kwargs['custom_css'])
 
     if kwargs.get('custom_javascript') is None:
         kwargs['custom_javascript'] = [
             '/frontend/static/js/scripts.js'
         ]
     else:
-        kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js', kwargs['custom_javascript']]
+        kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js'] + ([
+                                                                                kwargs[
+                                                                                    'custom_javascript']] if not isinstance(
+            kwargs['custom_javascript'], list) else kwargs[
+            'custom_javascript'])
 
     kwargs['year'] = datetime.today().year
 
     if 'user' in kwargs and kwargs['user'] is not None:
-        kwargs['types_nav'] = [] 
+        kwargs['types_nav'] = []
         for a in kwargs['user'].projects:
             if a.type is not None and a.type not in kwargs['types_nav']:
                 kwargs['types_nav'].append(a.type)

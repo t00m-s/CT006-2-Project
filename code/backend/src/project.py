@@ -18,6 +18,7 @@ sys.path.append(os.path.join(os.path.dirname(
 project_blueprint = Blueprint('project', __name__)
 login_manager = LoginManager()
 
+
 # I wanted to import it from home but flask does not run
 
 
@@ -45,7 +46,7 @@ def projects(project_type=None):
 
     values = {}
     if project_type is not None and not project_type.isdigit():
-        return 'Error value not integer'  # TODO error page
+        return 'Error value not integer'
 
     types = get_session().query(Type)
     projects = get_session().query(Project).filter(
@@ -57,6 +58,9 @@ def projects(project_type=None):
 
     types = types.all()
     projects = projects.all()
+    if len(projects) == 0:
+        return render_project(current_user, [])
+
     if len(types) == 0:
         return 'Error, type not found'  # TODO 404 page
 
@@ -116,3 +120,4 @@ def viewfile(file_id):
     query = get_session().query(ProjectFiles).join(
         ProjectHistory).filter_by(id_user=current_user.id, id=file_id).all()
     return query
+    return str(request.form) + str(request.files)
