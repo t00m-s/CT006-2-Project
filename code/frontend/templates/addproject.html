@@ -12,17 +12,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-                <form method="POST" class="dropzone" action="/addproject" id="form_upload"
-                      enctype="multipart/form-data">
-                    <div class="card">
-                        <h3>Upload Files</h3>
-                        <!--<header>
-                            <h4>Select File here</h4>
-                        </header> -->
-                        <div id="drop_box" class="dropzone"></div>
-                        <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
+                <div class="card">
+                    <h3>Upload Files</h3>
+                    <form method="POST" class="dropzone" action="/addproject" id="form_upload"
+                          enctype="multipart/form-data">
+                        <div class="previews">
+                            <p>Tipi Supportati: PDF, TEXT, DOC , DOCX</p>
+                            <p>Trascina o carica i tuoi file qui</p>
+                        </div>
                         <button type="button" class=" btn btn-success btn-form" id="btn-form">
-                            Choose File
+                            Scegli File
                         </button>
 
 
@@ -34,12 +33,17 @@
                                 Test:
                                 <input class="form-control" type="text" name="test"/>
 
-                                <button class="btn btn-primary mt-3" id="submitBtn" type="submit">Submit data and files!</button>
+                                <button class="btn btn-primary mt-3" id="submitBtn" type="submit">Submit data and
+                                    files!
+                                </button>
 
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+
+
+                </div>
+
             </div>
         </div>
 
