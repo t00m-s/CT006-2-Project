@@ -107,7 +107,12 @@ def addproject():
 def viewfile(file_id):
     '''
     Returns a route for the viewfile page
+
+    @params file_id ID of the file to obtain
     '''
+
+    if file_id is None:
+        pass  # TODO render custom error page
     query = get_session().query(ProjectFiles).join(
         ProjectHistory).filter_by(id_user=current_user.id, id=file_id).all()
     return query

@@ -1,3 +1,4 @@
+from front_login_register import *
 from flask import Blueprint, request, redirect, url_for, flash, render_template, abort
 from flask_login import login_user, current_user
 import hashlib
@@ -12,8 +13,8 @@ from datetime import datetime
 import sys
 import os
 
-sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'src'))
-from front_login_register import *
+sys.path.append(os.path.join(os.path.dirname(
+    __file__), '..', '..', 'frontend', 'src'))
 
 # endregion
 
@@ -34,7 +35,8 @@ def show_register():
 @login_register_blueprint.route('/login', methods=['POST'])
 def login():
     if request.method == 'POST':
-        user = get_session().query(User).filter_by(email=request.form['email']).first()
+        user = get_session().query(User).filter_by(
+            email=request.form['email']).first()
         if user is None:
             flash("User not found.")
             return redirect(url_for('login_register.show_login'))
@@ -61,10 +63,11 @@ def checkRegisterAccountParams(my_request, backurl):
     # html salva l'input date secondo il formato year-month-day
     # separo l'input e salvo in una list di dimensione 3
     if hasattr(my_request.form, 'birth_date') and my_request.form['birth_date'] is not None and my_request.form[
-        'birth_date'] != '':
+            'birth_date'] != '':
         dateTokens = my_request.form['birth_date'].split('-')
         # creo l'oggetto date di python
-        pythonDate = date(int(dateTokens[0]), int(dateTokens[1]), int(dateTokens[2]))
+        pythonDate = date(int(dateTokens[0]), int(
+            dateTokens[1]), int(dateTokens[2]))
         if date.today() < pythonDate:
             flash("Are you a time traveller? Your birth date is later than today")
             return redirect(url_for(backurl))
@@ -80,11 +83,11 @@ def checkEmail(my_request, backurl):
 
 def checkPassword(my_request, backurl):
     if 'password' not in my_request.form or my_request.form['password'] is None or my_request.form[
-        'password'] == '':
+            'password'] == '':
         flash("Password can not be empty.")
         return redirect(url_for(backurl))
     if 'password_2' not in my_request.form or my_request.form['password_2'] is None or my_request.form[
-        'password_2'] == '':
+            'password_2'] == '':
         flash("Confirmation password can not be empty.")
         return redirect(url_for(backurl))
     if my_request.form['password'] != my_request.form['password_2']:
@@ -138,7 +141,8 @@ def register_back():
             return test
         user = None
         try:
-            user = get_session().query(User).filter_by(email=request.form['email']).first()
+            user = get_session().query(User).filter_by(
+                email=request.form['email']).first()
         except:
             get_session().rollback()
         if user is not None and user.password is not None:
@@ -152,10 +156,15 @@ def register_back():
                         email=request.form['email'],
                         password=request.form['password'],
                         birth_date=request.form['birth_date'] if request.form['birth_date'] is not None and
-                                                                 request.form['birth_date'] != '' else None,
+                        request.form['birth_date'] != '' else None,
                         id_role=3)  # set default id to researcher
         get_session().add(new_user)
         get_session().commit()
+
+        # TODO move this into addproject
+        if not os.path.exists(os.getcwd() + str(new_user.id)):
+            os.makedirs(os.getcwd() + str(new_user.id))
+
         return redirect(url_for('login_register.show_login'))
     else:
         return redirect(url_for(backurl))
