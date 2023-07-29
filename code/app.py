@@ -1,7 +1,8 @@
 from flask import *
 from .backend.database.engine import *
 from .backend.database.migration import *
-from .backend.src.home import *  # tra tutti i file che hanno rotte deve essere il primo in quando definisce flas_login
+# tra tutti i file che hanno rotte deve essere il primo in quando definisce flas_login
+from .backend.src.home import *
 from .backend.src.login_register import *
 from .frontend.src.index import *
 from .backend.src.project import *
@@ -15,7 +16,8 @@ app.register_blueprint(login_register_blueprint, url_prefix='/')
 app.register_blueprint(home_blueprint, url_prefix='/')
 app.register_blueprint(project_blueprint, url_prefix='/')
 
-app.secret_key = os.getenv("SECRET_KEY")  # Secret Key for session management and flash messages
+# Secret Key for session management and flash messages
+app.secret_key = os.getenv("SECRET_KEY")
 migrate()  # we want to generate the db table on app load
 
 login_manager.init_app(app)

@@ -1,16 +1,16 @@
 from sqlalchemy.exc import IntegrityError
-
+import os
 from .session import *
 
 engine = get_engine()
 
-'''
-Loads all ORM classes and then creates the tables
-to the database.
-'''
-
 
 def migrate():
+    '''
+    Loads all ORM classes, then creates the tables
+    to the database, then creates db_files directory
+    to store the data for each project.
+    '''
     from .maps.role import Base, Role
     Base.metadata.create_all(engine)
     try:
@@ -66,3 +66,6 @@ def migrate():
 
     from .maps.project_files import Base
     Base.metadata.create_all(engine)
+
+    if not os.path.exists('db_files'):
+        os.makedirs('db_files')
