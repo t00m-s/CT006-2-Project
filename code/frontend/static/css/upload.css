@@ -73,6 +73,13 @@
     width: 100%;
 }
 
+.dz-progress {
+    margin-top: 10px !important;
+}
+
+.dz-size {
+    margin-bottom: 10px !important;
+}
 
 .custom_row {
     margin-top: 25pt;
