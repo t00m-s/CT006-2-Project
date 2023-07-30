@@ -18,8 +18,6 @@ $(document).ready(function () {
         init: function () {
             const sono_io = this;
             $('button[type=submit]').on('click', function (e) {
-
-                //TODO FARE UN AJAX CHE PRENDE TUTTI I DATI DEL FORM E CI PUSHO DENTRO I FILE
                 e.preventDefault();
                 e.stopPropagation();
                 sono_io.processQueue();
@@ -33,15 +31,20 @@ $(document).ready(function () {
                 window.location.replace("/projects");
             });
             sono_io.on("errormultiple", function (files, response) {
-                alert('Errore generico, riprova');
+                alert(response);
+            });
+            sono_io.on("addedfile", file =>{
+                dropdownOpen();
             });
         }
+
     });
 
 });
 
 // funzione per mostrare il blocco submit quando viene cliccato il pulsante per caricare un file
 
+/*
 $(document).ready(function () {
 
     $("#btn-form").click(function () {
@@ -49,4 +52,14 @@ $(document).ready(function () {
             $("#card-dropdown").toggle();
         }
     });
+
+
+
 });
+*/
+
+function dropdownOpen(){
+    if ($("#card-dropdown:visible").length == 0) {
+            $("#card-dropdown").toggle();
+        }
+}

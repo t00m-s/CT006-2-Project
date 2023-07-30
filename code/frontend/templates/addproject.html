@@ -10,28 +10,33 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row">
+        <div class="row expanded">
             <div class="col-12">
                 <div class="card">
-                    <h3>Upload Files</h3>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <h2 style="color: #24292e">Nuovo progetto</h2>
+                        </div>
+                    </div>
+
                     <form method="POST" class="dropzone" action="/addproject" id="form_upload"
                           enctype="multipart/form-data">
                         <div class="previews">
-                            <p>Tipi Supportati: PDF, TEXT, DOC , DOCX</p>
-                            <p>Trascina o carica i tuoi file qui</p>
+                            <p><i class="text-grey">Tipi Supportati: PDF, TEXT, DOC , DOCX</i></p>
+                            <p><i class="text-grey">Trascina o carica i tuoi file qui</i></p>
                         </div>
                         <button type="button" class=" btn btn-success btn-form" id="btn-form">
                             Scegli File
                         </button>
 
 
-                        <div class="d-grip gap-2">
+                        <div class="d-grip">
                             <div id="card-dropdown" style="display:none ">
                                 <hr>
-                                Username:
+                                Nome progetto:
                                 <input class="form-control" type="text" name="username"/>
-                                Test:
-                                <input class="form-control" type="text" name="test"/>
+                                Descrizione(max x caratteri):
+                                <textarea  class="form-control" rows="3"></textarea>
 
                                 <button class="btn btn-primary mt-3" id="submitBtn" type="submit">Submit data and
                                     files!

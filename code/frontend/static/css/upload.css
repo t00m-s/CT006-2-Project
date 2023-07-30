@@ -24,13 +24,19 @@
 .card h3 {
     font-size: 22px;
     font-weight: 600;
-
 }
 
 #form_upload {
     border: none;
 }
 
+.expanded{
+    min-width: 50%;
+}
+
+.text-grey{
+    color: lightslategrey;
+}
 
 .previews {
     margin: 10px 0;
@@ -64,4 +70,8 @@
 
 #submitBtn, #btn-form {
     width: 100%;
+}
+
+.dz-default{
+    display: none;
 }
