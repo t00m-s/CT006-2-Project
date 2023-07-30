@@ -18,39 +18,69 @@
                             <h2 style="color: #24292e">Nuovo progetto</h2>
                         </div>
                     </div>
-
                     <form method="POST" class="dropzone" action="/addproject" id="form_upload"
                           enctype="multipart/form-data">
-                        <div class="previews">
+                        <div class="previews text-center">
                             <p><i class="text-grey">Tipi Supportati: PDF, TEXT, DOC , DOCX</i></p>
                             <p><i class="text-grey">Trascina o carica i tuoi file qui</i></p>
                         </div>
                         <button type="button" class=" btn btn-success btn-form" id="btn-form">
                             Scegli File
                         </button>
-
-
                         <div class="d-grip">
                             <div id="card-dropdown" style="display:none ">
                                 <hr>
-                                Nome progetto:
-                                <input class="form-control" type="text" name="username"/>
-                                Descrizione(max x caratteri):
-                                <textarea  class="form-control" rows="3"></textarea>
-
-                                <button class="btn btn-primary mt-3" id="submitBtn" type="submit">Submit data and
-                                    files!
-                                </button>
-
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>
+                                            <label for="name">
+                                                Nome progetto:
+                                            </label>
+                                        </h6>
+                                        <input class="form-control" type="text" name="name" id="name"/>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>
+                                            <label for="type">
+                                                Tipo:
+                                            </label>
+                                        </h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <select name="type" id="type">
+                                            <option>Scegli un tipo di proggetto</option>
+                                            {% if types |length >0 %}
+                                                {% for  value in types %}
+                                                    <option value="{{ value.id }}">{{ value.name }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <h6>
+                                            <label for="tiny">
+                                                Descrizione:
+                                            </label>
+                                        </h6>
+                                        <textarea name="description" id="tiny"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <button class="btn btn-primary mt-3" id="submitBtn" type="submit">
+                                            Invia il tuo progetto per la revisione!
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </form>
-
-
                 </div>
-
             </div>
         </div>
-
     </div>
 {% endblock %}

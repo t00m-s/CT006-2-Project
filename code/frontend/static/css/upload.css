@@ -30,12 +30,13 @@
     border: none;
 }
 
-.expanded{
+.expanded {
     min-width: 50%;
 }
 
-.text-grey{
+.text-grey {
     color: lightslategrey;
+    cursor: default;
 }
 
 .previews {
@@ -72,6 +73,10 @@
     width: 100%;
 }
 
-.dz-default{
+.row {
+    margin-top: 25pt;
+}
+
+.dz-default {
     display: none;
 }

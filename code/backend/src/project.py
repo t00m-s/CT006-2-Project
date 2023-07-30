@@ -9,6 +9,8 @@ from ..database.maps.type import Type
 import sys
 import os
 
+from ...frontend.src.front_project import render_addproject
+
 # Region per importare file distanti
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', '..', 'frontend', 'src'))
 # endregion
@@ -94,6 +96,6 @@ def addproject():
     Returns the route for addproject page
     '''
     if request.method == 'GET':
-        return render_addproject(current_user)
-    else:
+        return render_addproject(current_user, get_session().query(Type).all())
+    elif request.method == 'POST':
         return str(request.form) + str(request.files)
