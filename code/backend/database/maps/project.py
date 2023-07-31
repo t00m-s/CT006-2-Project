@@ -4,6 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from .user import User
 from .type import Type
 from ..session import get_session
+import html
 
 Base = declarative_base()  # tabella = classe che eredita da Base
 
@@ -34,6 +35,17 @@ class Project(Base):
     def getTypes(self):
         return get_session().query(Type).join(Project).filter(Project.id == self.id)
 
+    def set_description(self):
+        self.description = html.escape(self.description)
+
 
 User.projects = relationship(Project, back_populates='user')
 Type.projects = Relationship(Project, back_populates='type')
+
+
+def my_before_insert_listener(mapper, connection, target: User):
+    target.set_description()
+
+
+event.listen(User, 'before_insert', my_before_insert_listener)
+event.listen(User, 'before_update', my_before_insert_listener)

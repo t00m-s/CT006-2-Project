@@ -14,7 +14,7 @@ class ProjectHistory(Base):
     id = Column(Integer, primary_key=True)
     id_project = Column(Integer, ForeignKey(Project.id), nullable=False)
     id_state = Column(Integer, ForeignKey(State.id), nullable=False)
-    id_user = Column(Integer, ForeignKey(User.id), nullable=False,
+    id_user = Column(Integer, ForeignKey(User.id), nullable=True,
                      comment='Id user witch is a reviewer')  # TODO trigger (or CHECK) to check if id_user is reviewer
     note = Column(Text)
     created_at = Column(DateTime, default=func.now(), server_default=func.now())

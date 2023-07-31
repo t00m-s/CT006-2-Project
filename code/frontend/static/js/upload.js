@@ -1,3 +1,14 @@
+const descri = tinymce.init({
+    selector: 'textarea#tiny',
+    plugins: [
+        'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+        'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+        'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+        'bullist numlist checklist outdent indent | removeformat | code table help'
+});
+
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
     let input_box = $("#form_upload").dropzone({
@@ -18,6 +29,7 @@ $(document).ready(function () {
             $('button[type=submit]').on('click', function (e) {
                 e.preventDefault();
                 e.stopPropagation();
+                tinymce.get('tiny').save();
                 sono_io.processQueue();
 
             });
@@ -26,7 +38,8 @@ $(document).ready(function () {
                 // Hide the success button or the complete form.
             });
             sono_io.on("successmultiple", function (files, response) {
-                window.location.replace("/projects");
+                console.log(response)
+                // window.location.replace("/projects");
             });
             sono_io.on("errormultiple", function (files, response) {
                 alert(response);
@@ -38,8 +51,8 @@ $(document).ready(function () {
              * Quando un file viene rimosso se non ce ne sono altri viene
              * chiuso il form sottostante
              */
-            sono_io.on("removedfile", file =>{
-                if($(".dz-preview:visible").length === 0)
+            sono_io.on("removedfile", file => {
+                if ($(".dz-preview:visible").length === 0)
                     cardDropdownClose();
             });
         }
@@ -50,16 +63,6 @@ $(document).ready(function () {
 
 });
 
-tinymce.init({
-    selector: 'textarea#tiny',
-    plugins: [
-        'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
-        'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
-        'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
-    ],
-    toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
-        'bullist numlist checklist outdent indent | removeformat | code table help'
-});
 
 function cardDropdownOpen() {
     if ($("#card-dropdown:visible").length === 0) {
@@ -67,7 +70,7 @@ function cardDropdownOpen() {
     }
 }
 
-function cardDropdownClose(){
+function cardDropdownClose() {
     if ($("#card-dropdown:visible").length > 0) {
         $("#card-dropdown").toggle();
     }

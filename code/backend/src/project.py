@@ -104,36 +104,47 @@ def addproject():
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == 'POST':
         # Add new project
-        new_project = Project(id_user=current_user.id,
-                              id_type=request.form.type,
-                              name=request.form.name,
-                              description=request.form.description)
-        get_session().add(new_project)
+        try:
+            # TODO CONTROLLARE CHE DAL FORM ARRIVINO TUTTI I PARAMENTRI, SE NE MANCA ANCHE SOLO UNO TORNARE ERRORE USANDO IL BANNERINO ROSSO DI NOTIFICA
+            # TODO CONTROLLARE CHE NON VENGANO INSERITI DUE FILE CON LO STESSO PATH (path+nome) (magari ci sta anche un bel unique a db)
 
-        # Add project history
-        # 3 = Submitted for Evaluation
-        new_project_history = ProjectHistory(
-            new_project.id, 3, current_user.id)
-        get_session().add(new_project_history)
+            new_project = Project(id_user=current_user.id,
+                                  id_type=request.form['type'],
+                                  name=request.form['name'],
+                                  description=request.form['description'])
+            get_session().add(new_project)
+
+            # Add project history
+            # 3 = Submitted for Evaluation
+            new_project_history = ProjectHistory(
+                id_project=new_project.id,
+                id_state=3)
+            # TOLTO ID USER PERCHE' QUEL ID USER è COLUI CHE FA LE REVIEW (non il proprietario del progetto), E QUINDI QUANDO CREO UN NUOVO PROGETTO NON DEVE ESSERE VALORIZZATO,
+            # TODO HO CAMBIATO LA CLASSE ProjectHistory QUINDI DOVRESTE FAR SI CHE IL PROGRAMMA VI RICREI LA TABELLA DA 0 (controllare il check che cìè da fare)
+
+            get_session().add(new_project_history)
+            get_session().commit()
+        except:
+            get_session().rollback()
 
         # Add project files
         dir_path = os.path.join(os.getcwd(), 'db_files', str(
-            current_user.id), new_project.id, str(1))
+            current_user.id), str(new_project.id), str(new_project_history.id))
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
+        return str(request.files)
         for file in request.files.getlist('files'):
             file_path = os.path.join(dir_path, file.filename)
             file.save(file_path)
             get_session.add(ProjectFiles(file_path,
                                          new_project_history.id))
 
-        get_session().commit()
         return redirect('/viewproject/' + new_project.id)
 
 
-@ project_blueprint.route('/viewfile/<file_id>')
-@ login_required
+@project_blueprint.route('/viewfile/<file_id>')
+@login_required
 def viewfile(file_id):
     '''
     Returns a route for the viewfile page
