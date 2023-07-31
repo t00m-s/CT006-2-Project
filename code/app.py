@@ -24,6 +24,13 @@ login_manager.init_app(app)
 login_manager.login_view = 'login_register.login'
 
 
+UPLOAD_FOLDER = os.path.join(app.root_path, 'db_files')
+ALLOWED_EXTENSIONS = {'pdf', 'doc', 'docx', 'txt'}
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# 5 Mb as maximum file size
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1000 * 1000
+
+
 @app.route('/favicon.ico')
 def favicon():
     '''

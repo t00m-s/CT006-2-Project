@@ -103,11 +103,37 @@ def addproject():
     if request.method == 'GET':
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == 'POST':
-        return str(request.form) + str(request.files)
+        # Add new project
+        new_project = Project(id_user=current_user.id,
+                              id_type=request.form.type,
+                              name=request.form.name,
+                              description=request.form.description)
+        get_session().add(new_project)
+
+        # Add project history
+        # 3 = Submitted for Evaluation
+        new_project_history = ProjectHistory(
+            new_project.id, 3, current_user.id)
+        get_session().add(new_project_history)
+
+        # Add project files
+        dir_path = os.path.join(os.getcwd(), 'db_files', str(
+            current_user.id), new_project.id, str(1))
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path)
+
+        for file in request.files.getlist('files'):
+            file_path = os.path.join(dir_path, file.filename)
+            file.save(file_path)
+            get_session.add(ProjectFiles(file_path,
+                                         new_project_history.id))
+
+        get_session().commit()
+        return redirect('/viewproject/' + new_project.id)
 
 
-@project_blueprint.route('/viewfile/<file_id>')
-@login_required
+@ project_blueprint.route('/viewfile/<file_id>')
+@ login_required
 def viewfile(file_id):
     '''
     Returns a route for the viewfile page
