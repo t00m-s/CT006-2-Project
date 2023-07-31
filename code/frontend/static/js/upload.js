@@ -38,8 +38,8 @@ $(document).ready(function () {
                 // Hide the success button or the complete form.
             });
             sono_io.on("successmultiple", function (files, response) {
-                console.log(response)
-                // window.location.replace("/projects");
+                //TODO FARE LA PAGINA PER FAR VEDERE IL PROGETTO
+                window.location.replace("/project/" + response.new_project_id);
             });
             sono_io.on("errormultiple", function (files, response) {
                 alert(response);

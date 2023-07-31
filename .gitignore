@@ -140,3 +140,4 @@ db/*
 
 # DB files dump
 /db_files/*
+code/db_files/*

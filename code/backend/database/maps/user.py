@@ -101,10 +101,6 @@ class User(Base):
 
     # endregion
 
-    def getTypesNames(self):
-        return ''
-        # return get_session().query(Type.name).join(Project).join(User).filter(User.id == self.id).all()
-
 
 Role.users = relationship(User, back_populates='role')
 

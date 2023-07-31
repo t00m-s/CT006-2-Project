@@ -43,9 +43,9 @@ User.projects = relationship(Project, back_populates='user')
 Type.projects = Relationship(Project, back_populates='type')
 
 
-def my_before_insert_listener(mapper, connection, target: User):
+def my_before_insert_listener_project(mapper, connection, target: User):
     target.set_description()
 
 
-event.listen(User, 'before_insert', my_before_insert_listener)
-event.listen(User, 'before_update', my_before_insert_listener)
+event.listen(Project, 'before_insert', my_before_insert_listener_project)
+event.listen(Project, 'before_update', my_before_insert_listener_project)
