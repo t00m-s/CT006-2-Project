@@ -20,8 +20,6 @@ login_manager = LoginManager()
 
 
 # I wanted to import it from home but flask does not run
-
-
 @login_manager.user_loader
 def user_loader(user_id):
     '''
@@ -46,7 +44,7 @@ def projects(project_type=None):
 
     values = {}
     if project_type is not None and not project_type.isdigit():
-        return 'Error value not integer'
+        return 'Error, value not integer'
 
     types = get_session().query(Type)
     projects = get_session().query(Project).filter(
@@ -103,7 +101,7 @@ def addproject():
     if request.method == 'GET':
         return render_addproject(current_user)
     else:
-        return redirect(url_for('home.index'))
+        pass
 
 
 @project_blueprint.route('/viewfile/<file_id>')

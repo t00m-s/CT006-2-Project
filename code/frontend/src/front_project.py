@@ -28,7 +28,6 @@ def render_addproject(user):
     '''
     Renders the addproject pages
     '''
-    return render_with_lib('addproject.html', user=user)
     custom_javascript = [
         'https://unpkg.com/dropzone@5/dist/min/dropzone.min.js', '/frontend/static/js/upload.js']
     custom_css = ['https://unpkg.com/dropzone@5/dist/min/dropzone.min.css',
