@@ -10,38 +10,77 @@
 
 {% block content %}
     <div class="container-fluid">
-        <div class="row">
+        <div class="row expanded">
             <div class="col-12">
-                <form method="POST" class="dropzone" action="/addproject" id="form_upload"
-                      enctype="multipart/form-data">
-                    <div class="card">
-                        <h3>Upload Files</h3>
-                        <!--<header>
-                            <h4>Select File here</h4>
-                        </header> -->
-                        <div id="drop_box" class="dropzone"></div>
-                        <p>Files Supported: PDF, TEXT, DOC , DOCX</p>
-                        <button type="button" class=" btn btn-success btn-form" id="btn-form">
-                            Choose File
-                        </button>
-
-
-                        <div class="d-grip gap-2">
-                            <div id="card-dropdown" style="display:none ">
-                                <hr>
-                                <label for="username">Username:</label>
-                                <input class="form-control" type="text" name="username"/>
-                                <label for="test">Test:</label>
-                                <input class="form-control" type="text" name="test"/>
-
-                                <button class="btn btn-primary mt-3" id="submitBtn" type="submit">Submit data and files!</button>
-
-                            </div>
+                <div class="card">
+                    <div class="row custom_row">
+                        <div class="col-12 text-center">
+                            <h2 style="color: #24292e">Nuovo Progetto</h2>
                         </div>
                     </div>
-                </form>
+                    <form method="POST" class="dropzone" action="/addproject" id="form_upload"
+                          enctype="multipart/form-data">
+                        <div class="previews text-center">
+                            <p><i class="text-grey">Tipi Supportati: PDF, TEXT, DOC , DOCX</i></p>
+                            <p><i class="text-grey">Trascina o carica i tuoi file qui</i></p>
+                        </div>
+                        <button type="button" class=" btn btn-lg btn-success btn-form" id="btn-form">
+                            Scegli File
+                        </button>
+                        <div class="d-grip">
+                            <div id="card-dropdown" style="display:none ">
+                                <hr>
+                                <div class="row custom_row">
+                                    <div class="col-12">
+                                        <h6>
+                                            <label for="name">
+                                                Nome progetto:
+                                            </label>
+                                        </h6>
+                                        <input class="form-control" type="text" name="name" id="name"/>
+                                    </div>
+                                </div>
+                                <div class="row custom_row">
+                                    <div class="col-12">
+                                        <h6>
+                                            <label for="type">
+                                                Tipo:
+                                            </label>
+                                        </h6>
+                                    </div>
+                                    <div class="col-12">
+                                        <select name="type" id="type">
+                                            <option>Scegli un tipo di progetto</option>
+                                            {% if types |length >0 %}
+                                                {% for  value in types %}
+                                                    <option value="{{ value.id }}">{{ value.name }}</option>
+                                                {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row custom_row">
+                                    <div class="col-12">
+                                        <h6>
+                                            <label for="tiny">
+                                                Descrizione:
+                                            </label>
+                                        </h6>
+                                        <textarea name="description" id="tiny"></textarea>
+                                    </div>
+                                </div>
+                                <div class="row custom_row">
+                                    <div class="col-12">
+                                        <button class="btn btn-lg btn-primary mt-3" id="submitBtn" type="submit">
+                                            Invia il tuo progetto per la revisione!
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
-
     </div>
 {% endblock %}

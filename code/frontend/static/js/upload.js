@@ -1,47 +1,74 @@
 Dropzone.autoDiscover = false;
 $(document).ready(function () {
-
-    console.log('test');
-
-    let input_box = $("#drop_box").dropzone({
+    let input_box = $("#form_upload").dropzone({
         url: 'addproject',
         uploadMultiple: true,
         clickable: "#btn-form",
+        addRemoveLinks: true,
+        previewsContainer: '.previews',
+        dictRemoveFile: "Rimuovi",
         autoProcessQueue: false,
-        parallelUploads: 10,
-        maxFiles: 10,
-        dictDefaultMessage: "Drop File(s) Here or Click to Upload",
+        parallelUploads: 100,
+        maxFiles: 100,
+        dictDefaultMessage: '',
         acceptedFiles: 'application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        addedfile: file => {
-            console.log(file);
-            console.log('File aggiunto!');
-        },
+
         init: function () {
             const sono_io = this;
             $('button[type=submit]').on('click', function (e) {
-
-                //TODO FARE UN AJAX CHE PRENDE TUTTI I DATI DEL FORM E CI PUSHO DENTRO I FILE
                 e.preventDefault();
                 e.stopPropagation();
                 sono_io.processQueue();
-                $('#form_upload').submit();
-            })
+
+            });
+            sono_io.on("sendingmultiple", function () {
+                // Gets triggered when the form is actually being sent.
+                // Hide the success button or the complete form.
+            });
+            sono_io.on("successmultiple", function (files, response) {
+                window.location.replace("/projects");
+            });
+            sono_io.on("errormultiple", function (files, response) {
+                alert(response);
+            });
+            sono_io.on("addedfile", file => {
+                dropdownOpen();
+            });
+            /**
+             * Quando un file viene rimosso se non ce ne sono altri viene
+             * chiuso il form sottostante
+             */
+            sono_io.on("removedfile", file =>{
+                if($(".dz-preview:visible").length === 0)
+                    dropdownClose();
+            });
         }
     });
-    console.log(input_box);
-    /*$('#btn-form').on('click', function () {
-
-        $('#fileID').click();
-    }); */
-});
-
-// funzione per mostrare il blocco submit quando viene cliccato il pulsante per caricare un file
-
-$(document).ready(function(){
-
-    $("#btn-form").click(function (){
-        if($("#card-dropdown:visible").length == 0){
-            $("#card-dropdown").toggle();
-        }
+    $('#type').select2({
+        width: '100%' // need to override the changed default
     });
+
 });
+
+tinymce.init({
+    selector: 'textarea#tiny',
+    plugins: [
+        'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+        'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+        'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+    ],
+    toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+        'bullist numlist checklist outdent indent | removeformat | code table help'
+});
+
+function dropdownOpen() {
+    if ($("#card-dropdown:visible").length === 0) {
+        $("#card-dropdown").toggle();
+    }
+}
+
+function dropdownClose(){
+    if ($("#card-dropdown:visible").length > 0) {
+        $("#card-dropdown").toggle();
+    }
+}
