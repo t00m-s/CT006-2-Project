@@ -24,7 +24,7 @@
                             <p><i class="text-grey">Tipi Supportati: PDF, TEXT, DOC , DOCX</i></p>
                             <p><i class="text-grey">Trascina o carica i tuoi file qui</i></p>
                         </div>
-                        <button type="button" class=" btn btn-success btn-form" id="btn-form">
+                        <button type="button" class=" btn btn-lg btn-success btn-form" id="btn-form">
                             Scegli File
                         </button>
                         <div class="d-grip">
@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="col-12">
                                         <select name="type" id="type">
-                                            <option>Scegli un tipo di proggetto</option>
+                                            <option>Scegli un tipo di progetto</option>
                                             {% if types |length >0 %}
                                                 {% for  value in types %}
                                                     <option value="{{ value.id }}">{{ value.name }}</option>
@@ -71,7 +71,7 @@
                                 </div>
                                 <div class="row custom_row">
                                     <div class="col-12">
-                                        <button class="btn btn-primary mt-3" id="submitBtn" type="submit">
+                                        <button class="btn btn-lg btn-primary mt-3" id="submitBtn" type="submit">
                                             Invia il tuo progetto per la revisione!
                                         </button>
                                     </div>

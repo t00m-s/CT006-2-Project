@@ -34,6 +34,14 @@ $(document).ready(function () {
             sono_io.on("addedfile", file => {
                 dropdownOpen();
             });
+            /**
+             * Quando un file viene rimosso se non ce ne sono altri viene
+             * chiuso il form sottostante
+             */
+            sono_io.on("removedfile", file =>{
+                if($(".dz-preview:visible").length === 0)
+                    dropdownClose();
+            });
         }
     });
     $('#type').select2({
@@ -55,6 +63,12 @@ tinymce.init({
 
 function dropdownOpen() {
     if ($("#card-dropdown:visible").length === 0) {
+        $("#card-dropdown").toggle();
+    }
+}
+
+function dropdownClose(){
+    if ($("#card-dropdown:visible").length > 0) {
         $("#card-dropdown").toggle();
     }
 }
