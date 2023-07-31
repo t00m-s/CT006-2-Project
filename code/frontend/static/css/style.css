@@ -14,7 +14,13 @@
 }
 
 .text-github {
-    color: #495057;
+    color: lightslategrey;
+}
+
+.bi {
+  vertical-align: .125em;
+  width: 1em;
+  height: 1em;
 }
 
 .text-github:hover {

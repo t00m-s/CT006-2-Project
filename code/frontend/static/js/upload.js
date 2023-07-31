@@ -32,7 +32,7 @@ $(document).ready(function () {
                 alert(response);
             });
             sono_io.on("addedfile", file => {
-                dropdownOpen();
+                cardDropdownOpen();
             });
             /**
              * Quando un file viene rimosso se non ce ne sono altri viene
@@ -40,7 +40,7 @@ $(document).ready(function () {
              */
             sono_io.on("removedfile", file =>{
                 if($(".dz-preview:visible").length === 0)
-                    dropdownClose();
+                    cardDropdownClose();
             });
         }
     });
@@ -61,13 +61,13 @@ tinymce.init({
         'bullist numlist checklist outdent indent | removeformat | code table help'
 });
 
-function dropdownOpen() {
+function cardDropdownOpen() {
     if ($("#card-dropdown:visible").length === 0) {
         $("#card-dropdown").toggle();
     }
 }
 
-function dropdownClose(){
+function cardDropdownClose(){
     if ($("#card-dropdown:visible").length > 0) {
         $("#card-dropdown").toggle();
     }
