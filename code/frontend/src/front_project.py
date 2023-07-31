@@ -8,6 +8,9 @@ project_blueprint = Blueprint(
 def render_project(user, values):
     '''
     Renders the project page
+
+    @params user Current user logged in
+    @params values Project types
     '''
     # approved 1, submitted 2, changes 3, not approved 4
     return render_with_lib('projects.html', user=user, values=values)
@@ -16,6 +19,10 @@ def render_project(user, values):
 def render_viewproject(user, project, files):
     '''
     Renders the viewproject page
+
+    @params user Current user logged in
+    @params project project ID of the current project 
+    @params files Files of the current project
     '''
     if project.description is None:
         project.description = ''
@@ -23,9 +30,13 @@ def render_viewproject(user, project, files):
     files = [1, 2, 3]
     return render_with_lib('viewproject.html', user=user, project=project, files=files, custom_javascript='/frontend/static/js/project.js')
 
+
 def render_addproject(user, types):
     '''
     Renders the addproject pages
+
+    @params user Current user logged in
+    @params types Types of possible project
     '''
     custom_javascript = ['https://unpkg.com/dropzone@5/dist/min/dropzone.min.js',
                          'https://cdn.tiny.cloud/1/cp187ge3odryin5mbbhjjq6vwjr3snwgc8zgakf0oql3z1yl/tinymce/6/tinymce.min.js',
@@ -35,5 +46,6 @@ def render_addproject(user, types):
                   'https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css',
                   '/frontend/static/css/upload.css']
 
-    return render_with_lib('addproject.html', user=user, types=types, custom_javascript=custom_javascript,
+    return render_with_lib('addproject.html', user=user, types=types,
+                           custom_javascript=custom_javascript,
                            custom_css=custom_css)
