@@ -1,4 +1,5 @@
 from sqlalchemy import *
+from sqlalchemy.sql import text
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -15,9 +16,10 @@ class ProjectHistory(Base):
     id_project = Column(Integer, ForeignKey(Project.id), nullable=False)
     id_state = Column(Integer, ForeignKey(State.id), nullable=False)
     id_user = Column(Integer, ForeignKey(User.id), nullable=True,
-                     comment='Id user witch is a reviewer')  # TODO trigger (or CHECK) to check if id_user is reviewer
+                     comment='Id user witch is a reviewer')
     note = Column(Text)
-    created_at = Column(DateTime, default=func.now(), server_default=func.now())
+    created_at = Column(DateTime, default=func.now(),
+                        server_default=func.now())
 
     reviewer = Relationship(User, back_populates='reviewed_histories')
     state = Relationship(State, back_populates='attributed_histories')
@@ -32,5 +34,7 @@ class ProjectHistory(Base):
 
 
 Project.histories = relationship(ProjectHistory, back_populates='project')
-User.reviewed_histories = relationship(ProjectHistory, back_populates='reviewer')
-State.attributed_histories = relationship(ProjectHistory, back_populates='state')
+User.reviewed_histories = relationship(
+    ProjectHistory, back_populates='reviewer')
+State.attributed_histories = relationship(
+    ProjectHistory, back_populates='state')

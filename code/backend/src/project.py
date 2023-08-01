@@ -8,6 +8,7 @@ from ..database.maps.project import Project
 from ..database.maps.type import Type
 from ..database.maps.project_files import ProjectFiles
 from ..database.maps.project_history import ProjectHistory
+from ..database.maps.state import State
 import sys
 import os
 
@@ -104,23 +105,32 @@ def addproject():
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == 'POST':
         # Add new project
-        # try:
         # TODO CONTROLLARE CHE DAL FORM ARRIVINO TUTTI I PARAMENTRI, SE NE MANCA ANCHE SOLO UNO TORNARE ERRORE USANDO IL BANNERINO ROSSO DI NOTIFICA
         # TODO CONTROLLARE CHE NON VENGANO INSERITI DUE FILE CON LO STESSO PATH (path+nome) (magari ci sta anche un bel unique a db)
+        errors = False
+        if request.form['type'] is None:
+            flash("No type selected")
+            errors = True
+
+        if request.form['name'] is None:
+            flash("Did you forget to add a name?")
+            errors = True
+
+        if errors:
+            return redirect("/viewproject")
 
         new_project = Project(id_user=current_user.id,
                               id_type=request.form['type'],
                               name=request.form['name'],
                               description=request.form['description'])
         get_session().add(new_project)
-
+        get_session().commit()  # You have to commit first, then you can access
+        # autoincrement parameters
         # Add project history
         # 3 = Submitted for Evaluation
         new_project_history = ProjectHistory(
-            id_project=new_project.id,
-            id_state=3)  # TODO SAREBBE BELLO CON UNA QUERY CHE CERCA PER TESTO LO STATO SUBMITTED E SI PRENDE L'ID (magari un metodo statico getSubmitID() nella classe State <3)
-        # TOLTO ID USER PERCHE' QUEL ID USER è COLUI CHE FA LE REVIEW (non il proprietario del progetto), E QUINDI QUANDO CREO UN NUOVO PROGETTO NON DEVE ESSERE VALORIZZATO,
-        # TODO HO CAMBIATO LA CLASSE ProjectHistory QUINDI DOVRESTE FAR SI CHE IL PROGRAMMA VI RICREI LA TABELLA DA 0 (controllare il check che cìè da fare)
+            id_project=new_project.id,  # Somehow it doesn't exist
+            id_state=State.getSubmittedID())
 
         get_session().add(new_project_history)
         get_session().commit()
@@ -131,7 +141,8 @@ def addproject():
             os.makedirs(dir_path)
 
         for file in request.files.items():
-            file = file[1]  # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
+            # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
+            file = file[1]
             # TODO CONTROLLARE IL MIME TYPE in file.content_type
             file_path = os.path.join(dir_path, file.filename)
             file.save(file_path)

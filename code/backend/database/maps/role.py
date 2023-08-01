@@ -11,8 +11,6 @@ class Role(Base):
     name = Column(String, nullable=False, unique=True)
     is_reviewer = Column(Boolean, nullable=False)
 
-    # configuro le relationship e la politica di cascading
-
     def __repr__(self):
         return f"<Role(id={self.id}," \
                f"name={self.name}," \
