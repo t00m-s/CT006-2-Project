@@ -1,4 +1,5 @@
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy.sql import text
 import os
 from .session import *
 
@@ -69,3 +70,28 @@ def migrate():
 
     if not os.path.exists('db_files'):
         os.makedirs('db_files')
+
+    # Raw SQL because docs are not good
+    get_session().execute(text("""
+        CREATE OR REPLACE FUNCTION is_reviewer()
+        RETURNS TRIGGER AS
+        $$
+        BEGIN
+            IF NEW.id_user IS NOT NULL THEN
+                IF NEW.id_user NOT IN
+                (SELECT u.id
+                FROM users u JOIN roles r ON u.id_role=r.id
+                WHERE r.is_reviewer AND u.id=NEW.id_user) THEN
+                    RETURN NULL;
+                END IF;
+            END IF;
+            RETURN NEW;
+        END $$ LANGUAGE plpgsql;
+    """))
+
+    get_session().execute(text("""
+                               CREATE OR REPLACE TRIGGER is_reviewer_trigger
+                               BEFORE INSERT OR UPDATE ON project_history
+                               FOR EACH ROW EXECUTE FUNCTION is_reviewer()
+                               """))
+    get_session().commit()
