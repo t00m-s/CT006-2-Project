@@ -104,56 +104,67 @@ def addproject():
     if request.method == 'GET':
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == 'POST':
-        # Add new project
-        # TODO CONTROLLARE CHE DAL FORM ARRIVINO TUTTI I PARAMENTRI, SE NE MANCA ANCHE SOLO UNO TORNARE ERRORE USANDO IL BANNERINO ROSSO DI NOTIFICA
-        # TODO CONTROLLARE CHE NON VENGANO INSERITI DUE FILE CON LO STESSO PATH (path+nome) (magari ci sta anche un bel unique a db)
+        # Parameters check
         errors = False
         if request.form['type'] is None:
-            flash("No type selected")
+            flash("Did you forget to select a type?")
             errors = True
 
         if request.form['name'] is None:
-            flash("Did you forget to add a name?")
+            flash("Did you forget to add a name to the project?")
             errors = True
 
         if errors:
             return redirect("/viewproject")
+        # Add new project
+        try:
+            new_project = Project(id_user=current_user.id,
+                                  id_type=request.form['type'],
+                                  name=request.form['name'],
+                                  description=request.form['description'])
+            get_session().add(new_project)
+            get_session().commit()
+            # You have to commit first, then you can access
+            # autoincrement parameters
+            # Add project history
+            # 3 = Submitted for Evaluation
+            new_project_history = ProjectHistory(
+                id_project=new_project.id,
+                id_state=State.getSubmittedID())
 
-        new_project = Project(id_user=current_user.id,
-                              id_type=request.form['type'],
-                              name=request.form['name'],
-                              description=request.form['description'])
-        get_session().add(new_project)
-        get_session().commit()  # You have to commit first, then you can access
-        # autoincrement parameters
-        # Add project history
-        # 3 = Submitted for Evaluation
-        new_project_history = ProjectHistory(
-            id_project=new_project.id,  # Somehow it doesn't exist
-            id_state=State.getSubmittedID())
+            get_session().add(new_project_history)
+            get_session().commit()
+            # Add project files
+            dir_path = os.path.join(os.getcwd(), 'db_files', str(
+                current_user.id), str(new_project.id), str(new_project_history.id))
+            if not os.path.exists(dir_path):
+                os.makedirs(dir_path)
 
-        get_session().add(new_project_history)
-        get_session().commit()
-        # Add project files
-        dir_path = os.path.join(os.getcwd(), 'db_files', str(
-            current_user.id), str(new_project.id), str(new_project_history.id))
-        if not os.path.exists(dir_path):
-            os.makedirs(dir_path)
+            for file in request.files.items():
+                # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
+                file = file[1]
+                # TODO CONTROLLARE IL MIME TYPE in file.content_type
+                file_path = os.path.join(dir_path, file.filename)
+                file.save(file_path)
+                get_session().add(ProjectFiles(path=file_path,
+                                               id_project_history=new_project_history.id))
+            get_session().commit()
+            return jsonify({'new_project_id': new_project.id})
+        except:
+            # Delete directories and files
+            import shutil
+            shutil.rmtree(os.path.join(os.getcwd(), 'db_files',
+                          str(current_user.id), str(new_project.id)))
+            # Delete project_files commit
+            get_session().rollback()
+            # Delete project_history
+            get_session().query(ProjectHistory).filter_by(
+                id=new_project_history.id).delete()
+            # Delete project
+            get_session().query(Project).filter_by(id=new_project.id).delete()
 
-        for file in request.files.items():
-            # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
-            file = file[1]
-            # TODO CONTROLLARE IL MIME TYPE in file.content_type
-            file_path = os.path.join(dir_path, file.filename)
-            file.save(file_path)
-            get_session().add(ProjectFiles(path=file_path,
-                                           id_project_history=new_project_history.id))
-        get_session().commit()
-        return jsonify({'new_project_id': new_project.id})
-        # except:
-        get_session().rollback()
-        # TODO ELIMINARE LA DIRECTORY SE è STATA CREATA, SIAMO IN ERRORE NON VOGLIAMO CHE MAGARI CI SIANO FILE SALVATI CHE NON SONO MAPPATI A DB
-        return 'General Error', 500
+            get_session().commit()
+            return 'General Error', 500
 
 
 @project_blueprint.route('/viewfile/<file_id>')
@@ -170,4 +181,3 @@ def viewfile(file_id):
     query = get_session().query(ProjectFiles).join(
         ProjectHistory).filter_by(id_user=current_user.id, id=file_id).all()
     return query
-    return str(request.form) + str(request.files)
