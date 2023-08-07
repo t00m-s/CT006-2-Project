@@ -22,7 +22,7 @@ project_blueprint = Blueprint('project', __name__)
 login_manager = LoginManager()
 
 
-# I wanted to import it from home but flask does not run
+# I wanted to import it from home but then flask does not run
 @login_manager.user_loader
 def user_loader(user_id):
     '''
