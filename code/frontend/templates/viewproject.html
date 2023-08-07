@@ -12,9 +12,13 @@
 
 <div class="col-10 offset-1">
     <h1>{{ project.name }}</h1>
+    {% if project.description %}
     <p class="text-justify">
-    {{ project.description }}
+        {{ project.description }}
     </p>
+    {% endif %}
+
+    {{files}}
     <div class="row">
         <!-- embed html tag --> 
         <div class="col-7">
