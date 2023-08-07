@@ -16,7 +16,8 @@ class Project(Base):
     id_type = Column(Integer, ForeignKey(Type.id), nullable=False)
     name = Column(String, nullable=False)
     description = Column(Text)
-    created_at = Column(DateTime, default=func.now(), server_default=func.now())
+    created_at = Column(DateTime, default=func.now(),
+                        server_default=func.now())
 
     user = relationship(User, back_populates="projects")
     type = relationship(Type, back_populates="projects")
@@ -26,11 +27,7 @@ class Project(Base):
     '''
 
     def __repr__(self):
-        return f"<Type(id={self.id}, " \
-               f"id_user={self.id_user}, " \
-               f"id_type={self.id_type}, " \
-               f"name={self.name}, " \
-               f"created_at={self.created_at})>"
+        return f"< Project(id={self.id}, name={self.name}, created_at={self.created_at}) >"
 
     def getTypes(self):
         return get_session().query(Type).join(Project).filter(Project.id == self.id)

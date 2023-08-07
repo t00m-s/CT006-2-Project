@@ -15,6 +15,9 @@ class ProjectFiles(Base):
 
     project_history = Relationship(ProjectHistory, back_populates='files')
 
+    def __repr__(self):
+        return f"<ProjectFiles(id={self.id}, path={self.path})>"
+
 
 ProjectHistory.files = Relationship(
     ProjectFiles, back_populates='project_history')
