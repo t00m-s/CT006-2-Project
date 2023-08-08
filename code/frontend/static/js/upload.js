@@ -43,9 +43,7 @@ $(document).ready(function () {
     parallelUploads: 100,
     maxFiles: 100,
     dictDefaultMessage: "",
-    acceptedFiles:
-      "application/pdf,text/plain,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-
+    acceptedFiles: "application/pdf",
     init: function () {
       const sono_io = this;
       $("button[type=submit]").on("click", function (e) {
