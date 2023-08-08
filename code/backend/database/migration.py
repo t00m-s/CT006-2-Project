@@ -77,8 +77,8 @@ def migrate():
         RETURNS TRIGGER AS
         $$
         BEGIN
-            IF NEW.id_user IS NOT NULL THEN
-                IF NEW.id_user NOT IN
+            IF NEW.id_user_reviewer IS NOT NULL THEN
+                IF NEW.id_user_reviewer NOT IN
                 (SELECT u.id
                 FROM users u JOIN roles r ON u.id_role=r.id
                 WHERE r.is_reviewer AND u.id=NEW.id_user) THEN
