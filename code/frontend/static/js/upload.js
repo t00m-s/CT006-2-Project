@@ -57,7 +57,9 @@ $(document).ready(function () {
         // Hide the success button or the complete form.
       });
       sono_io.on("successmultiple", function (files, response) {
-        window.location.replace("/viewproject/" + response.new_project_id);
+        window.location.replace(
+          "/viewproject/" + response.new_project_id + "/1"
+        );
       });
       sono_io.on("errormultiple", function (files, response) {
         alert(response);
@@ -65,7 +67,7 @@ $(document).ready(function () {
       sono_io.on("addedfile", (file) => {
         cardDropdownOpen();
       });
-      /**
+      /*
        * Quando un file viene rimosso se non ce ne sono altri viene
        * chiuso il form sottostante
        */
