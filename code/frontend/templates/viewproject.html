@@ -18,7 +18,6 @@
     </p>
     {% endif %}
 
-    {{files}}
     <div class="row">
         <!-- embed html tag --> 
         <div class="col-7">
@@ -28,13 +27,13 @@
                 <div class="btn-group rounded-pill"> 
                     <!-- TODO: make button rounded pill -->
                     {% for file in files %}
-                    <button type="button" class="btn btn-secondary" onclick="getFile('{{ file }}')">
-                            {{ file }}
+                    <button type="button" class="btn btn-secondary" onclick="getFile('{{ file.id }}')">
+                            {{ loop.index }}
                         </button>
                     {% endfor %}
                 </div>
                 <div class="row">
-                    <div id="file" style="display:none">
+                    <div id="file" class="d-none">
                     </div>
                 </div>
             </div>
