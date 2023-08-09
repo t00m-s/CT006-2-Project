@@ -31,7 +31,13 @@ def user_loader(user_id):
     @param user_id The user's ID
     @returs User associated with the ID
     '''
-    return get_session().query(User).filter_by(id=user_id).first()
+    try:
+        user = get_session().query(User).filter_by(id=user_id).first()
+        get_session().commit()
+    except:
+        get_session().rollback()
+        abort(500)  # TODO gestire benere l'errore
+    return user
 
 
 @project_blueprint.route('/projects')
@@ -104,8 +110,8 @@ def viewproject(project_id, project_state_id):
     return render_viewproject(current_user, project, project_state)
 
 
-@ project_blueprint.route('/addproject', methods=['GET', 'POST'])
-@ login_required
+@project_blueprint.route('/addproject', methods=['GET', 'POST'])
+@login_required
 def addproject():
     '''
     Returns the route for addproject page
@@ -163,7 +169,7 @@ def addproject():
             # Delete directories and files
             import shutil
             shutil.rmtree(os.path.join(os.getcwd(), 'db_files',
-                          str(current_user.id), str(new_project.id)))
+                                       str(current_user.id), str(new_project.id)))
             # Delete project_files commit
             get_session().rollback()
             # Delete project_history
@@ -176,8 +182,8 @@ def addproject():
             return 'General Error', 500
 
 
-@ project_blueprint.route('/viewfile/<file_id>')
-@ login_required
+@project_blueprint.route('/viewfile/<file_id>')
+@login_required
 def filepath(file_id):
     '''
     Returns a route for the viewfile page
