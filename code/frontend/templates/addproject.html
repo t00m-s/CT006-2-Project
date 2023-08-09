@@ -37,7 +37,7 @@
                                                 Nome progetto:
                                             </label>
                                         </h6>
-                                        <input class="form-control" type="text" name="name" id="name"/>
+                                        <input class="form-control" required type="text" name="name" id="name"/>
                                     </div>
                                 </div>
                                 <div class="row custom_row">
@@ -49,7 +49,7 @@
                                         </h6>
                                     </div>
                                     <div class="col-12">
-                                        <select name="type" id="type">
+                                        <select name="type" required id="type">
                                             <option>Scegli un tipo di progetto</option>
                                             {% if types |length >0 %}
                                                 {% for  value in types %}
@@ -66,7 +66,7 @@
                                                 Descrizione:
                                             </label>
                                         </h6>
-                                        <textarea name="description" id="tiny"></textarea>
+                                        <textarea name="description" required id="tiny"></textarea>
                                     </div>
                                 </div>
                                 <div class="row custom_row">

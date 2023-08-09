@@ -1,5 +1,5 @@
 from front_project import *
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort, redirect, flash
 from flask_login import LoginManager, current_user, login_required
 from sqlalchemy import desc
 from ..database.session import get_session
@@ -122,13 +122,13 @@ def addproject():
         # Parameters check
         errors = False
         if request.form['type'] is None:
-            flash("Did you forget to select a type?")
+            flash("Did you forget to select a type?")  # TODO NON FUNZIONA
             errors = True
 
         if request.form['name'] is None:
-            flash("Did you forget to add a name to the project?")
+            flash("Did you forget to add a name to the project?")  # TODO NON FUNZIONA
             errors = True
-
+        # TODO RENDERE OBBLIGATORIA ANCHE LA DESCRIZIONE
         if errors:
             return redirect("/viewproject")
         # Add new project
