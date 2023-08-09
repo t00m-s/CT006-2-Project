@@ -44,11 +44,7 @@ def render_with_lib(page, **kwargs):
             '/frontend/static/js/scripts.js'
         ]
     else:
-        kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js'] + ([
-                                                                                kwargs[
-                                                                                    'custom_javascript']] if not isinstance(
-            kwargs['custom_javascript'], list) else kwargs[
-            'custom_javascript'])
+        kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js'] + ([kwargs['custom_javascript']] if not isinstance(kwargs['custom_javascript'], list) else kwargs['custom_javascript'])
 
     kwargs['year'] = datetime.today().year
 
