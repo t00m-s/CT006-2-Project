@@ -9,4 +9,4 @@ sqlalchemy
 psycopg2-binary
 flask-login
 passlib
-flask-socketio
+flask-socketio==4.3.1

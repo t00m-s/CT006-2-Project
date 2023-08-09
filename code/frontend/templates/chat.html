@@ -2,7 +2,7 @@
 
 
 {% block title %}
-<title>Chat</title>
+    <title>Chat</title>
 {% endblock %}
 
 
@@ -10,14 +10,14 @@
     {% include "navbar.html" %}
 {% endblock %}
 {% block content %}
-<body>
-<div class="messages">
+    <body>
+    <div id="messages">
 
-</div>
+    </div>
 
-<input type="text" id="username" placeholder="Username">
-<input type="text" id="message" placeholder="Message">
-<button id="sendBtn">Send</button>
+    <input type="text" id="username" placeholder="Username" value="{{ user_name }}">
+    <input type="text" id="message" placeholder="Message">
+    <button id="sendBtn">Send</button>
 
-</body>
+    </body>
 {% endblock %}
