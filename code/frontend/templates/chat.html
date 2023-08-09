@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+<title>Chat</title>
+{% endblock %}
+
+
+{% block navbar %}
+    {% include "navbar.html" %}
+{% endblock %}
+{% block content %}
+<body>
+<div class="messages">
+
+</div>
+
+<input type="text" id="username" placeholder="Username">
+<input type="text" id="message" placeholder="Message">
+<button id="sendBtn">Send</button>
+
+</body>
+{% endblock %}
