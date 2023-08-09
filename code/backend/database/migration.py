@@ -1,6 +1,8 @@
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.sql import text
 import os
+
+from .maps.type import Type
 from .session import *
 
 engine = get_engine()
@@ -35,6 +37,13 @@ def migrate():
 
     from .maps.type import Base
     Base.metadata.create_all(engine)
+    try:
+        session.add(Type(name='Data Management Plan'))
+        session.add(Type(name='Ethics'))
+        session.add(Type(name='Deliverable'))
+        session.commit()
+    except IntegrityError:
+        session.rollback()
 
     from .maps.project import Base
     Base.metadata.create_all(engine)
@@ -66,6 +75,9 @@ def migrate():
     Base.metadata.create_all(engine)
 
     from .maps.project_files import Base
+    Base.metadata.create_all(engine)
+
+    from .maps.chat import Base
     Base.metadata.create_all(engine)
 
     if not os.path.exists('db_files'):
