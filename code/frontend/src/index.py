@@ -6,8 +6,8 @@ index_blueprint = Blueprint('index', __name__, template_folder="../templates")
 
 static_path = '/frontend/static'
 style_css_path = static_path + '/css'
-script_js_path = static_path + '/js'
-img_path = static_path + '/img'
+img_path = static_path + '/js'
+script_js_path = static_path + '/img'
 
 
 def get_static_resource(path, resource, extention):
@@ -35,11 +35,11 @@ def style_css(resource):
     return get_static_resource(style_css_path, resource, 'css')
 
 
-@index_blueprint.route(script_js_path + '/<resource>')
-def images(resource):
-    return get_static_resource(script_js_path, resource, 'js')
-
-
 @index_blueprint.route(img_path + '/<resource>')
+def images(resource):
+    return get_static_resource(img_path, resource, 'js')
+
+
+@index_blueprint.route(script_js_path + '/<resource>')
 def js_script(resource):
-    return get_static_resource(img_path, resource, 'img')
+    return get_static_resource(script_js_path, resource, 'img')
