@@ -1,4 +1,5 @@
 from flask import Blueprint
+from html import unescape
 from utility import render_with_lib
 
 project_blueprint = Blueprint(
@@ -24,10 +25,7 @@ def render_viewproject(user, project, files):
     @params project project ID of the current project 
     @params files Files of the current project
     '''
-    if project.description is None:
-        project.description = ''
-
-    files = [1, 2, 3]
+    project.description = unescape(project.description)
     return render_with_lib('viewproject.html', user=user, project=project, files=files, custom_javascript='/frontend/static/js/project.js')
 
 

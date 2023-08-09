@@ -14,7 +14,7 @@
     <h1>{{ project.name }}</h1>
     {% if project.description %}
     <p class="text-justify">
-        {{ project.description }}
+        {{ project.description|safe }}
     </p>
     {% endif %}
 
