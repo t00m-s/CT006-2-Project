@@ -37,9 +37,9 @@ def style_css(resource):
 
 @index_blueprint.route(img_path + '/<resource>')
 def images(resource):
-    return get_static_resource(img_path, resource, 'js')
+    return get_static_resource(img_path, resource, 'img')
 
 
 @index_blueprint.route(script_js_path + '/<resource>')
 def js_script(resource):
-    return get_static_resource(script_js_path, resource, 'img')
+    return get_static_resource(script_js_path, resource, 'js')
