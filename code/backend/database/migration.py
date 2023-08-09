@@ -38,9 +38,9 @@ def migrate():
     from .maps.type import Base
     Base.metadata.create_all(engine)
     try:
-        session.add(Type(name='Data Management Plan'))
-        session.add(Type(name='Ethics'))
-        session.add(Type(name='Deliverable'))
+        session.add(Type(id=1, name='Data Management Plan'))
+        session.add(Type(id=2, name='Ethics'))
+        session.add(Type(id=3, name='Deliverable'))
         session.commit()
     except IntegrityError:
         session.rollback()
