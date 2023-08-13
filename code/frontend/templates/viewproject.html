@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-<title>View your project</title>
+    <title>View your project</title>
 {% endblock %}
 
 {% block navbar %}
@@ -10,36 +10,38 @@
 
 {% block content %}
 
-<div class="col-10 offset-1">
-    <h1>{{ project.name }}</h1>
-    {% if project.description %}
-    <p class="text-justify">
-        {{ project.description|safe }}
-    </p>
-    {% endif %}
+    <div class="col-10 offset-1">
+        <h1>{{ project.name }}</h1>
+        {% if project.description %}
+            <p class="text-justify">
+                {{ project.description|safe }}
+            </p>
+        {% endif %}
 
-    <div class="row">
-        <!-- embed html tag --> 
-        <div class="col-7">
-            <!-- Se ho più file, devo poter accedere a tutti, -->
-            <!-- creo una specie di navbar che mi fa scegliere il file -->
-            <div class = "btn-toolbar btn-group rounded-pill" role="toolbar" aria-label="Button group toolbar">
-                <div class="btn-group rounded-pill"> 
-                    <!-- TODO: make button rounded pill -->
-                    {% for file in files %}
-                    <button type="button" class="btn btn-secondary" onclick="getFile('{{ file.id }}')">
-                            {{ loop.index }}
-                        </button>
-                    {% endfor %}
-                </div>
-                <div class="row">
-                    <div id="file" class="d-none">
+        <div class="row">
+            <!-- embed html tag -->
+            <div class="col-7">
+                <!-- Se ho più file, devo poter accedere a tutti, -->
+                <!-- creo una specie di navbar che mi fa scegliere il file -->
+                <div class="btn-toolbar btn-group rounded-pill" role="toolbar" aria-label="Button group toolbar">
+                    <div class="btn-group rounded-pill">
+                        <!-- TODO: make button rounded pill -->
+                        {% for file in files %}
+                            <button type="button" class="btn btn-secondary" onclick="getFile('{{ file.id }}')">
+                                {{ loop.index }}
+                            </button>
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        <div id="file" class="d-none">
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-3">
+            <div class="col-3">
+            </div>
         </div>
     </div>
-</div>
+
+    {% include "chat.html" %}
 {% endblock %}

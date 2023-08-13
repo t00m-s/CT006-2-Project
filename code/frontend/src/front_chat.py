@@ -12,5 +12,6 @@ def chat():
 
 
 def render_chat(user):
-    custom_js = ['https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.js', '/frontend/static/js/chat.js']
+    custom_js = ['https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js',
+                 '/frontend/static/js/chat.js']
     return render_with_lib("chat.html", custom_javascript=custom_js, user_name=user.name)

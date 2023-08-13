@@ -54,18 +54,21 @@ import werkzeug._reloader
 werkzeug.serving.run_with_reloader = werkzeug._reloader.run_with_reloader
 # endregion
 
-
 from flask_socketio import SocketIO, send
 
+app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 app.config['SECRET'] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
-if __name__ == '__main__':
-    socketio.run(app)
 
 
 @socketio.on('message')
 def handle_message(data):
-    # TODO chiamare una funzione per salvare i dati a db
     send(data, broadcast=True)
+    # TODO chiamare una funzione per salvare i dati a db
+
 
 # endregion
+
+
+if __name__ == '__main__':
+    socketio.run(app, debug=True)

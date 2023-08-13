@@ -25,8 +25,10 @@ def render_viewproject(user, project, files):
     @params project project ID of the current project 
     @params files Files of the current project
     '''
+    css = ['/frontend/static/css/chat.css']
     project.description = unescape(project.description)
-    return render_with_lib('viewproject.html', user=user, project=project, files=files, custom_javascript='/frontend/static/js/project.js')
+    return render_with_lib('viewproject.html', user=user, project=project, files=files,
+                           custom_javascript='/frontend/static/js/project.js', custom_css=css)
 
 
 def render_addproject(user, types):
