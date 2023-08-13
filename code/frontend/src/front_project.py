@@ -26,9 +26,12 @@ def render_viewproject(user, project, files):
     @params files Files of the current project
     '''
     css = ['/frontend/static/css/chat.css']
+    custom_js = ['https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js',
+                 '/frontend/static/js/chat.js',
+                 '/frontend/static/js/project.js']
     project.description = unescape(project.description)
     return render_with_lib('viewproject.html', user=user, project=project, files=files,
-                           custom_javascript='/frontend/static/js/project.js', custom_css=css)
+                           custom_javascript=custom_js, custom_css=css)
 
 
 def render_addproject(user, types):

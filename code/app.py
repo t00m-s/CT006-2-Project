@@ -4,8 +4,8 @@ from .backend.database.migration import *
 # tra tutti i file che hanno rotte deve essere il primo in quando definisce flask_login
 from .backend.src.home import *
 from .backend.src.login_register import *
+from .backend.src.chat import *
 from .frontend.src.index import *
-from .frontend.src.front_chat import *
 from .backend.src.project import *
 
 import sys
@@ -63,8 +63,17 @@ socketio = SocketIO(app)
 
 @socketio.on('message')
 def handle_message(data):
-    send(data, broadcast=True)
-    # TODO chiamare una funzione per salvare i dati a db
+    from .backend.src.chat import save_message
+    from flask_login import current_user
+    new_message = {
+        'user_name': current_user.name,
+        'message': data['message']
+    }
+    if 'user has connected!' in data['message']:
+        send(new_message, broadcast=True)
+    else:
+        save_message(data['message'], current_user.id, data['id_project'])
+        send(new_message, broadcast=True)
 
 
 # endregion
