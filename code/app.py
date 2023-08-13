@@ -54,7 +54,7 @@ import werkzeug._reloader
 werkzeug.serving.run_with_reloader = werkzeug._reloader.run_with_reloader
 # endregion
 
-from flask_socketio import SocketIO, send
+from flask_socketio import *
 
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 app.config['SECRET'] = os.getenv("SECRET_KEY")
@@ -65,15 +65,21 @@ socketio = SocketIO(app)
 def handle_message(data):
     from .backend.src.chat import save_message
     from flask_login import current_user
+    chat_value = request.args.get('id_project')
+
+    # Assegna il client a uno specifico spazio dei nomi (chat)
+    chat_namespace = f'/chat/{chat_value}'
+    join_room(chat_namespace)
+
     new_message = {
         'user_name': current_user.name,
         'message': data['message']
     }
     if 'user has connected!' in data['message']:
-        send(new_message, broadcast=True)
+        send(new_message, room=chat_namespace)
     else:
         save_message(data['message'], current_user.id, data['id_project'])
-        send(new_message, broadcast=True)
+        send(new_message, room=chat_namespace)
 
 
 # endregion
