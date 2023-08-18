@@ -1,12 +1,12 @@
 from flask import *
 from .backend.database.engine import *
 from .backend.database.migration import *
+from flask_login import login_required, current_user
 # tra tutti i file che hanno rotte deve essere il primo in quando definisce flas_login
 from .backend.src.home import *
 from .backend.src.login_register import *
 from .frontend.src.index import *
 from .backend.src.project import *
-import sys
 import os
 
 app = Flask(__name__)
@@ -31,10 +31,36 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 5 * 1000 * 1000
 
 
-@ app.route('/favicon.ico')
+@app.route('/favicon.ico')
 def favicon():
     '''
     Returns the favicon
     '''
     return send_from_directory(os.path.join(app.root_path, 'frontend', 'static', 'img'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
+
+
+@app.route('/download/<file_id>')
+@login_required
+def download(file_id):
+    from .backend.database.session import get_session
+    from sqlalchemy import select
+    from .backend.database.maps import project, project_files, project_history
+
+    file_path = list(get_session().query(ProjectFiles.path, ProjectFiles.id_project_history).filter(
+        ProjectFiles.id == file_id).first())
+
+    if file_path is None:
+        pass  # TODO send error
+    # Check if user has permissions to download this file
+    project_id = list(get_session().query(ProjectHistory.id_project).filter(
+        ProjectHistory.id == file_path[1]).first())
+    has_permission = get_session().query(
+        Project).filter(Project.id == project_id[0], Project.id_user == current_user.id).first()
+
+    if has_permission is None:
+        pass  # TODO refuse download
+    # gets only the string after last /
+    path = str(file_path[0])
+    last_backslash = path.rfind("/")
+    return send_from_directory(path[:last_backslash], path[last_backslash + 1:], as_attachment=True)
