@@ -60,7 +60,6 @@ def download(file_id):
 
     if has_permission is None:
         pass  # TODO refuse download
-    # gets only the string after last /
     path = str(file_path[0])
     last_backslash = path.rfind("/")
-    return send_from_directory(path[:last_backslash], path[last_backslash + 1:], as_attachment=True)
+    return send_from_directory(path[:last_backslash], path[last_backslash + 1:], as_attachment=True, mimetype="application/pdf")
