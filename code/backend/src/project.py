@@ -1,7 +1,7 @@
 from front_project import *
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, redirect
 from flask_login import LoginManager, current_user, login_required
-from sqlalchemy import desc
+from sqlalchemy import select
 from ..database.session import get_session
 from ..database.maps.user import User
 from ..database.maps.project import Project
@@ -77,35 +77,28 @@ def projects(project_type=None):
     return render_project(current_user, values)
 
 
-# This way i don't have to use GET params
-@project_blueprint.route('/viewproject/<project_id>', defaults={'project_state_id': None}, methods=['GET'])
-@project_blueprint.route('/viewproject/<project_id>/<project_state_id>', methods=['GET'])
+@project_blueprint.route('/viewproject/<project_id>', methods=['GET'])
 @login_required
-def viewproject(project_id, project_state_id):
+def viewproject(project_id):
     '''
-    Route that shows a single project given the id in input and an
-    optional state to view previous project states
-
+    Route that shows a single project with all previous states given the id
+    as a parameter
     @params project_id ID of the project
-    @params project_history_id ID of the state of the project, used to retreive files and comments
     '''
-
-    project = get_session().query(Project).filter(
-        Project.id_user == current_user.id).first()
-    project_state = None
-    # Get last state info
-    if project_state_id is None:
-        project_state = get_session().query(ProjectHistory).join(Project).filter(
-            Project.id_user == current_user.id).order_by(desc(ProjectHistory.id)).all()
-    else:
-        project_state = get_session().query(ProjectHistory).join(
-            Project).filter(Project.id_user == current_user.id, ProjectHistory.id == project_state_id).all()
-
-    return render_viewproject(current_user, project, project_state)
+    project = list(get_session().query(Project.id, Project.name, Project.description).filter(
+        Project.id_user == current_user.id, Project.id == project_id).one())
+    if project is None:
+        pass  # TODO error
+    project_histories = list(get_session().query(
+        ProjectHistory.id, ProjectHistory.note).filter(ProjectHistory.id_project == project[0]).order_by(ProjectHistory.id.desc()).all())
+    # Get files
+    project_files = get_session().query(ProjectHistory.id.label("history_id"), ProjectFiles.id, ProjectFiles.path).join(
+        ProjectHistory).filter(ProjectHistory.id_project == project[0]).all()
+    return render_viewproject(current_user, project, project_histories, project_files)
 
 
-@ project_blueprint.route('/addproject', methods=['GET', 'POST'])
-@ login_required
+@project_blueprint.route('/addproject', methods=['GET', 'POST'])
+@login_required
 def addproject():
     '''
     Returns the route for addproject page
@@ -124,7 +117,7 @@ def addproject():
             errors = True
 
         if errors:
-            return redirect("/viewproject")
+            return redirect("/projects")
         # Add new project
         try:
             new_project = Project(id_user=current_user.id,
@@ -174,21 +167,3 @@ def addproject():
 
             get_session().commit()
             return 'General Error', 500
-
-
-@ project_blueprint.route('/viewfile/<file_id>')
-@ login_required
-def filepath(file_id):
-    '''
-    Returns a route for the viewfile page
-
-    @params file_id ID of the file to obtain
-    '''
-
-    if file_id is None:
-        pass  # TODO render custom error page
-    # A user can only see his files.
-    file = get_session().query(ProjectFiles).join(ProjectHistory).join(Project).filter(
-        Project.id_user == current_user.id, ProjectFiles.id == file_id).all()
-
-    return file

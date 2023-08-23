@@ -5,41 +5,37 @@
 {% endblock %}
 
 {% block navbar %}
-    {% include "navbar.html" %}
+{% include "navbar.html" %}
 {% endblock %}
 
 {% block content %}
 
 <div class="col-10 offset-1">
-    <h1>{{ project.name }}</h1>
-    {% if project.description %}
+    <h1>{{ project[1] }}</h1>
+    {% if project[2] %}
     <p class="text-justify">
-        {{ project.description|safe }}
+    {{ project[2]|safe }}
     </p>
     {% endif %}
-
-    <div class="row">
-        <!-- embed html tag --> 
-        <div class="col-7">
-            <!-- Se ho più file, devo poter accedere a tutti, -->
-            <!-- creo una specie di navbar che mi fa scegliere il file -->
-            <div class = "btn-toolbar btn-group rounded-pill" role="toolbar" aria-label="Button group toolbar">
-                <div class="btn-group rounded-pill"> 
-                    <!-- TODO: make button rounded pill -->
-                    {% for file in files %}
-                    <button type="button" class="btn btn-secondary" onclick="getFile('{{ file.id }}')">
-                            {{ loop.index }}
-                        </button>
-                    {% endfor %}
-                </div>
-                <div class="row">
-                    <div id="file" class="d-none">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
-        </div>
+    {% for history in project_histories %}
+    <div class = "row">
+        {% if history.note %}
+        {{ history.note }}
+        {% else %}
+        <p>The reviewer left no notes for this state.</p>
+        {% endif %}
+        <ul>
+            {% if files[history.id] %}
+            {% for file in files[history.id] %}
+            <li>
+                <a href="{{url_for('download', file_id = file.id) }}">File</a>
+            </li>
+            {% endfor %}
+            {% else %}
+            <p> There are no files on this state </p>
+            {% endif %}
+        </ul>
     </div>
+    {% endfor %}
 </div>
 {% endblock %}
