@@ -18,7 +18,7 @@ from ...frontend.src.front_project import render_addproject
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "src"))
 # endregion
 project_blueprint = Blueprint("project", __name__)
-login_manager = LoginManager()
+project_blueprint = Blueprint("project", __name__)
 
 
 # I wanted to import it from home but then flask does not run
@@ -131,6 +131,7 @@ def addproject():
         if errors:
             return redirect("/projects")
         # Add new project
+        # TODO fare diversi try catch e non uno singolo
         try:
             new_project = Project(
                 id_user=current_user.id,
