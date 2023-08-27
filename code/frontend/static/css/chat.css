@@ -68,6 +68,11 @@
     padding: 15px
 }
 
+.messages {
+    overflow-y: scroll !important;
+    height: 10px !important;
+}
+
 .chat-form input,
 textarea,
 button {

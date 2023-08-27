@@ -9,9 +9,18 @@
             <div id="messages">
 
             </div>
-            <input type="hidden" id="id_project" value="{{ project.id }}">
-            <input type="text" maxlength="255" id="message" class="form-control" placeholder="Scrivi qui...">
-            <button id="sendBtn" type="button" class="btn btn-success btn-block">Submit</button>
+            <input type="hidden" id="id_project" value="{{ project[0] }}">
+            <div class="row">
+                <div class="col-10">
+                    <input type="text" maxlength="255" id="message" class="form-control" placeholder="Scrivi qui...">
+                </div>
+                <div class="col-1" style="padding: 0">
+                    <button id="sendBtn" type="button" class="btn btn-success btn-block"><i
+                            class="fa fa-paper-plane"
+                            aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

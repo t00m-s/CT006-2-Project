@@ -1,6 +1,6 @@
 from flask_login import LoginManager, current_user, login_required
 from front_project import *
-from flask import Blueprint, request, jsonify, redirect
+from flask import Blueprint, request, jsonify, redirect, abort
 from sqlalchemy import select
 from ..database.session import get_session
 from ..database.maps.user import User
@@ -110,7 +110,7 @@ def viewproject(project_id):
         .filter(ProjectHistory.id_project == project[0])
         .all()
     )
-    return render_viewproject(current_user, project, project_histories, project_files)
+    return render_viewproject(project, project_histories, project_files)
 
 
 @project_blueprint.route("/addproject", methods=["GET", "POST"])

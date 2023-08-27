@@ -14,8 +14,6 @@ chat_blueprint = Blueprint('chat', __name__)
 @login_required
 def chat(project_id):
     messages = None
-    print("MYYY project_id")
-    print(project_id)
     try:
         project = get_session().query(Project).filter_by(id=project_id).first()
         messages = project.messages

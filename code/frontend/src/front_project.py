@@ -17,7 +17,7 @@ def render_project(user, values):
     return render_with_lib('projects.html', user=user, values=values)
 
 
-def render_viewproject(user, project, project_histories, files):
+def render_viewproject(project, project_histories, files):
     '''
     Renders the viewproject page
 
@@ -30,7 +30,6 @@ def render_viewproject(user, project, project_histories, files):
     custom_js = ['https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js',
                  '/frontend/static/js/chat.js',
                  '/frontend/static/js/project.js']
-    project.description = unescape(project.description)
 
     filtered_project = list(project)
     filtered_project[2] = unescape(filtered_project[2])

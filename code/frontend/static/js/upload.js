@@ -1,13 +1,8 @@
 const descri = tinymce.init({
     selector: "textarea#tiny",
     plugins: [
-        "a11ychecker",
         "advlist",
-        "advcode",
-        "advtable",
         "autolink",
-        "checklist",
-        "export",
         "lists",
         "link",
         "image",
@@ -16,9 +11,7 @@ const descri = tinymce.init({
         "anchor",
         "searchreplace",
         "visualblocks",
-        "powerpaste",
         "fullscreen",
-        "formatpainter",
         "insertdatetime",
         "media",
         "table",
@@ -59,7 +52,7 @@ $(document).ready(function () {
             });
             sono_io.on("successmultiple", function (files, response) {
                 window.location.replace(
-                    "/viewproject/" + response.new_project_id + "/1"
+                    "/viewproject/" + response.new_project_id
                 );
             });
             sono_io.on("errormultiple", function (files, response) {

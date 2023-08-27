@@ -50,7 +50,7 @@
                                     </div>
                                     <div class="col-12">
                                         <select name="type" required id="type">
-                                            <option>Scegli un tipo di progetto</option>
+                                            <option value="">Scegli un tipo di progetto</option>
                                             {% if types |length >0 %}
                                                 {% for  value in types %}
                                                     <option value="{{ value.id }}">{{ value.name }}</option>
