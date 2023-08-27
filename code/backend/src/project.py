@@ -85,18 +85,15 @@ def viewproject(project_id):
     as a parameter
     @params project_id ID of the project
     """
-    project = list(
-        get_session()
-        .query(Project.id, Project.name, Project.description)
-        .filter(Project.id_user == current_user.id, Project.id == project_id)
-        .one()
-    )
+    project = get_session().query(Project.id, Project.name, Project.description).filter(
+        Project.id_user == current_user.id, Project.id == project_id).first()
+
     if project is None:
         pass  # TODO error
     project_histories = list(
         get_session()
         .query(ProjectHistory.id, ProjectHistory.note)
-        .filter(ProjectHistory.id_project == project[0])
+        .filter(ProjectHistory.id_project == project.id)
         .order_by(ProjectHistory.id.desc())
         .all()
     )
@@ -107,7 +104,7 @@ def viewproject(project_id):
             ProjectHistory.id.label("history_id"), ProjectFiles.id, ProjectFiles.path
         )
         .join(ProjectHistory)
-        .filter(ProjectHistory.id_project == project[0])
+        .filter(ProjectHistory.id_project == project.id)
         .all()
     )
     return render_viewproject(project, project_histories, project_files)

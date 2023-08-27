@@ -31,14 +31,14 @@ def render_viewproject(project, project_histories, files):
                  '/frontend/static/js/chat.js',
                  '/frontend/static/js/project.js']
 
-    filtered_project = list(project)
-    filtered_project[2] = unescape(filtered_project[2])
+    # filtered_project = list(project)
+
     from collections import defaultdict
     grouped_files = defaultdict(list)
     for file in files:
         grouped_files[file.history_id].append(file)
 
-    return render_with_lib('viewproject.html', project=filtered_project,
+    return render_with_lib('viewproject.html', project=project,
                            project_histories=project_histories,
                            files=grouped_files, custom_javascript=custom_js, custom_css=css)
 

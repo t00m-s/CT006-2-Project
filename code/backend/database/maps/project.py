@@ -35,6 +35,10 @@ class Project(Base):
     def set_description(self):
         self.description = html.escape(self.description)
 
+    @property
+    def get_description(self):
+        return html.unescape(self.description)
+
 
 User.projects = relationship(Project, back_populates='user')
 Type.projects = Relationship(Project, back_populates='type')
