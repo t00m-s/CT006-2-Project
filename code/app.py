@@ -2,6 +2,7 @@ from flask import *
 from .backend.database.engine import *
 from .backend.database.migration import *
 from flask_login import login_required, current_user
+
 # tra tutti i file che hanno rotte deve essere il primo in quando definisce flas_login
 from .backend.src.home import *
 from .backend.src.login_register import *
@@ -11,55 +12,75 @@ import os
 
 app = Flask(__name__)
 
-app.register_blueprint(index_blueprint, url_prefix='/')
-app.register_blueprint(login_register_blueprint, url_prefix='/')
-app.register_blueprint(home_blueprint, url_prefix='/')
-app.register_blueprint(project_blueprint, url_prefix='/')
+app.register_blueprint(index_blueprint, url_prefix="/")
+app.register_blueprint(login_register_blueprint, url_prefix="/")
+app.register_blueprint(home_blueprint, url_prefix="/")
+app.register_blueprint(project_blueprint, url_prefix="/")
 
 # Secret Key for session management and flash messages
 app.secret_key = os.getenv("SECRET_KEY")
 migrate()  # we want to generate the db table on app load
 
 login_manager.init_app(app)
-login_manager.login_view = 'login_register.login'
+login_manager.login_view = "login_register.login"
 
 
-UPLOAD_FOLDER = os.path.join(app.root_path, 'db_files')
-ALLOWED_EXTENSIONS = {'pdf'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+UPLOAD_FOLDER = os.path.join(app.root_path, "db_files")
+ALLOWED_EXTENSIONS = {"pdf"}
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # 5 Mb as maximum file size
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1000 * 1000
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1000 * 1000
 
 
-@app.route('/favicon.ico')
+@app.route("/favicon.ico")
 def favicon():
-    '''
+    """
     Returns the favicon
-    '''
-    return send_from_directory(os.path.join(app.root_path, 'frontend', 'static', 'img'),
-                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
+    """
+    return send_from_directory(
+        os.path.join(app.root_path, "frontend", "static", "img"),
+        "favicon.ico",
+        mimetype="image/vnd.microsoft.icon",
+    )
 
 
-@app.route('/download/<file_id>')
+@app.route("/download/<file_id>")
 @login_required
 def download(file_id):
     from .backend.database.session import get_session
     from sqlalchemy import select
     from .backend.database.maps import project, project_files, project_history
 
-    file_path = list(get_session().query(ProjectFiles.path, ProjectFiles.id_project_history).filter(
-        ProjectFiles.id == file_id).first())
+    file_path = list(
+        get_session()
+        .query(ProjectFiles.path, ProjectFiles.id_project_history)
+        .filter(ProjectFiles.id == file_id)
+        .first()
+    )
 
     if file_path is None:
         pass  # TODO send error
     # Check if user has permissions to download this file
-    project_id = list(get_session().query(ProjectHistory.id_project).filter(
-        ProjectHistory.id == file_path[1]).first())
-    has_permission = get_session().query(
-        Project).filter(Project.id == project_id[0], Project.id_user == current_user.id).first()
+    project_id = list(
+        get_session()
+        .query(ProjectHistory.id_project)
+        .filter(ProjectHistory.id == file_path[1])
+        .first()
+    )
+    has_permission = (
+        get_session()
+        .query(Project)
+        .filter(Project.id == project_id[0], Project.id_user == current_user.id)
+        .first()
+    )
 
     if has_permission is None:
         pass  # TODO refuse download
     path = str(file_path[0])
     last_backslash = path.rfind("/")
-    return send_from_directory(path[:last_backslash], path[last_backslash + 1:], as_attachment=True, mimetype="application/pdf")
+    return send_from_directory(
+        path[:last_backslash],
+        path[last_backslash + 1 :],
+        as_attachment=True,
+        mimetype="application/pdf",
+    )

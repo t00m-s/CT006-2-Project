@@ -1,6 +1,6 @@
+from flask_login import LoginManager, current_user, login_required
 from front_project import *
 from flask import Blueprint, request, jsonify, redirect
-from flask_login import LoginManager, current_user, login_required
 from sqlalchemy import select
 from ..database.session import get_session
 from ..database.maps.user import User
@@ -18,10 +18,9 @@ from ...frontend.src.front_project import render_addproject
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "src"))
 # endregion
 project_blueprint = Blueprint("project", __name__)
-project_blueprint = Blueprint("project", __name__)
+login_manager = LoginManager()
 
 
-# I wanted to import it from home but then flask does not run
 @login_manager.user_loader
 def user_loader(user_id):
     """
