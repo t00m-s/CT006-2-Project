@@ -28,7 +28,7 @@
                     {% if files[history.id] %}
                         {% for file in files[history.id] %}
                             <li>
-                                <a href="{{ url_for('download', file_id = file.id) }}">File</a>
+                                <a href="{{ url_for('download', file_id = file.id) }}">{{ file.path.split("/") | last }}</a>
                             </li>
                         {% endfor %}
                     {% else %}

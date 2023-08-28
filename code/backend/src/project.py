@@ -1,7 +1,6 @@
 from flask_login import LoginManager, current_user, login_required
 from front_project import *
-from flask import Blueprint, request, jsonify, redirect, abort
-from sqlalchemy import select
+from flask import Blueprint, request, jsonify, redirect, abort, flash
 from ..database.session import get_session
 from ..database.maps.user import User
 from ..database.maps.project import Project
@@ -86,6 +85,10 @@ def viewproject(project_id):
     as a parameter
     @params project_id ID of the project
     """
+    if not project_id.isdigit():
+        flash("You forgot something while creating the project.")
+        return redirect("/projects")
+
     project = (
         get_session()
         .query(Project.id, Project.name, Project.description)
@@ -129,21 +132,23 @@ def addproject():
     if request.method == "GET":
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
+        return str(request.form)
         # Parameters check
-        errors = False
-        if request.form["type"] is None:
+        if not request.form["type"]:
             flash("Did you forget to select a type?")  # TODO NON FUNZIONA
-            errors = True
-
-        if request.form["name"] is None:
-            flash("Did you forget to add a name to the project?")  # TODO NON FUNZIONA
-            errors = True
-        # TODO RENDERE OBBLIGATORIA ANCHE LA DESCRIZIONE
-        if errors:
             return redirect("/projects")
+        if not request.form["name"]:
+            flash("Did you forget to add a name to the project?")  # TODO NON FUNZIONA
+            return redirect("/projects")
+        # TODO RENDERE OBBLIGATORIA ANCHE LA DESCRIZIONE
+        if not request.form["description"]:
+            flash("Did you forget to add a description to the project?")
+        return redirect("/projects")
+
         # Add new project
         # TODO fare diversi try catch e non uno singolo
         try:
+            get_session().begin()
             new_project = Project(
                 id_user=current_user.id,
                 id_type=request.form["type"],
@@ -151,7 +156,12 @@ def addproject():
                 description=request.form["description"],
             )
             get_session().add(new_project)
+        except:
+            get_session().rollback()
+        else:
             get_session().commit()
+
+        try:
             # You have to commit first, then you can access
             # autoincrement parameters
             # Add project history
@@ -172,7 +182,10 @@ def addproject():
             )
             if not os.path.exists(dir_path):
                 os.makedirs(dir_path)
+        except:
+            get_session().rollback()
 
+        try:
             for file in request.files.items():
                 # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
                 file = file[1]
@@ -204,5 +217,5 @@ def addproject():
             # Delete project
             get_session().query(Project).filter_by(id=new_project.id).delete()
 
-            get_session().commit()
+            get_session().commit()  # Delete does not autocommit
             return "General Error", 500
