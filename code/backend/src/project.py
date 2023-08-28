@@ -58,7 +58,8 @@ def projects(project_type=None):
     if project_type is not None:
         types = types.filter(Type.id == project_type)
         projects = projects.filter(Project.id_user == current_user.id).filter(
-            Project.id_type == project_type)
+            Project.id_type == project_type
+        )
 
     types = types.all()
     projects = projects.all()
@@ -85,8 +86,12 @@ def viewproject(project_id):
     as a parameter
     @params project_id ID of the project
     """
-    project = get_session().query(Project.id, Project.name, Project.description).filter(
-        Project.id_user == current_user.id, Project.id == project_id).first()
+    project = (
+        get_session()
+        .query(Project.id, Project.name, Project.description)
+        .filter(Project.id_user == current_user.id, Project.id == project_id)
+        .first()
+    )
 
     if project is None:
         pass  # TODO error
@@ -107,7 +112,12 @@ def viewproject(project_id):
         .filter(ProjectHistory.id_project == project.id)
         .all()
     )
-    return render_viewproject(project, project_histories, project_files)
+    return render_viewproject(
+        current_user,
+        project,
+        project_histories,
+        project_files,
+    )
 
 
 @project_blueprint.route("/addproject", methods=["GET", "POST"])

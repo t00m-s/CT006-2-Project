@@ -14,11 +14,11 @@ import os
 
 app = Flask(__name__)
 
-app.register_blueprint(index_blueprint, url_prefix='/')
-app.register_blueprint(login_register_blueprint, url_prefix='/')
-app.register_blueprint(home_blueprint, url_prefix='/')
-app.register_blueprint(project_blueprint, url_prefix='/')
-app.register_blueprint(chat_blueprint, url_prefix='/')
+app.register_blueprint(index_blueprint, url_prefix="/")
+app.register_blueprint(login_register_blueprint, url_prefix="/")
+app.register_blueprint(home_blueprint, url_prefix="/")
+app.register_blueprint(project_blueprint, url_prefix="/")
+app.register_blueprint(chat_blueprint, url_prefix="/")
 
 # Secret Key for session management and flash messages
 app.secret_key = os.getenv("SECRET_KEY")
@@ -101,34 +101,32 @@ werkzeug.serving.run_with_reloader = werkzeug._reloader.run_with_reloader
 
 from flask_socketio import *
 
-app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
-app.config['SECRET'] = os.getenv("SECRET_KEY")
+app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+app.config["SECRET"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 
-@socketio.on('message')
+@socketio.on("message")
 def handle_message(data):
     from .backend.src.chat import save_message
     from flask_login import current_user
-    chat_value = request.args.get('id_project')
+
+    chat_value = request.args.get("id_project")
 
     # Assegna il client a uno specifico spazio dei nomi (chat)
-    chat_namespace = f'/chat/{chat_value}'
+    chat_namespace = f"/chat/{chat_value}"
     join_room(chat_namespace)
 
-    new_message = {
-        'user_name': current_user.name,
-        'message': data['message']
-    }
-    if 'user has connected!' in data['message']:
+    new_message = {"user_name": current_user.name, "message": data["message"]}
+    if "user has connected!" in data["message"]:
         send(new_message, room=chat_namespace)
     else:
-        save_message(data['message'], current_user.id, data['id_project'])
+        save_message(data["message"], current_user.id, data["id_project"])
         send(new_message, room=chat_namespace)
 
 
 # endregion
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     socketio.run(app, debug=True)
