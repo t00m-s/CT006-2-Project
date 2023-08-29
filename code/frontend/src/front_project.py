@@ -76,14 +76,23 @@ def render_addproject(user, types):
     )
 
 
-def render_view_editable_projects(user, projects_histories):
+def render_view_editable_projects(user, projects, types):
     """
     Renders the vieweditableprojects page
 
     @params user Current user logged in
-    @params projects_histories All available editable project histories
+    @params projects All available editable project histories
+    @params types Types of possible project
     """
-    return render_with_lib("vieweditableprojects.html")
+    from collections import defaultdict
+
+    filtered_projects = defaultdict(list)
+
+    for project in projects:
+        filtered_projects[project.type_name].append(project)
+    return render_with_lib(
+        "vieweditableprojects.html", user=user, projects=filtered_projects, types=types
+    )
 
 
 def render_editproject(user, project):

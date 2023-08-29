@@ -1,1 +1,29 @@
-No files specified
+{% extends "base.html" %}
+{% block title %}
+    <title>View editable projects</title>
+{% endblock %}
+
+{% block navbar %}
+{% include "navbar.html" %}
+{% endblock %}
+
+{% block content %}
+<div class="col-10 offset-1">
+{% for type in types %}
+{% if projects[type.name] %}
+<h1>{{type.name}}</h1>
+{% endif %}
+<div class="row">
+    {% for project in projects[type.name] %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{project.name}}</h5>
+            <p class="card-text">{{project.description|safe}}</p> <!--- TODO: Make it work with get_description -->
+            <a href="{{ url_for('project.editproject', project_id_state=project.id) }}" class="btn btn-primary">Edit this project</a>
+        </div>
+    </div>
+</div>
+    {% endfor %}
+</div>
+{% endfor %}
+{% endblock %}
