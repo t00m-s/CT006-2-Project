@@ -76,7 +76,7 @@ def render_addproject(user, types):
     )
 
 
-def render_view_editable_projects(user, projects, types):
+def render_view_editable_projects(user, projects_h, types):
     """
     Renders the vieweditableprojects page
 
@@ -88,8 +88,8 @@ def render_view_editable_projects(user, projects, types):
 
     filtered_projects = defaultdict(list)
 
-    for project in projects:
-        filtered_projects[project.type_name].append(project)
+    for p in projects_h:
+        filtered_projects[p.project.type.name].append(p.project)
     return render_with_lib(
         "vieweditableprojects.html", user=user, projects=filtered_projects, types=types
     )
