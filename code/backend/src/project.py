@@ -90,37 +90,15 @@ def viewproject(project_id):
         flash("You forgot something while creating the project.")
         return redirect("/projects")
 
-    project = (
-        get_session()
-        .query(Project.id, Project.name, Project.description)
-        .filter(Project.id_user == current_user.id, Project.id == project_id)
-        .first()
-    )
+    project = get_session().query(Project).filter(Project.id_user == current_user.id, Project.id == project_id).first()
 
     if project is None:
-        pass  # TODO error
-    project_histories = list(
-        get_session()
-        .query(ProjectHistory.id, ProjectHistory.note)
-        .filter(ProjectHistory.id_project == project.id)
-        .order_by(ProjectHistory.id.desc())
-        .all()
-    )
-    # Get files
-    project_files = (
-        get_session()
-        .query(
-            ProjectHistory.id.label("history_id"), ProjectFiles.id, ProjectFiles.path
-        )
-        .join(ProjectHistory)
-        .filter(ProjectHistory.id_project == project.id)
-        .all()
-    )
+        flash("Project not found")
+        redirect("/projects")
+
     return render_viewproject(
         current_user,
         project,
-        project_histories,
-        project_files,
     )
 
 

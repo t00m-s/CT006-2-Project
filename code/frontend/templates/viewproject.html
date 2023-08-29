@@ -17,7 +17,7 @@
                 {{ project.get_description|safe }}
             </p>
         {% endif %}
-        {% for history in project_histories %}
+        {% for history in project.histories %}
             <div class="row">
                 {% if history.note %}
                     {{ history.note }}
@@ -25,15 +25,13 @@
                     <p>The reviewer left no notes for this state.</p>
                 {% endif %}
                 <ul>
-                    {% if files[history.id] %}
-                        {% for file in files[history.id] %}
-                            <li>
-                                <a href="{{ url_for('download', file_id = file.id) }}">{{ file.path.split("/") | last }}</a>
-                            </li>
-                        {% endfor %}
+                    {% for file in history.files %}
+                        <li>
+                            <a href="{{ url_for('download', file_id = file.id) }}">{{ file.path.split("/") | last }}</a>
+                        </li>
+                    {% endfor %}
                     {% else %}
-                        <p> There are no files on this state </p>
-                    {% endif %}
+                    <p> There are no files on this state </p>
                 </ul>
             </div>
         {% endfor %}
