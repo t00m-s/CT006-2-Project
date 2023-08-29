@@ -76,9 +76,21 @@ def render_addproject(user, types):
     )
 
 
-def render_view_editable_projects(user, projects):
-    pass
+def render_view_editable_projects(user, projects_histories):
+    """
+    Renders the vieweditableprojects page
+
+    @params user Current user logged in
+    @params projects_histories All available editable project histories
+    """
+    return render_with_lib("vieweditableprojects.html")
 
 
 def render_editproject(user, project):
-    pass
+    """
+    Renders the editproject page
+
+    @params user Current user logged in
+    @params project Project that will be reviewed
+    """
+    return render_with_lib("editproject.html")
