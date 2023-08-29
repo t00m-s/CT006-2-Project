@@ -13,7 +13,7 @@ $(document).ready(function () {
         }
     });
 
-
+    
     const socket = io.connect('http://localhost:5001', {query: 'id_project=' + id_project});
 
     socket.on('connect', function () {

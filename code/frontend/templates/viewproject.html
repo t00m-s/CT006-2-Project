@@ -13,28 +13,39 @@
     <div class="col-10 offset-1">
         <h1>{{ project.name }}</h1>
         {% if project.description %}
-            <p class="text-justify">
+            <h3>
                 {{ project.get_description|safe }}
-            </p>
+            </h3>
         {% endif %}
-        {% for history in project.histories %}
-            <div class="row">
-                {% if history.note %}
-                    {{ history.note }}
-                {% else %}
-                    <p>The reviewer left no notes for this state.</p>
-                {% endif %}
-                <ul>
-                    {% for file in history.files %}
-                        <li>
-                            <a href="{{ url_for('download', file_id = file.id) }}">{{ file.path.split("/") | last }}</a>
-                        </li>
-                    {% endfor %}
+        {% if project.histories|length >0 %} <!-- ciclo tutte hisotry di questo progetto-->
+            {% for history in project.histories %}
+                <div class="row mt-5">
+                    {{ history.state.name }}
+                    {% if history.note %}
+                        {{ history.note }}
                     {% else %}
-                    <p> There are no files on this state </p>
-                </ul>
-            </div>
-        {% endfor %}
+                        <p>The reviewer left no notes for this state.</p>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    FILES
+                    <ul>
+                        {% if history.files|length >0 %}
+                            {% for file in history.files %} <!-- ciclo i file per quella hisotry -->
+                                <li>
+                                    <a href="{{ url_for('download', file_id = file.id) }}">{{ file.path.split("/") | last }}</a>
+                                </li>
+                            {% endfor %}
+                        {% else %}
+                            <p> There are no files on this state </p>
+                        {% endif %}
+                    </ul>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p> There are no history for this project </p>
+        {% endif %}
+
     </div>
     {% include "chat.html" %}
 
