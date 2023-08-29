@@ -235,8 +235,22 @@ def view_editable_projects():
         flash("You do not have privileges to view this page.")
         return redirect("/projects")
 
-    projects_histories = None
-    return render_view_editable_projects(current_user, projects_histories)
+    projects = (
+        get_session()
+        .query(
+            ProjectHistory.id,
+            Project.name,
+            Type.name.label("type_name"),
+            Project.description,
+        )
+        .join(Project, Project.id == ProjectHistory.id_project)
+        .join(Type, Project.id_type == Type.id)
+        .filter(ProjectHistory.id_user_reviewer.is_(None))
+        .all()
+    )
+    types = get_session().query(Type.name).all()
+
+    return render_view_editable_projects(current_user, projects, types)
 
 
 @project_blueprint.route("/editproject/<project_id_state>", methods=["GET", "POST"])
