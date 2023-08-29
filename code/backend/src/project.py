@@ -222,12 +222,17 @@ def addproject():
             return "General Error", 500
 
 
-@project_blueprint.route("/editproject", methods=["GET"])
-@project_blueprint.route("/editproject/<project_id>", methods=["GET", "POST"])
+@project_blueprint.route("/vieweditableprojects", methods=["GET"])
+def view_editable_projects():
+    pass
+
+
+@project_blueprint.route("/editproject/<project_id_state>", methods=["GET", "POST"])
 @login_required
-def editproject(project_id=None):
-    if project_id is None or not project_id.isdigit():
-        pass  # TODO RENDER PROJECT HISTORY LIST PAGE
+def editproject(project_id_state):
+    if not project_id_state.isdigit():
+        pass
+
     # Check if current user can review
     can_review = (
         get_session()
@@ -238,6 +243,13 @@ def editproject(project_id=None):
     if not can_review:
         flash("You do not have privileges to view this page.")
         return redirect("/projects")
+
+    if request.method == "GET":
+        reviewable_project = (
+            get_session()
+            .query(ProjectHistory)
+            .filter(ProjectHistory.id == project_id_state)
+            .one()
+        )
     else:
-        flash("You do have privileges")
-        return redirect("/projects")
+        pass

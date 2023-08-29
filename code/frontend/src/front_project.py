@@ -74,3 +74,11 @@ def render_addproject(user, types):
         custom_javascript=custom_javascript,
         custom_css=custom_css,
     )
+
+
+def render_view_editable_projects(user, projects):
+    pass
+
+
+def render_editproject(user, project):
+    pass
