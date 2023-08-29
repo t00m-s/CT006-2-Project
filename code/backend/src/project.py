@@ -8,6 +8,7 @@ from ..database.maps.type import Type
 from ..database.maps.project_files import ProjectFiles
 from ..database.maps.project_history import ProjectHistory
 from ..database.maps.state import State
+from ..database.maps.role import Role
 import sys
 import os
 
@@ -219,3 +220,24 @@ def addproject():
 
             get_session().commit()  # Delete does not autocommit
             return "General Error", 500
+
+
+@project_blueprint.route("/editproject", methods=["GET"])
+@project_blueprint.route("/editproject/<project_id>", methods=["GET", "POST"])
+@login_required
+def editproject(project_id=None):
+    if project_id is None or not project_id.isdigit():
+        pass  # TODO RENDER PROJECT HISTORY LIST PAGE
+    # Check if current user can review
+    can_review = (
+        get_session()
+        .query(Role.id)
+        .filter(Role.id == current_user.id_role, Role.is_reviewer.is_(True))
+        .one()
+    )
+    if not can_review:
+        flash("You do not have privileges to view this page.")
+        return redirect("/projects")
+    else:
+        flash("You do have privileges")
+        return redirect("/projects")
