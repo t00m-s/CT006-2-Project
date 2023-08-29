@@ -26,11 +26,20 @@ $(document).ready(function () {
     });
 
     $('#sendBtn').on('click', function () {
+        mandaMessaggio();
+    });
+    $('#message').on('keypress', function (e) {
+        if (e.which === 13) {
+            mandaMessaggio();
+        }
+    });
+
+    function mandaMessaggio() {
         let msg = $('#message');
         socket.send({message: msg.val(), id_project: id_project});
         msg.val('');
-    });
 
+    }
 });
 
 
