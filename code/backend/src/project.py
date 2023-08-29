@@ -224,7 +224,19 @@ def addproject():
 
 @project_blueprint.route("/vieweditableprojects", methods=["GET"])
 def view_editable_projects():
-    pass
+    # Check if current user can review
+    can_review = (
+        get_session()
+        .query(Role.id)
+        .filter(Role.id == current_user.id_role, Role.is_reviewer.is_(True))
+        .one()
+    )
+    if not can_review:
+        flash("You do not have privileges to view this page.")
+        return redirect("/projects")
+
+    projects_histories = None
+    return render_view_editable_projects(current_user, projects_histories)
 
 
 @project_blueprint.route("/editproject/<project_id_state>", methods=["GET", "POST"])
@@ -251,5 +263,6 @@ def editproject(project_id_state):
             .filter(ProjectHistory.id == project_id_state)
             .one()
         )
+
     else:
         pass
