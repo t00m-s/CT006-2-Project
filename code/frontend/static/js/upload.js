@@ -46,15 +46,15 @@ $(document).ready(function () {
         tinymce.get("tiny").save();
         sono_io.processQueue();
       });
-      sono_io.on("sendingmultiple", function () {
-        // Gets triggered when the form is actually being sent.
-        // Hide the success button or the complete form.
-      });
+      // sono_io.on("sendingmultiple", function () {
+      //   // Gets triggered when the form is actually being sent.
+      //   // Hide the success button or the complete form.
+      // });
       sono_io.on("successmultiple", function (files, response) {
         window.location.replace("/viewproject/" + response.new_project_id);
       });
       sono_io.on("errormultiple", function (files, response) {
-        alert(response);
+        window.location.replace("/addproject");
       });
       sono_io.on("addedfile", (file) => {
         cardDropdownOpen();
