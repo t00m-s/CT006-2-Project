@@ -90,7 +90,12 @@ def viewproject(project_id):
         flash("You forgot something while creating the project.")
         return redirect("/projects")
 
-    project = get_session().query(Project).filter(Project.id_user == current_user.id, Project.id == project_id).first()
+    project = (
+        get_session()
+        .query(Project)
+        .filter(Project.id_user == current_user.id, Project.id == project_id)
+        .first()
+    )
 
     if project is None:
         flash("Project not found")
@@ -111,21 +116,6 @@ def addproject():
     if request.method == "GET":
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
-        return str(request.form)
-        # Parameters check
-        if not request.form["type"]:
-            flash("Did you forget to select a type?")  # TODO NON FUNZIONA
-            return redirect("/projects")
-        if not request.form["name"]:
-            flash("Did you forget to add a name to the project?")  # TODO NON FUNZIONA
-            return redirect("/projects")
-        # TODO RENDERE OBBLIGATORIA ANCHE LA DESCRIZIONE
-        if not request.form["description"]:
-            flash("Did you forget to add a description to the project?")
-        return redirect("/projects")
-
-        # Add new project
-        # TODO fare diversi try catch e non uno singolo
         try:
             get_session().begin()
             new_project = Project(
@@ -135,10 +125,16 @@ def addproject():
                 description=request.form["description"],
             )
             get_session().add(new_project)
+            get_session().commit()
         except:
             get_session().rollback()
-        else:
-            get_session().commit()
+            if not request.form["type"]:
+                flash("Did you forget to select a type?")  # TODO NON FUNZIONA
+            if not request.form["name"]:
+                flash("Did you forget to add a name to the project?")
+            if not request.form["description"]:
+                flash("Did you forget to add a description to the project?")
+            return "Parameters error", 500
 
         try:
             # You have to commit first, then you can access
@@ -207,7 +203,12 @@ def view_editable_projects():
         flash("You do not have privileges to view this page.")
         return redirect("/projects")
 
-    projects = get_session().query(ProjectHistory).filter(ProjectHistory.id_user_reviewer.is_(None)).all()
+    projects = (
+        get_session()
+        .query(ProjectHistory)
+        .filter(ProjectHistory.id_user_reviewer.is_(None))
+        .all()
+    )
 
     types = get_session().query(Type.name).all()
 
