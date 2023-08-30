@@ -206,11 +206,30 @@ def view_editable_projects():
     if not current_user.role.is_reviewer:
         flash("You do not have privileges to view this page.")
         return redirect("/projects")
+    # select * from project_history
+    # where id in (max_id)
+    #           and id_state in (reviewable_states)
+    from sqlalchemy.sql.expression import func
 
+    sub_project_id_cur_user = (
+        get_session().query(Project.id).filter(Project.id_user == current_user.id)
+    )
+
+    max_id = (
+        get_session()
+        .query(func.max(ProjectHistory.id))
+        .filter(ProjectHistory.id_project.notin_(sub_project_id_cur_user))
+        .group_by(ProjectHistory.id_project)
+    )
+
+    reviewable_states = get_session().query(State.id).filter(State.is_closed.is_(False))
     projects = (
         get_session()
         .query(ProjectHistory)
-        .filter(ProjectHistory.id_user_reviewer.is_(None))
+        .filter(
+            ProjectHistory.id.in_(max_id),
+            ProjectHistory.id_state.in_(reviewable_states),
+        )
         .all()
     )
 
