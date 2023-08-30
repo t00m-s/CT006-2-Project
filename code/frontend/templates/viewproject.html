@@ -18,14 +18,19 @@
                     </button>
                 </a>
             </div>
-            <div class="col-10"></div>
+            <div class="col-8"></div>
+            <div class="col-2">
+                {% if current_user.isReviewer() and project.id_user!=current_user.id %}
+                    <button type="button" class="btn btn-primary btn-form pt-0 pb-0">
+                        Submit a review <!-- TODO PENSARE A COME FARE LE REVIEW -->
+                    </button>
+                {% endif %}
+            </div>
         </div>
         <div class="row">
             <h5> Titolo: </h5>
             <h1 style="color:#0f0f0f;">{{ project.name }}</h1>
-
             <hr>
-
             <h5> Descrizione: </h5>
             {% if project.description %}
                 <h6 style="color:#0f0f0f;">

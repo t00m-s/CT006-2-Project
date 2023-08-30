@@ -67,6 +67,9 @@ class User(Base):
         """
         return self.is_authenticated
 
+    def isReviewer(self):
+        return self.role.is_reviewer
+
     # endregion
 
     # region setter

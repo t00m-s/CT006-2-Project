@@ -93,7 +93,7 @@ def viewproject(project_id):
     project = (
         get_session()
         .query(Project)
-        .filter(Project.id_user == current_user.id, Project.id == project_id)
+        .filter(Project.id == project_id)
         .first()
     )
 
