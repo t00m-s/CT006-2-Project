@@ -116,6 +116,15 @@ def addproject():
     if request.method == "GET":
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
+        if not request.form["name"] or request.form["name"] == '' or request.form["name"] is None:
+            flash("Did you forget to add a name to the project?")
+            return "Parameters error", 500
+        if not request.form["description"] or request.form["name"] == '' or request.form["name"] is None:
+            flash("Did you forget to add a description to the project?")
+            return "Parameters error", 500
+        if not request.form["type"] or request.form["type"] == '' or request.form["type"] is None:
+            flash("Did you forget to select a type?")
+
         try:
             get_session().begin()
             new_project = Project(
@@ -128,12 +137,7 @@ def addproject():
             get_session().commit()
         except:
             get_session().rollback()
-            if not request.form["type"]:
-                flash("Did you forget to select a type?")  # TODO NON FUNZIONA
-            if not request.form["name"]:
-                flash("Did you forget to add a name to the project?")
-            if not request.form["description"]:
-                flash("Did you forget to add a description to the project?")
+            flash("General error")
             return "Parameters error", 500
 
         try:
