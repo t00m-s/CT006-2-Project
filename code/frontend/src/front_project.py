@@ -4,6 +4,16 @@ from utility import render_with_lib
 
 project_blueprint = Blueprint("project", __name__, template_folder="../templates")
 
+custom_javascript_edit_add = [
+    "https://unpkg.com/dropzone@5/dist/min/dropzone.min.js",
+    "https://cdn.tiny.cloud/1/cp187ge3odryin5mbbhjjq6vwjr3snwgc8zgakf0oql3z1yl/tinymce/6/tinymce.min.js",
+    "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js",
+    "/frontend/static/js/upload.js"]
+custom_css_edit_add = [
+    "https://unpkg.com/dropzone@5/dist/min/dropzone.min.css",
+    "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css",
+    "/frontend/static/css/upload.css"]
+
 
 def render_project(user, values):
     """
@@ -46,24 +56,13 @@ def render_addproject(user, types):
     @params user Current user logged in
     @params types Types of possible project
     """
-    custom_javascript = [
-        "https://unpkg.com/dropzone@5/dist/min/dropzone.min.js",
-        "https://cdn.tiny.cloud/1/cp187ge3odryin5mbbhjjq6vwjr3snwgc8zgakf0oql3z1yl/tinymce/6/tinymce.min.js",
-        "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js",
-        "/frontend/static/js/upload.js",
-    ]
-    custom_css = [
-        "https://unpkg.com/dropzone@5/dist/min/dropzone.min.css",
-        "https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css",
-        "/frontend/static/css/upload.css",
-    ]
-
     return render_with_lib(
         "addproject.html",
         user=user,
         types=types,
-        custom_javascript=custom_javascript,
-        custom_css=custom_css,
+        is_add=True,
+        custom_javascript=custom_javascript_edit_add,
+        custom_css=custom_css_edit_add,
     )
 
 
@@ -86,11 +85,20 @@ def render_view_editable_projects(user, projects_h, types):
     )
 
 
-def render_editproject(user, project):
+def render_editproject(user, project, states):
     """
     Renders the editproject page
 
     @params user Current user logged in
     @params project Project that will be reviewed
     """
-    return render_with_lib("editproject.html")
+
+    return render_with_lib("addproject.html",
+                           user=user,
+                           project=project,
+                           is_add=False,
+                           action='editproject',
+                           states=states,
+                           custom_javascript=custom_javascript_edit_add,
+                           custom_css=custom_css_edit_add,
+                           )

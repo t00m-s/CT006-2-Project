@@ -12,7 +12,7 @@ from ..database.maps.role import Role
 import sys
 import os
 
-from ...frontend.src.front_project import render_addproject
+from ...frontend.src.front_project import render_addproject, render_editproject
 
 # Region per importare file distanti
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "src"))
@@ -246,8 +246,13 @@ def view_editable_projects():
 def editproject(project_id):
     if not project_id.isdigit():
         flash('Error while getting the project')
-        return redirect("/projects")
-
+        return redirect("/vieweditableprojects")
+    try:
+        project = get_session().query(Project).filter(Project.id == project_id).first()
+        states = get_session().query(State).all()
+    except:
+        flash('Error while getting the project or states from the db')
+        return redirect("/vieweditableprojects")
     # Check if current user can review
 
     if not current_user.isReviewer():
@@ -255,12 +260,7 @@ def editproject(project_id):
         return redirect("/projects")
 
     if request.method == "GET":
-        reviewable_project = (
-            get_session()
-            .query(ProjectHistory)
-            .filter(ProjectHistory.id == project_id_state)
-            .one()
-        )
+        return render_editproject(current_user, project, states)
 
     else:
         pass
