@@ -28,7 +28,7 @@ class ProjectHistory(Base):
         return f"<ProjectHistory(id={self.id}, id_project={self.id_project}, id_state={self.id_state}, created_at={self.created_at})>"
 
 
-Project.histories = relationship(ProjectHistory, back_populates='project')
+Project.histories = relationship(ProjectHistory, back_populates='project', order_by=ProjectHistory.id.desc())
 User.reviewed_histories = relationship(
     ProjectHistory, back_populates='reviewer')
 State.attributed_histories = relationship(

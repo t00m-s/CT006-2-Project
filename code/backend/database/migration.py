@@ -93,7 +93,7 @@ def migrate():
                 IF NEW.id_user_reviewer NOT IN
                 (SELECT u.id
                 FROM users u JOIN roles r ON u.id_role=r.id
-                WHERE r.is_reviewer AND u.id=NEW.id_user) THEN
+                WHERE r.is_reviewer AND u.id=NEW.id_user_reviewer) THEN
                     RETURN NULL;
                 END IF;
             END IF;
