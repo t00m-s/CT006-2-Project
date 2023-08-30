@@ -145,8 +145,11 @@ def addproject():
             # autoincrement parameters
             # Add project history
             # 3 = Submitted for Evaluation
+            note = None
+            if request.form["note"] is not None and request.form["note"] != '':
+                note = request.form["note"]
             new_project_history = ProjectHistory(
-                id_project=new_project.id, id_state=State.getSubmittedID()
+                id_project=new_project.id, id_state=State.getSubmittedID(), note=note
             )
 
             get_session().add(new_project_history)
@@ -238,20 +241,16 @@ def view_editable_projects():
     return render_view_editable_projects(current_user, projects, types)
 
 
-@project_blueprint.route("/editproject/<project_id_state>", methods=["GET", "POST"])
+@project_blueprint.route("/editproject/<project_id>", methods=["GET", "POST"])
 @login_required
-def editproject(project_id_state):
-    if not project_id_state.isdigit():
-        pass
+def editproject(project_id):
+    if not project_id.isdigit():
+        flash('Error while getting the project')
+        return redirect("/projects")
 
     # Check if current user can review
-    can_review = (
-        get_session()
-        .query(Role.id)
-        .filter(Role.id == current_user.id_role, Role.is_reviewer.is_(True))
-        .one()
-    )
-    if not can_review:
+
+    if not current_user.isReviewer():
         flash("You do not have privileges to view this page.")
         return redirect("/projects")
 

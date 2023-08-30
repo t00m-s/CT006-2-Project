@@ -21,9 +21,10 @@
             <div class="col-8"></div>
             <div class="col-2">
                 {% if current_user.isReviewer() and project.id_user!=current_user.id %}
-                    <button type="button" class="btn btn-primary btn-form pt-0 pb-0">
-                        Submit a review <!-- TODO PENSARE A COME FARE LE REVIEW -->
-                    </button>
+                    <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}" type="button"
+                       class="btn btn-primary btn-form pt-0 pb-0">
+                        Submit a review
+                    </a>
                 {% endif %}
             </div>
         </div>
