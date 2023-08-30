@@ -29,6 +29,14 @@ class Project(Base):
     def getTypes(self):
         return get_session().query(Type).join(Project).filter(Project.id == self.id)
 
+    def getLastHistory(self):
+        from .project_history import ProjectHistory
+        pjh_id = get_session().query(func.max(ProjectHistory.id)).filter(ProjectHistory.id_project == self.id)
+        return get_session().query(ProjectHistory).filter(ProjectHistory.id == pjh_id).first()
+
+    def isClosed(self):
+        return self.getLastHistory().isClosed()
+
     def set_description(self):
         self.description = html.escape(self.description)
 

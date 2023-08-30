@@ -249,18 +249,26 @@ def editproject(project_id):
         return redirect("/vieweditableprojects")
     try:
         project = get_session().query(Project).filter(Project.id == project_id).first()
-        states = get_session().query(State).all()
+        if project.isClosed():
+            flash('You can not review a closed project')
+            return redirect("/vieweditableprojects")
+
+        states = get_session().query(State)
+        if project.id_user == current_user.id:
+            states = states.filter(State.id == 2)  # we  want that a normal user can only submit
+        states = states.all()
     except:
         flash('Error while getting the project or states from the db')
         return redirect("/vieweditableprojects")
     # Check if current user can review
 
-    if not current_user.isReviewer():
+    if not current_user.isReviewer() and project.id_user != current_user.id:
         flash("You do not have privileges to view this page.")
         return redirect("/projects")
 
     if request.method == "GET":
         return render_editproject(current_user, project, states)
 
-    else:
+    elif request.method == "POST":
+        # TODO CONSIGLIO DI RICLARE LE COSE FATTE IN ADDPROJECT (ovviamente con del criterio logico, magari creando delle funzioni da riclilare al posto del brutto copia e incolla)
         pass

@@ -20,7 +20,8 @@
             </div>
             <div class="col-8"></div>
             <div class="col-2">
-                {% if current_user.isReviewer() and project.id_user!=current_user.id %}
+                {% if not project.isClosed() %}
+
                     <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}" type="button"
                        class="btn btn-primary btn-form pt-0 pb-0">
                         Submit a review

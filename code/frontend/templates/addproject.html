@@ -92,13 +92,14 @@
                                     <div class="row custom_row">
                                         <div class="col-12">
                                             <h6>
-                                                <label for="state">
+                                                <label for="type">
                                                     Stato:
                                                 </label>
                                             </h6>
                                         </div>
                                         <div class="col-12">
-                                            <select name="state" required id="state">
+                                            <select name="state" required id="type">
+                                                <!-- lasciare id type per far funzionare la select2-->
                                                 <option value="">Scegli uno stato di revisione</option>
                                                 {% if states |length >0 %}
                                                     {% for  value in states %}

@@ -27,6 +27,9 @@ class ProjectHistory(Base):
     def __repr__(self):
         return f"<ProjectHistory(id={self.id}, id_project={self.id_project}, id_state={self.id_state}, created_at={self.created_at})>"
 
+    def isClosed(self):
+        return self.state.is_closed
+
 
 Project.histories = relationship(ProjectHistory, back_populates='project', order_by=ProjectHistory.id.desc())
 User.reviewed_histories = relationship(
