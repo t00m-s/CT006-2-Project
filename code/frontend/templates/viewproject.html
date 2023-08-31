@@ -44,11 +44,36 @@
 
             <h5>Stati del progetto: </h5>
 
-
-            <div class="accordion" id="accordionExample">
+            <div class="card" id="collapse">
                 {% if project.histories|length >0 %} <!-- ciclo tutte hisotry di questo progetto-->
                     {% for history in project.histories %}
-                        <div class="accordion-item">
+                    <div class="row mt-3 mb-2">
+                        <div class="col-2"></div>
+                        <div class="col-8">
+                            <div class="text-center">
+                                <h3 style="color:#888DA8">
+
+                                    {% if history.state.name == "Approved" %}
+                                        {{ history.state.name }} <i style="color:lawngreen" class="bi bi-check-circle-fill"></i>
+                                    {% elif history.state.name == "Submitted"%}
+                                        {{ history.state.name }} <i style="color:#13b4ef" class="bi bi-hourglass-split"></i>
+                                    {% elif history.state.name == "Requires Changes" %}
+                                        {{ history.state.name }} <i style="color:yellow" class="bi bi-exclamation-diamond-fill"></i>
+                                    {% elif history.state.name == "Not Approved" %}
+                                        {{ history.state.name }} <i style="color:red" class="bi bi-exclamation-diamond-fill"></i>
+                                    {% endif %}
+                                </h3>
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="text-end" id="upDown">
+                                <h3 style="color:#888DA8"> <i class="bi bi-chevron-down"></i> </h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- <div class="accordion-item">
                             <h2 class="accordion-header" id="heading_{{ history.id }}">
                                 <button class="accordion-button" type="button" data-bs-toggle="collapse"
                                         data-bs-target="#collapse_{{ history.id }}" aria-expanded="true"
@@ -83,7 +108,6 @@
                                                 <ul>
                                                     {% if history.files|length >0 %}
                                                         {% for file in history.files %}
-                                                            <!-- ciclo i file per quella hisotry -->
                                                             <li>
                                                                 <a href="{{ url_for('download', file_id = file.id) }}">{{ file.path.split("/") | last }}</a>
                                                             </li>
@@ -97,7 +121,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     {% endfor %}
                     </div>
                 {% else %}
