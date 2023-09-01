@@ -41,7 +41,7 @@
                                         <input class="form-control"
                                                 {{ 'readonly' if not is_add }}
                                                required type="text"
-                                                {{ 'name="name"' if is_add }} id="name"
+                                                {{ 'name=name' if is_add }} id="name"
                                                 {{ 'value='+project.name if not is_add }}
                                                maxlength="255"/>
                                     </div>
@@ -68,7 +68,7 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <select name="type" required id="type">
+                                            <select name="type" class="select_project" required id="type">
                                                 <option value="">Scegli un tipo di progetto</option>
                                                 {% if types |length >0 %}
                                                     {% for  value in types %}
@@ -92,14 +92,14 @@
                                     <div class="row custom_row">
                                         <div class="col-12">
                                             <h6>
-                                                <label for="type">
+                                                <label for="state">
                                                     Stato:
                                                 </label>
                                             </h6>
                                         </div>
                                         <div class="col-12">
-                                            <select name="state" required id="type">
-                                                <!-- lasciare id type per far funzionare la select2-->
+                                            <select name="state" class="select_project" required id="state">
+
                                                 <option value="">Scegli uno stato di revisione</option>
                                                 {% if states |length >0 %}
                                                     {% for  value in states %}

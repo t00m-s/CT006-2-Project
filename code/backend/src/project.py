@@ -1,6 +1,8 @@
 from flask_login import LoginManager, current_user, login_required
 from front_project import *
 from flask import Blueprint, request, jsonify, redirect, abort, flash
+from pip._vendor.requests.compat import str
+
 from ..database.session import get_session
 from ..database.maps.user import User
 from ..database.maps.project import Project
@@ -116,16 +118,15 @@ def addproject():
     if request.method == "GET":
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
-        if not request.form["name"] or request.form["name"] == '' or request.form["name"] is None:
-            flash("Did you forget to add a name to the project?")
-            return "Parameters error", 500
-        if not request.form["description"] or request.form["name"] == '' or request.form["name"] is None:
-            flash("Did you forget to add a description to the project?")
-            return "Parameters error", 500
-        if not request.form["type"] or request.form["type"] == '' or request.form["type"] is None:
-            flash("Did you forget to select a type?")
-
         try:
+            if not request.form["name"] or request.form["name"] == '' or request.form["name"] is None:
+                flash("Did you forget to add a name to the project?")
+                return "Parameters error", 500
+            if not request.form["description"] or request.form["name"] == '' or request.form["name"] is None:
+                flash("Did you forget to add a description to the project?")
+                return "Parameters error", 500
+            if not request.form["type"] or request.form["type"] == '' or request.form["type"] is None:
+                flash("Did you forget to select a type?")
             get_session().begin()
             new_project = Project(
                 id_user=current_user.id,
