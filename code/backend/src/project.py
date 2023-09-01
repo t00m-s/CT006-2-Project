@@ -166,6 +166,15 @@ def addproject():
                 os.makedirs(dir_path)
         except:
             get_session().rollback()
+            import shutil
+
+            shutil.rmtree(
+                os.path.join(
+                    os.getcwd(), "db_files", str(current_user.id), str(new_project.id)
+                )
+            )
+            flash("Error while creating history")
+            return "General Error", 500
 
         try:
             for file in request.files.items():
