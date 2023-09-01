@@ -60,8 +60,6 @@ $(document).ready(function () {
                     window.location.replace("/viewproject/" + response.new_project_id);
                 });
                 sono_io.on("errormultiple", function (files, response) {
-                    console.log(response);
-                    return false;
                     window.location.reload();
                 });
                 sono_io.on("addedfile", (file) => {
