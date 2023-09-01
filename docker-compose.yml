@@ -28,6 +28,8 @@ services:
     command: bash -c "flask run --host=0.0.0.0"
     networks:
       - custom_connection
+    depends_on:
+      - db
 
 networks:
   custom_connection:
