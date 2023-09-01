@@ -18,7 +18,8 @@
                             <h2 style="color: #24292e">{{ 'Nuovo' if is_add else 'Revisiona' }} Progetto</h2>
                         </div>
                     </div>
-                    <form method="POST" class="dropzone" action="/{{ 'addproject' if is_add else 'editproject' }}"
+                    <form method="POST" class="dropzone"
+                          action="{{ 'addproject' if is_add else 'editproject/'+project.id|string }}"
                           id="form_upload"
                           enctype="multipart/form-data">
                         <div class="previews text-center">

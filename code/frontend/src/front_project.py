@@ -57,7 +57,7 @@ def render_addproject(user, types):
     @params types Types of possible project
     """
     return render_with_lib(
-        "addproject.html",
+        "add-editproject.html",
         user=user,
         types=types,
         is_add=True,
@@ -93,7 +93,7 @@ def render_editproject(user, project, states):
     @params project Project that will be reviewed
     """
 
-    return render_with_lib("addproject.html",
+    return render_with_lib("add-editproject.html",
                            user=user,
                            project=project,
                            is_add=False,

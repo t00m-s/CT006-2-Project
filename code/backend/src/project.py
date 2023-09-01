@@ -109,6 +109,67 @@ def viewproject(project_id):
     )
 
 
+def createProjectHistory(request, project, id_state=None):
+    # You have to commit first, then you can access
+    # autoincrement parameters
+    # Add project history
+    note = None
+    if id_state is None:  # 3 = Submitted for Evaluation
+        id_state = State.getSubmittedID()
+    if request.form["note"] is not None and request.form["note"] != '':
+        note = request.form["note"]
+    new_project_history = ProjectHistory(
+        id_project=project.id, id_state=id_state, note=note, id_user_reviewer=current_user.id
+        # TODO UN BEL TRIGGER CHE CONTROLLA CHE LE HISTORY CON STATO SUBMIT POSSANO ESSERE AGGIUNTE SOLO DALL AUTORE DEL PROGETTO
+    )
+
+    get_session().add(new_project_history)
+    get_session().commit()
+    return new_project_history
+
+
+def makeHistoryFilePath(project, project_history):
+    import shutil
+    dir_path = os.path.join(
+        os.getcwd(),
+        "db_files",
+        str(current_user.id),
+        str(project.id),
+        str(project_history.id),
+    )
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    return dir_path
+
+
+def placeFileInDirectory(request, dir_path, project_history):
+    for file in request.files.items():
+        # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
+        file = file[1]
+        # TODO CONTROLLARE IL MIME TYPE in file.content_type
+        file_path = os.path.join(dir_path, file.filename)
+        file.save(file_path)
+        get_session().add(
+            ProjectFiles(
+                path=file_path, id_project_history=project_history.id
+            )
+        )
+    get_session().commit()
+
+
+def rollBackProjectHistory(path_to_rm, project_history):
+    # Delete directories and files
+    import shutil
+    shutil.rmtree(path_to_rm)
+    # Delete project_files commit
+    get_session().rollback()
+    # Delete project_history
+    get_session().query(ProjectHistory).filter_by(
+        id=project_history.id
+    ).delete()
+    get_session().commit()
+
+
 @project_blueprint.route("/addproject", methods=["GET", "POST"])
 @login_required
 def addproject():
@@ -140,76 +201,24 @@ def addproject():
             get_session().rollback()
             flash("General error")
             return "Parameters error", 500
-
+        new_project_history = None
         try:
-            # You have to commit first, then you can access
-            # autoincrement parameters
-            # Add project history
-            # 3 = Submitted for Evaluation
-            note = None
-            if request.form["note"] is not None and request.form["note"] != '':
-                note = request.form["note"]
-            new_project_history = ProjectHistory(
-                id_project=new_project.id, id_state=State.getSubmittedID(), note=note
-            )
-
-            get_session().add(new_project_history)
-            get_session().commit()
-            # Add project files
-            dir_path = os.path.join(
-                os.getcwd(),
-                "db_files",
-                str(current_user.id),
-                str(new_project.id),
-                str(new_project_history.id),
-            )
-            if not os.path.exists(dir_path):
-                os.makedirs(dir_path)
-        except:
-            get_session().rollback()
-            import shutil
-
-            shutil.rmtree(
-                os.path.join(
-                    os.getcwd(), "db_files", str(current_user.id), str(new_project.id)
-                )
-            )
-            flash("Error while creating history")
-            return "General Error", 500
-
-        try:
-            for file in request.files.items():
-                # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
-                file = file[1]
-                # TODO CONTROLLARE IL MIME TYPE in file.content_type
-                file_path = os.path.join(dir_path, file.filename)
-                file.save(file_path)
-                get_session().add(
-                    ProjectFiles(
-                        path=file_path, id_project_history=new_project_history.id
-                    )
-                )
-            get_session().commit()
+            new_project_history = createProjectHistory(request, new_project)
+            dir_path = makeHistoryFilePath(new_project, new_project_history)  # Add project files
+            placeFileInDirectory(request, dir_path, new_project_history)
             return jsonify({"new_project_id": new_project.id})
         except:
-            # Delete directories and files
-            import shutil
-
-            shutil.rmtree(
-                os.path.join(
-                    os.getcwd(), "db_files", str(current_user.id), str(new_project.id)
-                )
-            )
-            # Delete project_files commit
             get_session().rollback()
-            # Delete project_history
-            get_session().query(ProjectHistory).filter_by(
-                id=new_project_history.id
-            ).delete()
+            # Delete project_hisotry
+            path_to_rm = os.path.join(
+                os.getcwd(), "db_files", str(current_user.id), str(new_project.id)
+            )
+            rollBackProjectHistory(path_to_rm, new_project_history)
             # Delete project
             get_session().query(Project).filter_by(id=new_project.id).delete()
 
             get_session().commit()  # Delete does not autocommit
+            flash("Error while creating project")
             return "General Error", 500
 
 
@@ -280,5 +289,28 @@ def editproject(project_id):
         return render_editproject(current_user, project, states)
 
     elif request.method == "POST":
-        # TODO CONSIGLIO DI RICLARE LE COSE FATTE IN ADDPROJECT (ovviamente con del criterio logico, magari creando delle funzioni da riclilare al posto del brutto copia e incolla)
-        pass
+        try:
+            if not request.form["state"] or request.form["state"] == '' or request.form["state"] is None:
+                flash("Did you forget chose a state for the review?")
+                return "Parameters error", 500
+            state = get_session().query(State).filter(State.id == request.form["state"]).first()
+            if state is None:
+                flash("State not found")
+                return "Parameters error", 500
+            new_project_history = createProjectHistory(request, project, state.id)
+            dir_path = makeHistoryFilePath(project, new_project_history)
+            placeFileInDirectory(request, dir_path, new_project_history)
+            # Add project files
+        except:
+            get_session().rollback()
+            flash("Error while creating history")
+            return "General Error", 500
+        try:
+            return jsonify({"new_project_id": project.id})
+        except:
+            # Delete project_hisotry
+            path_to_rm = os.path.join(
+                os.getcwd(), "db_files", str(current_user.id), str(new_project_history.id)
+            )
+            rollBackProjectHistory(path_to_rm, new_project_history)
+            return "General Error", 500
