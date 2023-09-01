@@ -34,6 +34,7 @@ def render_viewproject(user, project, ):
     @params project_id Porject obj of the current project
     """
     css = ["/frontend/static/css/chat.css"]
+    custom_css = [" "]
     custom_js = [
         "https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js",
         "/frontend/static/js/chat.js",
