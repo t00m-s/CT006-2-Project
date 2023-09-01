@@ -9,102 +9,142 @@
 {% endblock %}
 
 {% block content %}
-    <div class="col-10 offset-1">
-        <div class="row mb-3">
-            <div class="col-2">
-                <a href="/projects">
-                    <button type="button" class="btn btn-primary btn-form pt-0 pb-0">
-                        <h3 class="bi bi-arrow-left"></h3>
-                    </button>
-                </a>
-            </div>
-            <div class="col-8"></div>
-            <div class="col-2">
-                {% if not project.isClosed() %}
-
-                    <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}" type="button"
-                       class="btn btn-primary btn-form pt-0 pb-0">
-                        Submit a review
-                    </a>
-                {% endif %}
-            </div>
+    <div class="row mb-3">
+        <div class="col-1">
         </div>
-        <div class="row">
-            <h5> Titolo: </h5>
-            <h1 style="color:#0f0f0f;">{{ project.name }}</h1>
+        <div class="col-2">
+            <a href="/projects" role="button" type="button" class="btn btn-primary btn-form pt-0 pb-0">
+                <h3 class="bi bi-arrow-left"></h3>
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-10 col-md-8 offset-1 offset-md-2 rounded" id="projectContainer">
             <hr>
-            <h5> Descrizione: </h5>
-            {% if project.description %}
-                <h6 style="color:#0f0f0f;">
-                    {{ project.get_description|safe }}
-                </h6>
-            {% endif %}
+            <div class="row text-center">
+                    <h5 style="color:#AD1637"> Titolo: </h5>
+                    <div class="mb-3 mt-3">
+                        <h1 style="color:#0f0f0f;">{{ project.name }}</h1>
+                    </div>
+                    <h5 style="color:#AD1637"> Descrizione: </h5>
+                    <div class="mb-3 mt-3">
+                        {% if project.description %}
+                            <h6 style="color:#0f0f0f;">
+                                {{ project.get_description|safe }}
+                            </h6>
+                        {% endif %}
+                    </div>
 
-            <hr>
 
-            <h5>Stati del progetto: </h5>
+                    <h5 style="color:#AD1637">Stati del progetto: </h5>
 
 
-            <div class="accordion" id="accordionExample">
-                {% if project.histories|length >0 %} <!-- ciclo tutte hisotry di questo progetto-->
-                    {% for history in project.histories %}
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="heading_{{ history.id }}">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapse_{{ history.id }}" aria-expanded="true"
-                                        aria-controls="collapse_{{ history.id }}">
-                                    {{ history.state.name }}
-                                </button>
-                            </h2>
-                            <div id="collapse_{{ history.id }}" class="accordion-collapse collapse show"
-                                 aria-labelledby="heading_{{ history.id }}"
-                                 data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    <div class="row">
-                                        <div class="col-6">
-                                            <div class="row">
-                                                <h6>Note:</h6>
-                                            </div>
-                                            <div class="row">
-                                                {% if history.note %}
-                                                    <textarea readonly
-                                                              class="form-control">{{ history.note }}</textarea>
-                                                {% else %}
-                                                    <p>The reviewer left no notes for this state.</p>
-                                                {% endif %}
+                    {% if project.histories|length >0 %} <!-- ciclo tutte hisotry di questo progetto-->
+                        <div class="mb-3 mt-3">
+                            {% for history in project.histories %}
+                                <div class="card stateContainer">
+                                    <div class="row mt-3 mb-2 mx-2">
+                                        <div class="col-md-2 col-1"></div>
+                                        <div class="col-md-8 col-10">
+                                            <div class="text-center">
+                                                <h5 style="color:#888DA8">
+
+                                                    {% if history.state.name == "Approved" %}
+                                                        {{ history.state.name }}
+                                                        <i style="color:lawngreen" class="bi bi-check-circle-fill"></i>
+                                                    {% elif history.state.name == "Submitted" %}
+                                                        {{ history.state.name }}
+                                                        <i style="color:#13b4ef" class="bi bi-hourglass-split"></i>
+                                                    {% elif history.state.name == "Requires Changes" %}
+                                                        {{ history.state.name }}
+                                                        <i style="color:yellow" class="bi bi-exclamation-diamond-fill"></i>
+                                                    {% elif history.state.name == "Not Approved" %}
+                                                        {{ history.state.name }}
+                                                        <i style="color:red" class="bi bi-exclamation-diamond-fill"></i>
+                                                    {% endif %}
+                                                </h5>
                                             </div>
                                         </div>
-                                        <div class="col-1"></div>
-                                        <div class="col-4">
-                                            <div class="row">
-                                                <h6>Files:</h6>
-                                            </div>
-                                            <div class="row">
-                                                <ul>
-                                                    {% if history.files|length >0 %}
-                                                        {% for file in history.files %}
-                                                            <!-- ciclo i file per quella hisotry -->
-                                                            <li>
-                                                                <a href="{{ url_for('download', file_id = file.id) }}">{{ file.path.split("/") | last }}</a>
-                                                            </li>
-                                                        {% endfor %}
-                                                    {% else %}
-                                                        <p> There are no files on this state </p>
-                                                    {% endif %}
-                                                </ul>
+                                        <div class="col-md-2 col-1">
+                                            <div class="text-center" id="upDown">
+                                                <h5 style="color:#888DA8"><i class="bi bi-chevron-down"></i></h5>
                                             </div>
                                         </div>
                                     </div>
+
+
+
+                                    <div class="collapsible" style="display:none">
+
+
+
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="row">
+                                                    <h6>Note:</h6>
+                                                </div>
+                                                <div class="row">
+                                                    {% if history.note %}
+                                                        <textarea readonly class="form-control">{
+                                                            { history.note }}
+                                                        </textarea>
+                                                    {% else %}
+                                                        <p>The reviewer left no notes for this state.</p>
+                                                    {% endif %}
+                                                </div>
+                                            </div>
+                                            <div class="col-1"></div>
+                                            <div class="col-4">
+                                                <div class="row">
+                                                    <h6>Files:</h6>
+                                                </div>
+                                                <div class="row">
+                                                    <ul>
+                                                        {% if history.files|length >0 %}
+                                                            {% for file in history.files %}
+                                                                <li>
+                                                                    <a href="{{ url_for('download', file_id = file.id) }}">
+                                                                             {{ file.path.split("/") | last }}
+                                                                    </a>
+                                                                </li>
+                                                            {% endfor %}
+                                                        {% else %}
+                                                            <p> There are no files on this state </p>
+                                                        {% endif %}
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <hr>
+
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-center d-grip gap-2">
+                                    {% if not project.isClosed() %}
+                                        <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}"
+                                           type="button"
+                                           class="btn btn-primary btn-form">
+                                            Submit a review
+                                        </a>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>
-                    {% endfor %}
-                    </div>
-                {% else %}
-                    <p> There are no history for this project </p>
-                {% endif %}
+                    {% else %}
+                        <p> There are no history for this project </p>
+                    {% endif %}
+            </div>
         </div>
     </div>
+
     {% include "chat.html" %}
 
 {% endblock %}
