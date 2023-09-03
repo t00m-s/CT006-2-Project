@@ -15,7 +15,7 @@ class ProjectHistory(Base):
     id = Column(Integer, primary_key=True)
     id_project = Column(Integer, ForeignKey(Project.id), nullable=False)
     id_state = Column(Integer, ForeignKey(State.id), nullable=False)
-    id_user_reviewer = Column(Integer, ForeignKey(User.id), nullable=True)
+    id_user_reviewer = Column(Integer, ForeignKey(User.id), nullable=False)
     note = Column(Text, nullable=True)
     created_at = Column(DateTime, default=func.now(), server_default=func.now())
 
