@@ -7,7 +7,8 @@ function filterFile(file) {
 }
 
 
-$("#updown").click(function(){
-    const display = $(".collapsible").css("display");
-    $(".collapsible").css("display","show");
+$(document).ready(function() {
+  $('.stateContainer').click(function() {
+    $(this).siblings('.collapsible').toggle();
+  });
 });
