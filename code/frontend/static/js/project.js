@@ -8,14 +8,16 @@ function filterFile(file) {
 
 
 $(document).ready(function() {
-  $('.stateContainer').on("click",function() {
-    $(this).children(".collapsible").toggle();
-    if($(this).hasClass("hovered"))
-      $(this).removeClass("hovered");
-    else
-      $(this).addClass("hovered");
+  $('.opener').on("click",function() {
+    let container = $(this).parent(".stateContainer");
 
-    let upDown = $(this).children(".upDown");
+    container.find(".collapsible").toggle();
+    if(container.hasClass("hovered"))
+      container.removeClass("hovered");
+    else
+      container.addClass("hovered");
+
+    let upDown = container.find(".upDown").find("i");
 
     if(upDown.hasClass("bi-chevron-down")){
       upDown.removeClass("bi-chevron-down").addClass("bi-chevron-up");

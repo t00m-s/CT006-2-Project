@@ -51,7 +51,7 @@
                     <div class="mb-3 mt-3 text-center">
                         {% for history in project.histories %}
                             <div class="card stateContainer">
-                                <div class="row mt-3 mb-2 mx-2 ">
+                                <div class="row mt-3 mb-2 mx-2 opener">
                                     <div class="col-md-2 col-1"></div>
                                     <div class="col-md-8 col-10">
                                         <!-- TODO: aggiungere i timestamp(sono nel db) -->
@@ -90,19 +90,17 @@
                                         <h6><strong>Files:</strong></h6>
                                     </div>
                                     <div class="row">
-                                        <ul>
                                             {% if history.files|length >0 %}
                                                 {% for file in history.files %}
-                                                    <li>
-                                                        <a href="{{ url_for('download', file_id = file.id) }}">
+                                                        <a class="text-decoration-none text-github" href="{{ url_for('download', file_id = file.id) }}">
                                                             {{ file.path.split("/") | last }}
+                                                            <i class="bi bi-file-earmark-arrow-down"></i>
                                                         </a>
-                                                    </li>
+                                                        <br>
                                                 {% endfor %}
                                             {% else %}
                                                 <p> There are no files on this state </p>
                                             {% endif %}
-                                        </ul>
 
                                     </div>
 
@@ -122,7 +120,7 @@
                                         <div class="col-1"></div>
 
                                         {% else %}
-                                            <p>The reviewer left no notes for this state.</p>
+                                            <p>Il reviewer non ha lasciato note per questo stato</p>
                                         {% endif %}
                                     </div>
 
@@ -142,18 +140,14 @@
 
                     <hr>
 
-                    <div class="row">
-                        <div class="col">
-                            <div class="text-center d-grip gap-2">
-                                {% if not project.isClosed() %}
-                                    <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}"
-                                       type="button"
-                                       class="btn btn-primary btn-form">
-                                        Nuovo Stato
-                                    </a>
-                                {% endif %}
-                            </div>
-                        </div>
+                    <div class="text-center">
+                        {% if not project.isClosed() %}
+                            <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}"
+                               type="button"
+                               class="btn btn-primary btn-form">
+                                Nuovo Stato
+                            </a>
+                        {% endif %}
                     </div>
                 {% else %}
                     <p> There are no history for this project </p>
