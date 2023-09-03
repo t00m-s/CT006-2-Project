@@ -44,15 +44,11 @@ def render_with_lib(page, **kwargs):
             '/frontend/static/js/scripts.js'
         ]
     else:
-        kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js'] + ([kwargs['custom_javascript']] if not isinstance(kwargs['custom_javascript'], list) else kwargs['custom_javascript'])
+        kwargs['custom_javascript'] = ['/frontend/static/js/scripts.js'] + (
+            [kwargs['custom_javascript']] if not isinstance(kwargs['custom_javascript'], list) else kwargs[
+                'custom_javascript'])
 
     kwargs['year'] = datetime.today().year
-
-    if 'user' in kwargs and kwargs['user'] is not None:
-        kwargs['types_nav'] = []
-        for a in kwargs['user'].projects:
-            if a.type is not None and a.type not in kwargs['types_nav']:
-                kwargs['types_nav'].append(a.type)
 
     # TODO FARE LO STESSO PER QUANTO RIGUARDA GLI STATI DEL PROGETTO, PER FARLO: PER OGNI PROGETTO PRENDERE L'ULTIMO STATO
     # TODO: Deve esserci un modo pythonesco per fare tipo set(kwargs) senza 

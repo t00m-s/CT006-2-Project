@@ -1,111 +1,98 @@
 <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-red" id="nav">
-  <a class="navbar-brand" href="/">
-    <img src="{{ logo }}" class="align-top" alt="logo_unive" />
-  </a>
+    <a class="navbar-brand" href="/">
+        <img src="{{ logo }}" class="align-top" alt="logo_unive"/>
+    </a>
 
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-bs-toggle="offcanvas"
-    data-bs-target="#navbarNav"
-    aria-controls="navbarNav"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
-    <span class="navbar-toggler-icon"></span>
-  </button>
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
 
-  <div
-    class="offcanvas offcanvas-end bg-red"
-    tabindex="-1"
-    id="navbarNav"
-    aria-labelledby="offcanvasNavbarLabel"
-  >
-    <div class="offcanvas-header bg-dark-red text-white">
-      <h5 class="offcanvas-title px-3" id="offcanvasNavbarLabel">Menu</h5>
-      <button
-        type="button"
-        class="btn-close btn-close-white"
-        data-bs-dismiss="offcanvas"
-        aria-label="Close"
-      ></button>
+    <div
+            class="offcanvas offcanvas-end bg-red"
+            tabindex="-1"
+            id="navbarNav"
+            aria-labelledby="offcanvasNavbarLabel"
+    >
+        <div class="offcanvas-header bg-dark-red text-white">
+            <h5 class="offcanvas-title px-3" id="offcanvasNavbarLabel">Menu</h5>
+            <button
+                    type="button"
+                    class="btn-close btn-close-white"
+                    data-bs-dismiss="offcanvas"
+                    aria-label="Close"
+            ></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                <li class="nav-item dropdown px-3">
+                    <a
+                            class="nav-link dropdown-toggle nav-white"
+                            href="#"
+                            id="navbarDropdown"
+                            data-bs-toggle="dropdown"
+                    >
+                        Progetti
+                    </a>
+
+                    <ul class="dropdown-menu bg-red-offcanvas">
+                        <li>
+                            <a class="dropdown-item bg-light-red text-white" href="/projects"
+                            >Progetti</a
+                            >
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider"/>
+                        </li>
+                        <li>
+                            <a
+                                    class="dropdown-item bg-light-red text-white"
+                                    aria-current="page"
+                                    href="/addproject"
+                            >
+                                Nuovo progetto</a
+                            >
+                        </li>
+                    </ul>
+                </li>
+                {% if current_user.isReviewer() %}
+                    <li class="nav-item px-3">
+                        <a
+                                class="nav-link nav-white"
+                                aria-current="page"
+                                href="/vieweditableprojects"
+                        >Valuta progetti</a
+                        >
+                    </li>
+                {% endif %}
+                <!-- ACCOUNT -->
+                <li class="nav-item px-3">
+                    <a
+                            class="nav-link text-decoration-none nav-white"
+                            aria-current="page"
+                            href="/account"
+                    >
+                        <i class="bi bi-person-circle fa-lg"></i
+                        ></a>
+                </li>
+                <!-- LOGOUT -->
+                <li class="nav-item px-3">
+                    <a
+                            class="nav-link text-decoration-none nav-white"
+                            aria-current="page"
+                            href="/logout"
+                    >
+                        <i class="bi-box-arrow-left fa-lg"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="offcanvas-body">
-      <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-        <li class="nav-item dropdown px-3">
-          <a
-            class="nav-link dropdown-toggle nav-white"
-            href="#"
-            id="navbarDropdown"
-            data-bs-toggle="dropdown"
-          >
-            Progetti
-          </a>
-
-          <ul class="dropdown-menu bg-red-offcanvas">
-            <li>
-              <a class="dropdown-item bg-light-red text-white" href="/projects"
-                >Progetti</a
-              >
-            </li>
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            {% for type in types_nav %}
-            <li>
-              <a
-                class="dropdown-item bg-light-red text-white"
-                href="/projects/{{ type.id }}"
-                >{{ type.name }}</a
-              >
-            </li>
-            {% endfor %} {% if types_nav %}
-            <li>
-              <hr class="dropdown-divider" />
-            </li>
-            {% endif %}
-            <li>
-              <a
-                class="dropdown-item bg-light-red text-white"
-                aria-current="page"
-                href="/addproject"
-              >
-                Nuovo progetto</a
-              >
-            </li>
-          </ul>
-        </li>
-        {% if current_user.isReviewer() %}
-        <li class="nav-item px-3">
-          <a
-            class="nav-link nav-white"
-            aria-current="page"
-            href="/vieweditableprojects"
-            >Valuta progetti</a
-          >
-        </li>
-        {% endif %}
-        <!-- ACCOUNT -->
-        <li class="nav-item px-3">
-          <a
-            class="nav-link text-decoration-none nav-white"
-            aria-current="page"
-            href="/account"
-          >
-            <i class="bi bi-person-circle fa-lg"></i
-          ></a>
-        </li>
-        <!-- LOGOUT -->
-        <li class="nav-item px-3">
-          <a
-            class="nav-link text-decoration-none nav-white"
-            aria-current="page"
-            href="/logout"
-          >
-            <i class="bi-box-arrow-left fa-lg"></i>
-          </a>
-        </li>
-      </ul>
-    </div>
-  </div>
 </nav>
