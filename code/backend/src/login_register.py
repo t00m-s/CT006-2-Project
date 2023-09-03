@@ -63,7 +63,7 @@ def checkRegisterAccountParams(my_request, backurl):
     # html salva l'input date secondo il formato year-month-day
     # separo l'input e salvo in una list di dimensione 3
     if hasattr(my_request.form, 'birth_date') and my_request.form['birth_date'] is not None and my_request.form[
-            'birth_date'] != '':
+        'birth_date'] != '':
         dateTokens = my_request.form['birth_date'].split('-')
         # creo l'oggetto date di python
         pythonDate = date(int(dateTokens[0]), int(
@@ -83,11 +83,11 @@ def checkEmail(my_request, backurl):
 
 def checkPassword(my_request, backurl):
     if 'password' not in my_request.form or my_request.form['password'] is None or my_request.form[
-            'password'] == '':
+        'password'] == '':
         flash("Password can not be empty.")
         return redirect(url_for(backurl))
     if 'password_2' not in my_request.form or my_request.form['password_2'] is None or my_request.form[
-            'password_2'] == '':
+        'password_2'] == '':
         flash("Confirmation password can not be empty.")
         return redirect(url_for(backurl))
     if my_request.form['password'] != my_request.form['password_2']:
@@ -156,7 +156,7 @@ def register_back():
                         email=request.form['email'],
                         password=request.form['password'],
                         birth_date=request.form['birth_date'] if request.form['birth_date'] is not None and
-                        request.form['birth_date'] != '' else None,
+                                                                 request.form['birth_date'] != '' else None,
                         id_role=3)  # set default id to researcher
         get_session().add(new_user)
         get_session().commit()
@@ -164,7 +164,7 @@ def register_back():
         # TODO move this into addproject
         if not os.path.exists(os.getcwd() + str(new_user.id)):
             os.makedirs(os.getcwd() + str(new_user.id))
-
+        flash('Account creato,  effettua il login');
         return redirect(url_for('login_register.show_login'))
     else:
         return redirect(url_for(backurl))
