@@ -470,5 +470,11 @@ form i {
     border: 1px solid #0f0f0f;
 }
 
+.scrollable{
+    overflow-y:scroll;
+    max-height:200px;
+    background-color: whitesmoke;
+}
+
 
 

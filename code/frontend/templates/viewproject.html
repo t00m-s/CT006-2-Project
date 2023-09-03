@@ -22,139 +22,142 @@
         <div class="col-10 col-md-8 offset-1 offset-md-2 rounded shadow" id="projectContainer">
             <hr>
             <div class="row">
-                    <div class="text-center">
-                        <h5 style="color:#AD1637"> Titolo: </h5>
-                        <div class="mb-3 mt-3">
-                            <h1 style="color:#0f0f0f;">{{ project.name }}</h1>
-                        </div>
-
-                        <h5 style="color:#AD1637"> Descrizione: </h5>
-                    </div>
-
-
+                <div class="text-center">
+                    <h5 style="color:#AD1637"> Titolo: </h5>
                     <div class="mb-3 mt-3">
-                        {% if project.description %}
-                            <h6 style="color:#0f0f0f;">
-                                {{ project.get_description|safe }}
-                            </h6>
-                        {% endif %}
+                        <h1 style="color:#0f0f0f;">{{ project.name }}</h1>
                     </div>
 
-
-                    <div class="text-center">
-                        <h5 style="color:#AD1637">Stati del progetto: </h5>
-                    </div>
+                    <h5 style="color:#AD1637"> Descrizione: </h5>
+                </div>
 
 
+                <div class="mb-3 mt-3">
+                    {% if project.description %}
+                        <h6 style="color:#0f0f0f;">
+                            {{ project.get_description|safe }}
+                        </h6>
+                    {% endif %}
+                </div>
 
-                    {% if project.histories|length >0 %} <!-- ciclo tutte hisotry di questo progetto-->
-                        <div class="mb-3 mt-3 text-center">
-                            {% for history in project.histories %}
-                                <div class="card stateContainer">
-                                    <div class="row mt-3 mb-2 mx-2">
-                                        <div class="col-md-2 col-1"></div>
-                                        <div class="col-md-8 col-10">
+
+                <div class="text-center">
+                    <h5 style="color:#AD1637">Stati del progetto: </h5>
+                </div>
+
+
+
+                {% if project.histories|length >0 %} <!-- ciclo tutte hisotry di questo progetto-->
+                    <div class="mb-3 mt-3 text-center">
+                        {% for history in project.histories %}
+                            <div class="card stateContainer">
+                                <div class="row mt-3 mb-2 mx-2 ">
+                                    <div class="col-md-2 col-1"></div>
+                                    <div class="col-md-8 col-10">
                                         <!-- TODO: aggiungere i timestamp(sono nel db) -->
-                                            <div class="text-center">
-                                                <h5 style="color:#888DA8">
+                                        <div class="text-center">
+                                            <h5 style="color:#888DA8">
 
-                                                    {% if history.state.id == 1 %}
-                                                        {{ history.state.name }}
-                                                        <i style="color:lawngreen" class="bi bi-check-circle-fill"></i>
-                                                    {% elif history.state.id == 2 %}
-                                                        {{ history.state.name }}
-                                                        <i style="color:#13b4ef" class="bi bi-hourglass-split"></i>
-                                                    {% elif history.state.id == 3 %}
-                                                        {{ history.state.name }}
-                                                        <i style="color:yellow" class="bi bi-exclamation-diamond-fill"></i>
-                                                    {% elif history.state.id == 4 %}
-                                                        {{ history.state.name }}
-                                                        <i style="color:red" class="bi bi-exclamation-diamond-fill"></i>
-                                                    {% endif %}
-                                                </h5>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2 col-1">
-                                            <div class="text-center upDown">
-                                                <h5 style="color:#888DA8"><i class="bi bi-chevron-down"></i></h5>
-                                            </div>
+                                                {% if history.state.id == 1 %}
+                                                    {{ history.state.name }}
+                                                    <i style="color:lawngreen" class="bi bi-check-circle-fill"></i>
+                                                {% elif history.state.id == 2 %}
+                                                    {{ history.state.name }}
+                                                    <i style="color:#13b4ef" class="bi bi-hourglass-split"></i>
+                                                {% elif history.state.id == 3 %}
+                                                    {{ history.state.name }}
+                                                    <i style="color:yellow" class="bi bi-exclamation-diamond-fill"></i>
+                                                {% elif history.state.id == 4 %}
+                                                    {{ history.state.name }}
+                                                    <i style="color:red" class="bi bi-exclamation-diamond-fill"></i>
+                                                {% endif %}
+                                            </h5>
                                         </div>
                                     </div>
-
-
-
-                                    <div class="collapsible" style="display:none">
-
-
-
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="row">
-                                                    <h6>Note:</h6>
-                                                </div>
-                                                <div class="row">
-                                                    {% if history.note %}
-                                                        <textarea readonly class="form-control">
-                                                            {{ history.note }}
-                                                        </textarea>
-                                                    {% else %}
-                                                        <p>The reviewer left no notes for this state.</p>
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                            <div class="col-1"></div>
-                                            <div class="col-4">
-                                            <!--
-                                            TODO: * mettere iconcine download
-                                                  * fare più swag
-                                                  * togliere l'elenco puntato
-                                            -->
-                                                <div class="row">
-                                                    <h6>Files:</h6>
-                                                </div>
-                                                <div class="row">
-                                                    <ul>
-                                                        {% if history.files|length >0 %}
-                                                            {% for file in history.files %}
-                                                                <li>
-                                                                    <a href="{{ url_for('download', file_id = file.id) }}">
-                                                                             {{ file.path.split("/") | last }}
-                                                                    </a>
-                                                                </li>
-                                                            {% endfor %}
-                                                        {% else %}
-                                                            <p> There are no files on this state </p>
-                                                        {% endif %}
-                                                    </ul>
-                                                </div>
-                                            </div>
+                                    <div class="col-md-2 col-1">
+                                        <div class="text-center upDown">
+                                            <h5 style="color:#888DA8"><i class="bi bi-chevron-down"></i></h5>
                                         </div>
-
-
-
                                     </div>
                                 </div>
-                            {% endfor %}
-                        </div>
 
-                        <hr>
 
-                        <div class="row">
-                            <div class="col">
-                                <div class="text-center d-grip gap-2">
-                                    {% if not project.isClosed() %}
-                                        <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}"
-                                           type="button"
-                                           class="btn btn-primary btn-form">
-                                             Nuovo Stato
-                                        </a>
-                                    {% endif %}
+                                <div class="collapsible" style="display:none">
+
+                                    <hr>
+
+                                    <div class="row">
+                                        <h6><strong>Files:</strong></h6>
+                                    </div>
+                                    <div class="row">
+                                        <ul>
+                                            {% if history.files|length >0 %}
+                                                {% for file in history.files %}
+                                                    <li>
+                                                        <a href="{{ url_for('download', file_id = file.id) }}">
+                                                            {{ file.path.split("/") | last }}
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            {% else %}
+                                                <p> There are no files on this state </p>
+                                            {% endif %}
+                                        </ul>
+
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="mt-3">
+                                            <h6><strong> Note: </strong></h6>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        {% if history.note %}
+                                        <div class="col-1"></div>
+                                        <div class="col-10 mb-4">
+                                            <div readonly class="form-control scrollable">
+                                                                {{ history.note }}
+                                            </div>
+                                        </div>
+                                        <div class="col-1"></div>
+
+                                        {% else %}
+                                            <p>The reviewer left no notes for this state.</p>
+                                        {% endif %}
+                                    </div>
+
+
+                                    <!--
+                                    TODO: * mettere iconcine download
+                                          * fare più swag
+                                          * togliere l'elenco puntato
+                                    -->
+
+
+
                                 </div>
                             </div>
+                        {% endfor %}
+                    </div>
+
+                    <hr>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="text-center d-grip gap-2">
+                                {% if not project.isClosed() %}
+                                    <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}"
+                                       type="button"
+                                       class="btn btn-primary btn-form">
+                                        Nuovo Stato
+                                    </a>
+                                {% endif %}
+                            </div>
                         </div>
-                    {% else %}
-                        <p> There are no history for this project </p>
-                    {% endif %}
+                    </div>
+                {% else %}
+                    <p> There are no history for this project </p>
+                {% endif %}
             </div>
         </div>
     </div>

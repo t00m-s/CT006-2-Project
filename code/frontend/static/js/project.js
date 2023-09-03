@@ -15,7 +15,7 @@ $(document).ready(function() {
     else
       $(this).addClass("hovered");
 
-    let upDown = $(this).find(".upDown").find("i");
+    let upDown = $(this).children(".upDown");
 
     if(upDown.hasClass("bi-chevron-down")){
       upDown.removeClass("bi-chevron-down").addClass("bi-chevron-up");
