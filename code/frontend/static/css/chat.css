@@ -42,7 +42,7 @@
 }
 
 .wrapper {
-    position: absolute;
+    position: fixed;
     right: 20px;
     bottom: 135px;
     width: 300px;
