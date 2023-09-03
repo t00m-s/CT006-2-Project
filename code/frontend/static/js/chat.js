@@ -1,5 +1,9 @@
 $(document).ready(function () {
 
+    $('#check').on('click', function () {
+        scrollDown();
+    });
+
     const id_project = $('#id_project').val();
     $.ajax({
         url: "/chat/" + id_project,
@@ -13,7 +17,7 @@ $(document).ready(function () {
         }
     });
 
-    
+
     const socket = io.connect('http://localhost:5001', {query: 'id_project=' + id_project});
 
     socket.on('connect', function () {
@@ -38,11 +42,15 @@ $(document).ready(function () {
         let msg = $('#message');
         socket.send({message: msg.val(), id_project: id_project});
         msg.val('');
-
     }
 });
 
 
+function scrollDown() {
+    $('#messages').scrollTop($(document).height());
+}
+
 function aggiungiMessaggio(obj) {
     $("#messages").append('<li>' + obj.user_name + ': ' + obj.message + '</li>');
+    scrollDown();
 }

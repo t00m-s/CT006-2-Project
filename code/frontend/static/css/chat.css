@@ -79,6 +79,11 @@ button {
     margin-bottom: 10px
 }
 
+#messages {
+    height: 150pt;
+    overflow-y: scroll;
+}
+
 .chat-form textarea {
     resize: none
 }
