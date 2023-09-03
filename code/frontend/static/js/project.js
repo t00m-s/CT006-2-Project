@@ -8,7 +8,22 @@ function filterFile(file) {
 
 
 $(document).ready(function() {
-  $('.stateContainer').click(function() {
-    $(this).siblings('.collapsible').toggle();
+  $('.stateContainer').on("click",function() {
+    $(this).children(".collapsible").toggle();
+    if($(this).hasClass("hovered"))
+      $(this).removeClass("hovered");
+    else
+      $(this).addClass("hovered");
+
+    let upDown = $(this).find(".upDown").find("i");
+
+    if(upDown.hasClass("bi-chevron-down")){
+      upDown.removeClass("bi-chevron-down").addClass("bi-chevron-up");
+    }else{
+      upDown.removeClass("bi-chevron-up").addClass("bi-chevron-down");
+    }
+
+
+
   });
 });

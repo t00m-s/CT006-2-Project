@@ -15,6 +15,7 @@
 
 .text-github {
     color: lightslategrey;
+    transition:0.5s;
 }
 
 .bi {
@@ -448,7 +449,6 @@ form i {
 #projectContainer{
     background-color: white;
     padding: 100px;
-    border: 1px solid #0f0f0f;
 
 }
 
@@ -463,6 +463,11 @@ form i {
 
 .collapsible{
     transition: 1s;
+}
+
+.hovered{
+    transform: scale(1.02);
+    border: 1px solid #0f0f0f;
 }
 
 

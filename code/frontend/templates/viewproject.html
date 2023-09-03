@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-10 col-md-8 offset-1 offset-md-2 rounded" id="projectContainer">
+        <div class="col-10 col-md-8 offset-1 offset-md-2 rounded shadow" id="projectContainer">
             <hr>
             <div class="row">
                     <div class="text-center">
@@ -54,19 +54,20 @@
                                     <div class="row mt-3 mb-2 mx-2">
                                         <div class="col-md-2 col-1"></div>
                                         <div class="col-md-8 col-10">
+                                        <!-- TODO: aggiungere i timestamp(sono nel db) -->
                                             <div class="text-center">
                                                 <h5 style="color:#888DA8">
 
-                                                    {% if history.state.name == "Approved" %}
+                                                    {% if history.state.id == 1 %}
                                                         {{ history.state.name }}
                                                         <i style="color:lawngreen" class="bi bi-check-circle-fill"></i>
-                                                    {% elif history.state.name == "Submitted" %}
+                                                    {% elif history.state.id == 2 %}
                                                         {{ history.state.name }}
                                                         <i style="color:#13b4ef" class="bi bi-hourglass-split"></i>
-                                                    {% elif history.state.name == "Requires Changes" %}
+                                                    {% elif history.state.id == 3 %}
                                                         {{ history.state.name }}
                                                         <i style="color:yellow" class="bi bi-exclamation-diamond-fill"></i>
-                                                    {% elif history.state.name == "Not Approved" %}
+                                                    {% elif history.state.id == 4 %}
                                                         {{ history.state.name }}
                                                         <i style="color:red" class="bi bi-exclamation-diamond-fill"></i>
                                                     {% endif %}
@@ -93,8 +94,8 @@
                                                 </div>
                                                 <div class="row">
                                                     {% if history.note %}
-                                                        <textarea readonly class="form-control">{
-                                                            { history.note }}
+                                                        <textarea readonly class="form-control">
+                                                            {{ history.note }}
                                                         </textarea>
                                                     {% else %}
                                                         <p>The reviewer left no notes for this state.</p>
@@ -103,6 +104,11 @@
                                             </div>
                                             <div class="col-1"></div>
                                             <div class="col-4">
+                                            <!--
+                                            TODO: * mettere iconcine download
+                                                  * fare più swag
+                                                  * togliere l'elenco puntato
+                                            -->
                                                 <div class="row">
                                                     <h6>Files:</h6>
                                                 </div>
@@ -140,7 +146,7 @@
                                         <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}"
                                            type="button"
                                            class="btn btn-primary btn-form">
-                                            Submit a review
+                                             Nuovo Stato
                                         </a>
                                     {% endif %}
                                 </div>
