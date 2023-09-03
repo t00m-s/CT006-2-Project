@@ -17,6 +17,11 @@
                         <div class="col-12 text-center">
                             <h2 style="color: #24292e">{{ 'Nuovo' if is_add else 'Revisiona' }} Progetto</h2>
                         </div>
+                        {% if not is_add %}
+                            <div class="col-12 text-center">
+                                <h4> {{ project.name }}</h4>
+                            </div>
+                        {% endif %}
                     </div>
                     <form method="POST" class="dropzone"
                           action="{{ 'addproject' if is_add else 'editproject/'+project.id|string }}"
