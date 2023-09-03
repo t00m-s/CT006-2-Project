@@ -47,7 +47,7 @@ $(document).ready(function () {
 
 
 function scrollDown() {
-    $('#messages').scrollTop($(document).height());
+    $('#messages').animate({scrollTop: $(document).height()}, 2500);
 }
 
 function aggiungiMessaggio(obj) {
