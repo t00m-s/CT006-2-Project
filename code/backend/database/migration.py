@@ -90,10 +90,12 @@ def migrate():
         $$
         BEGIN
             IF NEW.id_user_reviewer IS NOT NULL THEN
-                IF NEW.id_user_reviewer NOT IN
+                IF (NEW.id_user_reviewer NOT IN
                 (SELECT u.id
                 FROM users u JOIN roles r ON u.id_role=r.id
-                WHERE r.is_reviewer AND u.id=NEW.id_user_reviewer) THEN
+                WHERE r.is_reviewer AND u.id=NEW.id_user_reviewer) AND 
+                    (NEW.id_user_reviewer != (SELECT id_user FROM projects WHERE id=NEW.id_project))
+                ) THEN
                     RETURN NULL;
                 END IF;
             END IF;
