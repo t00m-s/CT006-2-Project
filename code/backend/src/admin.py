@@ -1,7 +1,9 @@
 from flask import Blueprint, abort
 from flask_login import LoginManager, current_user, login_required
+from front_admin import *
 from ..database.session import get_session
 from ..database.maps.user import User
+from ..database.maps.role import Role
 
 # Region per importare file distanti
 import sys
@@ -33,4 +35,17 @@ def user_loader(user_id):
 @admin_blueprint.route("/admin", methods=["GET"])
 @login_required
 def admin():
-    pass
+    users = (
+        get_session()
+        .query(
+            User.id,
+            User.name,
+            User.surname,
+            User.created_at,
+            Role.name.label("role_name"),
+        )
+        .join(Role)
+        .filter(User.id != current_user.id, User.id_role != 1)
+        .all()
+    )
+    return render_admin(current_user, users)
