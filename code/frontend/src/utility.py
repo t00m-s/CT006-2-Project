@@ -30,6 +30,8 @@ def render_with_lib(page, **kwargs):
     ]
     kwargs['logo'] = '/frontend/static/img/logo_unive_white.png'
 
+    kwargs['download_icon'] = '/frontend/static/img/pdf.png'
+
     if kwargs.get('custom_css') is None:
         kwargs['custom_css'] = [
             '/frontend/static/css/style.css'

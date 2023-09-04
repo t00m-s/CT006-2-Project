@@ -92,10 +92,26 @@
                                     <div class="row">
                                             {% if history.files|length >0 %}
                                                 {% for file in history.files %}
-                                                        <a class="text-decoration-none text-github" href="{{ url_for('download', file_id = file.id) }}">
-                                                            {{ file.path.split("/") | last }}
-                                                            <i class="bi bi-file-earmark-arrow-down"></i>
-                                                        </a>
+
+                                                    <a class="text-decoration-none" href="{{ url_for('download', file_id = file.id) }}">
+                                                    <div class="row mb-3">
+                                                        <div class="col-auto col-md-2 col-lg-4"></div>
+                                                        <div class="col-auto text-start">
+
+                                                                    <img class="" style="width:35px" alt="download icon" src="{{download_icon}}">
+                                                                    <span class="text-downloadable align-middle"> {{ file.path.split("/") | last }} </span>
+                                                                    <span class="text-downloadable"> <i class="bi bi-box-arrow-up-right"></i> </span>
+
+
+                                                        </div>
+                                                        <div class="col-auto"></div>
+                                                    </div>
+
+
+                                                            <!--<i class="bi bi-file-earmark-arrow-down"></i>-->
+                                                    </a>
+
+
                                                         <br>
                                                 {% endfor %}
                                             {% else %}

@@ -476,5 +476,14 @@ form i {
     background-color: whitesmoke;
 }
 
+.text-downloadable{
+    color:#AD1637;
+    text-decoration: none;
+    transition: 0.25s;
+}
 
+.text-downloadable:hover{
+    color:#86112a;
+    text-decoration: underline #86112a;
+}
 
