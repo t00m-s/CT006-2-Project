@@ -19,9 +19,10 @@
                             <h1>{{ value.name }}</h1>
                         </div>
 
+
                         {% for row in value.projects %}
 
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-6 mb-4">
                                 <div class="card shadow h-100" style="margin-right: 5px;">
                                     <div class="card-body">
                                         <div class="card-title text-center mb-3">
@@ -31,7 +32,7 @@
                                         <div class="card-text">
                                             <div class="text-center mb-3">
                                                 <h6 style="color:#AD1637" > Autore: </h6>
-                                                <h6> {{ row.user.name }} {{ row.user.surname }}</h6>
+                                                <h6> {{ row.user.name + " "  + row.user.surname }}</h6>
                                             </div>
 
                                             <div class="text-center">
@@ -52,6 +53,20 @@
                             </div>
 
                         {% endfor %}
+
+
+                            <div class="col-12 col-md-6 mb-4">
+                                <a href="/addproject?idType={{ key }}">
+                                    <div class="card shadow h-100 d-flex justify-content-center align-items-center" style="margin-right: 5px;">
+
+                                        <div class="">
+                                         <i class="bi bi-plus-circle"></i>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </div>
+
                         </div>
                     {% endif %}
 

@@ -9,6 +9,34 @@
 {% endblock %}
 
 {% block content %}
-    You are logged in as
-    {{ user.name + " " + user.surname }}
+    <div class="col-10 offset-1">
+        <div class="row">
+            <div class="text-center">
+                <h1> Dashboard di {{ user.name + " " + user.surname }} </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-6">
+                <div class="card shadow h-100" style="margin-right: 5px;">
+                    <div class="card-body">
+                        <div class="card-title text-center mb-3">
+                            <h2><strong> I tuoi progetti </strong></h2>
+                        </div>
+                        <div class="card-text">
+
+                        </div>
+                        <div class="text-center align-bottom">
+                            <a href="/projects"
+                           class="btn btn-primary btn-form"> Vai </a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
 {% endblock %}

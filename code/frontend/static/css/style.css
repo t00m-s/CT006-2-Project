@@ -489,6 +489,17 @@ form i {
 }
 
 .h-100{
-    height: 80vh;
+    height: 65vh !important;
+    transition: 0.25s;
+}
+
+.h-100:hover{
+    transform: scale(1.02);
+}
+
+
+.bi-plus-circle{
+    font-size: 150px;
+    color:lightslategrey;
 }
 

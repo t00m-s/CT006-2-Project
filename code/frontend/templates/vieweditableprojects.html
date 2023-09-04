@@ -11,7 +11,10 @@
     <div class="col-10 offset-1">
         {% for type in types %}
             {% if projects[type.name] %}
-                <h1>{{ type.name }}</h1>
+                <div class="row mb-4">
+                    <div class="text-center mb-3">
+                        <h1>{{ type.name }}</h1>
+                    </div>
             {% endif %}
             <div class="row">
                 {% for project in projects[type.name] %}
@@ -25,7 +28,7 @@
                                 <div class="card-text">
                                     <div class="text-center mb-3">
                                         <h6 style="color:#AD1637" > Autore: </h6>
-                                        <h6> {{ project.user.name }} {{ project.user.surname }}</h6>
+                                        <h6> {{ project.user.name + " " + project.user.surname }}</h6>
                                     </div>
 
                                     <div class="text-center">
@@ -46,6 +49,7 @@
                     </div>
 
                 {% endfor %}
+            </div>
             </div>
         {% endfor %}
     </div>
