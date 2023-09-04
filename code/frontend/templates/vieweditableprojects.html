@@ -15,14 +15,36 @@
             {% endif %}
             <div class="row">
                 {% for project in projects[type.name] %}
-                    <div class="card" style="width: 18rem; margin-right: 5px;">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ project.name }}</h5>
-                            <p class="card-text">{{ project.get_description|safe }}</p>
-                            <a href="{{ url_for('project.viewproject', project_id=project.id) }}"
-                               class="btn btn-primary">Edit this project</a>
+                    <div class="col-12 col-md-6">
+                        <div class="card h-100" style="margin-right: 5px;">
+                            <div class="card-body">
+                                <div class="card-title text-center mb-3">
+                                    <h6 style="color:#AD1637" > Titolo: </h6>
+                                    <h6><strong> {{ project.name }} </strong></h6>
+                                </div>
+                                <div class="card-text">
+                                    <div class="text-center mb-3">
+                                        <h6 style="color:#AD1637" > Autore: </h6>
+                                        <h6> {{ project.user.name }} {{ project.user.surname }}</h6>
+                                    </div>
+
+                                    <div class="text-center">
+                                        <h6 style="color:#AD1637" > Descrizione: </h6>
+                                    </div>
+                                    <div style="height:200px" class="scrollable mb-4">
+                                        {{ project.get_description|safe }}
+                                    </div>
+
+                                </div>
+                                <div class="text-center align-bottom">
+                                    <a href="{{ url_for('project.viewproject', project_id=project.id) }}"
+                                   class="btn btn-primary btn-form">Valuta Progetto</a>
+                                </div>
+
+                            </div>
                         </div>
                     </div>
+
                 {% endfor %}
             </div>
         {% endfor %}

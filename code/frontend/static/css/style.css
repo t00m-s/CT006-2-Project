@@ -474,6 +474,7 @@ form i {
     overflow-y:scroll;
     max-height:200px;
     background-color: whitesmoke;
+    padding: 10px;
 }
 
 .text-downloadable{
@@ -485,5 +486,9 @@ form i {
 .text-downloadable:hover{
     color:#86112a;
     text-decoration: underline #86112a;
+}
+
+.h-100{
+    height: 80vh;
 }
 
