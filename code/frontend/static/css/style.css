@@ -503,3 +503,7 @@ form i {
     color:lightslategrey;
 }
 
+.card-img-top{
+    height: 28vh;
+    object-fit: cover;
+}
