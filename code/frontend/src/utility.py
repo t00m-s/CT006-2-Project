@@ -32,6 +32,8 @@ def render_with_lib(page, **kwargs):
 
     kwargs['download_icon'] = '/frontend/static/img/pdf.png'
 
+    kwargs['placeholder'] = 'frontend/static/img/placeholder_unive.jpg'
+
     if kwargs.get('custom_css') is None:
         kwargs['custom_css'] = [
             '/frontend/static/css/style.css'
