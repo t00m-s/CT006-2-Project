@@ -29,7 +29,7 @@
 }
 
 .nav-white {
-    color: white;
+    color: #efefef;
 }
 
 .nav-white:hover {
@@ -506,4 +506,27 @@ form i {
 .card-img-top{
     height: 28vh;
     object-fit: cover;
+}
+
+.nav-link{
+    font-size: 17px;
+    font-weight: lighter;
+}
+
+.dashboard_description{
+    font-weight: normal;
+    color:lightslategrey;
+    font-size: 17px;
+}
+
+.active{
+    font-weight: normal !important;
+    color:white;
+    font-size:19px;
+    /*text-decoration: underline white ;*/
+   /*background-color: #d51c41;*/
+}
+
+#viewProjectDescription{
+    border: 1px solid #c2bfbf;
 }

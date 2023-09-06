@@ -9,14 +9,14 @@
 {% endblock %}
 {% block content %}
     <div class="container-fluid">
-        <div class="col-10 offset-1"> 
-            {% if values %}
+        <div class="col-10 offset-1">
 
+            {% if values %}
                 {% for key,value in values.items() %}
                     {% if value.projects |length >0 %}
                         <div class="row mb-4">
                         <div class="text-center mb-3">
-                            <h1>{{ value.name }}</h1>
+                            <h4>{{ value.name }}</h4>
                         </div>
 
 
