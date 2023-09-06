@@ -9,6 +9,7 @@ from .backend.src.login_register import *
 from .backend.src.chat import *
 from .frontend.src.index import *
 from .backend.src.project import *
+from .backend.src.admin import *
 import sys
 import os
 
@@ -19,7 +20,7 @@ app.register_blueprint(login_register_blueprint, url_prefix="/")
 app.register_blueprint(home_blueprint, url_prefix="/")
 app.register_blueprint(project_blueprint, url_prefix="/")
 app.register_blueprint(chat_blueprint, url_prefix="/")
-
+app.register_blueprint(admin_blueprint, url_prefix="/")
 # Secret Key for session management and flash messages
 app.secret_key = os.getenv("SECRET_KEY")
 migrate()  # we want to generate the db table on app load
