@@ -23,11 +23,10 @@ app.register_blueprint(chat_blueprint, url_prefix="/")
 app.register_blueprint(admin_blueprint, url_prefix="/")
 # Secret Key for session management and flash messages
 app.secret_key = os.getenv("SECRET_KEY")
-migrate()  # we want to generate the db table on app load
+migrate()  # we want to generate the db_bk table on app load
 
 login_manager.init_app(app)
 login_manager.login_view = "login_register.login"
-
 
 UPLOAD_FOLDER = os.path.join(app.root_path, "db_files")
 ALLOWED_EXTENSIONS = {"pdf"}
@@ -84,7 +83,7 @@ def download(file_id):
     last_backslash = path.rfind("/")
     return send_from_directory(
         path[:last_backslash],
-        path[last_backslash + 1 :],
+        path[last_backslash + 1:],
         as_attachment=True,
         mimetype="application/pdf",
     )

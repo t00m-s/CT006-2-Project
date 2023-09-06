@@ -279,7 +279,7 @@ def editproject(project_id):
             states = states.filter(State.id != 2)  # we want reviwer can not  submit
         states = states.all()
     except:
-        flash('Error while getting the project or states from the db')
+        flash('Error while getting the project or states from the db_bk')
         return redirect("/vieweditableprojects")
     # Check if current user can review
 

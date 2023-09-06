@@ -54,7 +54,7 @@
                                 <div class="row mt-3 mb-2 mx-2 opener">
                                     <div class="col-md-2 col-1"></div>
                                     <div class="col-md-8 col-10">
-                                        <!-- TODO: aggiungere i timestamp(sono nel db) -->
+                                        <!-- TODO: aggiungere i timestamp(sono nel db_bk) -->
                                         <div class="text-center">
                                             <h5 style="color:#888DA8">
 
@@ -90,17 +90,20 @@
                                         <h6><strong>Files:</strong></h6>
                                     </div>
                                     <div class="row">
-                                            {% if history.files|length >0 %}
-                                                {% for file in history.files %}
+                                        {% if history.files|length >0 %}
+                                            {% for file in history.files %}
 
-                                                    <a class="text-decoration-none" href="{{ url_for('download', file_id = file.id) }}">
+                                                <a class="text-decoration-none"
+                                                   href="{{ url_for('download', file_id = file.id) }}">
                                                     <div class="row mb-3">
                                                         <div class="col-auto col-md-2 col-lg-4"></div>
                                                         <div class="col-auto text-start">
 
-                                                                    <img class="" style="width:35px" alt="download icon" src="{{download_icon}}">
-                                                                    <span class="text-downloadable align-middle"> {{ file.path.split("/") | last }} </span>
-                                                                    <span class="text-downloadable"> <i class="bi bi-box-arrow-up-right"></i> </span>
+                                                            <img class="" style="width:35px" alt="download icon"
+                                                                 src="{{ download_icon }}">
+                                                            <span class="text-downloadable align-middle"> {{ file.path.split("/") | last }} </span>
+                                                            <span class="text-downloadable"> <i
+                                                                    class="bi bi-box-arrow-up-right"></i> </span>
 
 
                                                         </div>
@@ -108,15 +111,15 @@
                                                     </div>
 
 
-                                                            <!--<i class="bi bi-file-earmark-arrow-down"></i>-->
-                                                    </a>
+                                                    <!--<i class="bi bi-file-earmark-arrow-down"></i>-->
+                                                </a>
 
 
-                                                        <br>
-                                                {% endfor %}
-                                            {% else %}
-                                                <p> There are no files on this state </p>
-                                            {% endif %}
+                                                <br>
+                                            {% endfor %}
+                                        {% else %}
+                                            <p> There are no files on this state </p>
+                                        {% endif %}
 
                                     </div>
 
@@ -127,13 +130,13 @@
                                     </div>
                                     <div class="row">
                                         {% if history.note %}
-                                        <div class="col-1"></div>
-                                        <div class="col-10 mb-4">
-                                            <div readonly class="form-control scrollable">
-                                                                {{ history.note }}
+                                            <div class="col-1"></div>
+                                            <div class="col-10 mb-4">
+                                                <div readonly class="form-control scrollable">
+                                                    {{ history.note }}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-1"></div>
+                                            <div class="col-1"></div>
 
                                         {% else %}
                                             <p>Il reviewer non ha lasciato note per questo stato</p>
@@ -146,7 +149,6 @@
                                           * fare più swag
                                           * togliere l'elenco puntato
                                     -->
-
 
 
                                 </div>
