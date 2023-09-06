@@ -35,9 +35,17 @@ def show_register():
 @login_register_blueprint.route("/login", methods=["POST"])
 def login():
     if request.method == "POST":
-        user = get_session().query(User).filter_by(email=request.form["email"]).first()
+        user = (
+            get_session()
+            .query(User)
+            .filter(User.email == request.form["email"])
+            .first()
+        )
         if user is None:
             flash("User not found.")
+            return redirect(url_for("login_register.show_login"))
+        if not user.is_active():
+            flash("You have been banned.")
             return redirect(url_for("login_register.show_login"))
         hash_object = hashlib.sha512(request.form["password"].encode("utf-8"))
         password = hash_object.hexdigest()
