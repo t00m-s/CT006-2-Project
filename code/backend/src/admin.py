@@ -48,4 +48,15 @@ def admin():
         .filter(User.id != current_user.id, User.id_role != 1)
         .all()
     )
-    return render_admin(current_user, users)
+    users = get_session().query(
+        User.id,
+        User.name,
+        User.surname,
+        User.created_at,
+        Role.name.label("role_name"),
+    )
+
+    columns = users.statement.columns.keys()
+
+    users = users.join(Role).filter(User.id != current_user.id, User.id_role != 1).all()
+    return render_admin(current_user, users, columns)

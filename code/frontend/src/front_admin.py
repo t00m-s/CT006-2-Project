@@ -4,7 +4,7 @@ from utility import render_with_lib
 admin_blueprint = Blueprint("admin", __name__, template_folder="../templtates")
 
 
-def render_admin(user, users_list):
+def render_admin(user, users_list, columns):
     """
     Renders the admin page
 
@@ -20,6 +20,7 @@ def render_admin(user, users_list):
     return render_with_lib(
         "admin.html",
         users=users_list,
+        columns=columns,
         custom_javascript=custom_javscript,
         custom_css=custom_css,
     )
