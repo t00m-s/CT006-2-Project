@@ -1,6 +1,7 @@
 $(document).ready(function () {
     // Richiama la funzione per randomizzare l'ordine all'avvio della pagina
     randomizeListOrder();
+    activeNavbar();
 });
 
 
@@ -29,6 +30,29 @@ function randomizeListOrder() {
     itemsArray.forEach(item => {
         list.appendChild(item);
     });
+}
+
+
+function activeNavbar(){
+    const title = $("title").text();
+
+    switch (title){
+        case "Dashboard":
+            $("#DashboardNav").addClass("active");
+            break;
+        case "Add a new project":
+        case "Projects":
+            $(".ProjectsNav").addClass("active");
+            break;
+        case "Value project":
+        case "View editable projects":
+            $("#EditProjectsNav").addClass("active");
+            break;
+        case "Account":
+            $("#AccountNav").addClass("active");
+            break;
+    }
+
 }
 
 

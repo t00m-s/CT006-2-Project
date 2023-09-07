@@ -11,12 +11,15 @@
     <div class="col-10 offset-1">
         {% for type in types %}
             {% if projects[type.name] %}
-                <h1>{{ type.name }}</h1>
+                <div class="row mb-4">
+                    <div class="text-center mb-3">
+                        <h1>{{ type.name }}</h1>
+                    </div>
             {% endif %}
             <div class="row">
                 {% for project in projects[type.name] %}
                     <div class="col-12 col-md-6">
-                        <div class="card h-100" style="margin-right: 5px;">
+                        <div class="card shadow h-100" style="margin-right: 5px;">
                             <div class="card-body">
                                 <div class="card-title text-center mb-3">
                                     <h6 style="color:#AD1637" > Titolo: </h6>
@@ -25,14 +28,14 @@
                                 <div class="card-text">
                                     <div class="text-center mb-3">
                                         <h6 style="color:#AD1637" > Autore: </h6>
-                                        <h6> {{ project.user.name }} {{ project.user.surname }}</h6>
+                                        <h6> {{ project.user.name + " " + project.user.surname }}</h6>
                                     </div>
 
                                     <div class="text-center">
                                         <h6 style="color:#AD1637" > Descrizione: </h6>
                                     </div>
                                     <div style="height:200px" class="scrollable mb-4">
-                                        {{ project.get_description|safe }}
+                                         {{ project.get_description|safe }}
                                     </div>
 
                                 </div>
@@ -46,6 +49,7 @@
                     </div>
 
                 {% endfor %}
+            </div>
             </div>
         {% endfor %}
     </div>

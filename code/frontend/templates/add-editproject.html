@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block title %}
+{% if is_add %}
     <title>Add a new project</title>
+{% else %}
+    <title>Value project</title>
+{% endif %}
 {% endblock %}
 
 {% block navbar %}
@@ -9,21 +13,37 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
-        <div class="row expanded">
-            <div class="col-12">
-                <div class="card">
+
+
+
+        <div class="row">
+            <div class="col-10 col-md-8 offset-1 offset-md-2 rounded shadow card">
+                <div class="">
                     <div class="row custom_row">
+                        <div class="row mb-3">
+                            <div class="col-2">
+                                <a onclick="history.back()" role="button" type="button" class="btn btn-primary btn-form pt-0 pb-0">
+                                    <h3 class="bi bi-arrow-left"></h3>
+                                </a>
+                            </div>
+                        </div>
+
                         <div class="col-12 text-center">
                             <h2 style="color: #24292e">{{ 'Nuovo' if is_add else 'Revisiona' }} Progetto</h2>
                         </div>
+
                         {% if not is_add %}
+<div class="col-10 mx-auto"> <hr> </div>
                             <div class="col-12 text-center">
-                                <h4> {{ project.name }}</h4>
+                                <h6 style="color:#AD1637 ;font-weight: normal"> Titolo: </h6>
+                                <h5 style="color:lightslategray; font-weight: normal"> {{ project.name }}</h5>
+                                <h6 style="color:#AD1637 ;font-weight: normal"> Autore: </h6>
+                                <h5 style="color:lightslategray; font-weight: normal"> {{ project.user.name + " " + project.user.surname  }}</h5>
                             </div>
                         {% endif %}
                     </div>
-                    <form method="POST" class="dropzone"
+                    <div class="col-10 mx-auto">
+                        <form method="POST" class="dropzone"
                           action="{{ 'addproject' if is_add else 'editproject/'+project.id|string }}"
                           id="form_upload"
                           enctype="multipart/form-data">
@@ -127,8 +147,9 @@
                             </div>
                         </div>
                     </form>
+                    </div>
+
                 </div>
             </div>
         </div>
-    </div>
 {% endblock %}
