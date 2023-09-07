@@ -1,14 +1,11 @@
 from front_login_register import *
-from flask import Blueprint, request, redirect, url_for, flash, render_template, abort
+from flask import Blueprint, request, redirect, url_for, flash, abort
 from flask_login import login_user, current_user
 import hashlib
 import re
-from ...frontend.src.utility import render_with_lib
-from ..database.session import *
-from ..database.maps.user import *
-from ..database.maps.role import *
+from ..database.session import get_session
+from ..database.maps.user import User
 from datetime import date
-from datetime import datetime
 
 # region per importare file molto distanti dal package corrent
 import sys
@@ -22,43 +19,69 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", 
 login_register_blueprint = Blueprint("login_register", __name__)
 
 
-@login_register_blueprint.route("/login", methods=["GET"])
-def show_login():
-    return render_login()
-
-
-@login_register_blueprint.route("/register", methods=["GET"])
-def show_register():
-    return render_register()
-
-
-@login_register_blueprint.route("/login", methods=["POST"])
+@login_register_blueprint.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "POST":
-        user = (
-            get_session()
-            .query(User)
-            .filter(User.email == request.form["email"])
-            .first()
-        )
-        if user is None:
-            flash("User not found.")
-            return redirect(url_for("login_register.show_login"))
-        if not user.is_active():
-            flash("You have been banned.")
-            return redirect(url_for("login_register.show_login"))
-        hash_object = hashlib.sha512(request.form["password"].encode("utf-8"))
-        password = hash_object.hexdigest()
-        if password == user.password and login_user(user):
-            return redirect(url_for("home.index"))
-        else:
-            flash("Wrong password.")
-            return redirect(url_for("login_register.show_login"))
-    else:  # GET
-        return redirect(url_for("login_register.show_login"))
+    if request.method == "GET":
+        return render_login()
+    user = get_session().query(User).filter(User.email == request.form["email"]).first()
+    if user is None:
+        flash("User not found.")
+        return redirect(url_for("login_register.login"))
+    if not user.is_active():
+        flash("You have been banned.")
+        return redirect(url_for("login_register.login"))
+    hash_object = hashlib.sha512(request.form["password"].encode("utf-8"))
+    password = hash_object.hexdigest()
+    if password == user.password:
+        login_user(user)
+        return redirect(url_for("home.index"))
+    flash("Wrong password.")
+    return redirect(url_for("login_register.login"))
 
 
-def checkRegisterAccountParams(my_request, backurl):
+@login_register_blueprint.route("/register", methods=["GET", "POST"])
+def register():
+    if request.method == "GET":
+        return render_register()
+
+    backurl = "login_register.register"
+    check_register_parameters(request, backurl)
+    user = None
+    try:
+        user = get_session().query(User).filter_by(email=request.form["email"]).first()
+    except:
+        get_session().rollback()
+
+    if user is not None:
+        flash("User already registered.")
+        return redirect(url_for("login_register.login"))
+
+        # dovrebbe essere tutto okay, non abbiamo trovato nessun utente con questa mail
+        # creiamo quello nuovo
+    try:
+        new_user = User(
+            name=request.form["name"],
+            surname=request.form["surname"],
+            email=request.form["email"],
+            password=request.form["password"],
+            birth_date=request.form["birth_date"]
+            if request.form["birth_date"] is not None
+            and request.form["birth_date"] != ""
+            else None,
+            id_role=3,
+        )  # set default id to researcher
+        get_session().add(new_user)
+        get_session().commit()
+
+        flash("Account creato, effettua il login")
+        return redirect(url_for("login_register.login"))
+    except:
+        get_session().rollback()
+        flash("Errore durante la registrazione")
+        return redirect(url_for(backurl))
+
+
+def check_register_parameters(my_request, backurl):
     if my_request.method != "POST":
         abort(500)  # TODO gestire l'errore
     if my_request.form["name"] is None:
@@ -67,6 +90,15 @@ def checkRegisterAccountParams(my_request, backurl):
     if my_request.form["surname"] is None:
         flash("Did you forget your surname?")
         return redirect(url_for(backurl))
+    if my_request.form["email"] is None:
+        flash("You forgot the email.")
+        return redirect(url_for(backurl))
+    check_email(my_request, backurl)
+    if request.form["password"] is None:
+        flash("You forgot the password")
+        return redirect(url_for(backurl))
+    check_password(my_request, backurl)
+
     # html salva l'input date secondo il formato year-month-day
     # separo l'input e salvo in una list di dimensione 3
     if (
@@ -80,10 +112,9 @@ def checkRegisterAccountParams(my_request, backurl):
         if date.today() < pythonDate:
             flash("Are you a time traveller? Your birth date is later than today")
             return redirect(url_for(backurl))
-    return None  # tutto okay prosegui
 
 
-def checkEmail(my_request, backurl):
+def check_email(my_request, backurl):
     if not re.match(
         r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", my_request.form["email"]
     ):
@@ -92,7 +123,7 @@ def checkEmail(my_request, backurl):
     return None
 
 
-def checkPassword(my_request, backurl):
+def check_password(my_request, backurl):
     if (
         "password" not in my_request.form
         or my_request.form["password"] is None
@@ -110,21 +141,20 @@ def checkPassword(my_request, backurl):
     if my_request.form["password"] != my_request.form["password_2"]:
         flash("Your passwords do not match.")
         return redirect(url_for(backurl))
-    return None
 
 
 @login_register_blueprint.route("/account", methods=["POST"])
 def edit_account():
     backurl = "home.account"
-    test = checkRegisterAccountParams(request, backurl)
+    test = check_register_parameters(request, backurl)
     if test is not None:
         return test
     if "password" in request.form:
-        test = checkPassword(request, backurl)
+        test = check_password(request, backurl)
         if test is not None:
             return test
     if "email" in request.form:
-        test = checkEmail(request, backurl)
+        test = check_email(request, backurl)
         if test is not None:
             return test
 
@@ -136,55 +166,3 @@ def edit_account():
         "Account correctly updated", "info"
     )  # TODO CAMBIARE IL COLORE (ORA IL BANNER VIENE FUORI ROSSO, DOVREBBE ESSERE VERDE9
     return redirect(url_for(backurl))
-
-
-@login_register_blueprint.route("/register", methods=["POST"])
-def register_back():
-    backurl = "login_register.show_register"
-    if request.method == "POST":
-        test = checkRegisterAccountParams(request, backurl)
-        if test is not None:
-            return test
-        if request.form["email"] is None:
-            flash("You forgot the email")
-            return redirect(url_for(backurl))
-        test = checkEmail(request, backurl)
-        if test is not None:
-            return test
-        if request.form["password"] is None:
-            flash("You forgot the password")
-            return redirect(url_for(backurl))
-        test = checkPassword(request, backurl)
-        if test is not None:
-            return test
-        user = None
-        try:
-            user = (
-                get_session().query(User).filter_by(email=request.form["email"]).first()
-            )
-        except:
-            get_session().rollback()
-        if user is not None and user.password is not None:
-            flash("User already registered.")
-            return redirect(url_for("login_register.show_login"))
-
-        # dovrebbe essere tutto okay, non abbiamo trovato nessun utente con questa mail
-        # creiamo quello nuovo
-        new_user = User(
-            name=request.form["name"],
-            surname=request.form["surname"],
-            email=request.form["email"],
-            password=request.form["password"],
-            birth_date=request.form["birth_date"]
-            if request.form["birth_date"] is not None
-            and request.form["birth_date"] != ""
-            else None,
-            id_role=3,
-        )  # set default id to researcher
-        get_session().add(new_user)
-        get_session().commit()
-
-        flash("Account creato,  effettua il login")
-        return redirect(url_for("login_register.show_login"))
-    else:
-        return redirect(url_for(backurl))
