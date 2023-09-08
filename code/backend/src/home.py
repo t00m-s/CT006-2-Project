@@ -36,7 +36,9 @@ def index():
     """
     Returns the route for the current user.
     """
-    return render_home(current_user)
+    if current_user.is_authenticated():
+        return render_home(current_user)
+    flash("Error")
 
 
 @home_blueprint.route("/logout")

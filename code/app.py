@@ -27,7 +27,6 @@ migrate()  # we want to generate the db table on app load
 
 login_manager.init_app(app)
 login_manager.login_view = "login_register.login"
-login_manager.session_protection = "strong"
 UPLOAD_FOLDER = os.path.join(app.root_path, "db_files")
 ALLOWED_EXTENSIONS = {"pdf"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER

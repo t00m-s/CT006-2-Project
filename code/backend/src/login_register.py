@@ -27,16 +27,18 @@ def login():
     if user is None:
         flash("User not found.")
         return redirect(url_for("login_register.login"))
-    if not user.is_active():
+    if user.ban:
         flash("You have been banned.")
         return redirect(url_for("login_register.login"))
     hash_object = hashlib.sha512(request.form["password"].encode("utf-8"))
     password = hash_object.hexdigest()
     if password == user.password:
         login_user(user)
-        return redirect(url_for("home.index"))
-    flash("Wrong password.")
-    return redirect(url_for("login_register.login"))
+        # return "Ti ho loggato stronzo ma il redirect non va"
+        return redirect(url_for("home.index"))  # RIGA ERRORE
+    else:
+        flash("Wrong password.")
+        return redirect(url_for("login_register.login"))
 
 
 @login_register_blueprint.route("/register", methods=["GET", "POST"])
@@ -69,6 +71,7 @@ def register():
             and request.form["birth_date"] != ""
             else None,
             id_role=3,
+            ban=False,
         )  # set default id to researcher
         get_session().add(new_user)
         get_session().commit()
