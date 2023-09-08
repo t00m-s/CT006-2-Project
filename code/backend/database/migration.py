@@ -102,10 +102,10 @@ def migrate():
     get_session().execute(
         text(
             """
-                               CREATE OR REPLACE TRIGGER is_reviewer_trigger
-                               BEFORE INSERT OR UPDATE ON project_history
-                               FOR EACH ROW EXECUTE FUNCTION is_reviewer()
-                               """
+            CREATE OR REPLACE TRIGGER is_reviewer_trigger
+            BEFORE INSERT OR UPDATE ON project_history
+            FOR EACH ROW EXECUTE FUNCTION is_reviewer()
+            """
         )
     )
     get_session().commit()
