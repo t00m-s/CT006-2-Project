@@ -9,6 +9,150 @@
 {% endblock %}
 
 {% block content %}
-    You are logged in as
-    {{ user.name + " " + user.surname }}
+    {% if current_user.isReviewer() %}
+    <div class="col-11 mx-auto">
+    {% else %}
+    <div class="col-10 offset-1">
+    {% endif %}
+        <div class="row">
+            <div class="text-center mt-1 mb-4">
+                <h1> Dashboard di {{ user.name + " " + user.surname }} </h1>
+            </div>
+        </div>
+        <div class="row">
+            {% if current_user.isReviewer() %}
+                <div class="col-12 col-md-6 col-lg-4">
+            {% else %}
+                <div class="col-12 col-md-6">
+            {% endif %}
+
+                <div class="card shadow h-100" style=" margin-right: 5px;">
+                    <div class="card-body">
+                        <div class="card-title text-center mb-3">
+                            <h2 style="color:#AD1637"> I tuoi progetti </h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-11 mx-auto mb-3">
+                                <img src="{{ placeholder }}" class="card-img-top" alt="placeholder_unive">
+                            </div>
+                        </div>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-11 mx-auto text-center mb-3">
+                                    <h5 class="dashboard_description">
+                                        Qui puoi visualizzare tutti i tuoi progetti caricati,
+                                        tenere traccia del loro stato o caricare nuovi progetti
+                                    </h5>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="d-grid gap-2 col-11 mx-auto">
+                                <a href="/projects" class="btn btn-primary btn-form">
+                                    Vai
+                                </a>
+                                <a href="/addproject" class="btn btn-primary">
+                                    Nuovo Progetto
+                                </a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+           {% if current_user.isReviewer() %}
+                <div class="col-12 col-md-6 col-lg-4">
+            {% else %}
+                <div class="col-12 col-md-6">
+            {% endif %}
+                <div class="card shadow h-100" style=" margin-right: 5px;">
+                    <div class="card-body">
+                        <div class="card-title text-center mb-3">
+                            <h2 style="color:#AD1637"> Il tuo account </h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-11 mx-auto mb-3">
+                                <img src="{{ placeholder }}" class="card-img-top" alt="placeholder_unive">
+                            </div>
+                        </div>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-11 mx-auto text-center mb-3">
+                                    <h5 class="dashboard_description">
+                                        Qui puoi vedere i dati del tuo account oppure modificare email e password, oppure effettuare il logout
+                                    </h5>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="d-grid gap-2 col-11 mx-auto">
+                                <a href="/account" class="btn btn-primary btn-form">
+                                    Vai
+                                </a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+            {% if current_user.isReviewer() %}
+                <div class="col-12 col-md-6 col-lg-4 mx-auto">
+                <div class="card shadow h-100" style="margin-right: 5px;">
+                    <div class="card-body">
+                        <div class="card-title text-center mb-3">
+                            <h2 style="color:#AD1637"> Valuta progetti </h2>
+                        </div>
+                        <div class="row">
+                            <div class="col-11 mx-auto mb-3">
+                                <img src="{{ placeholder }}" class="card-img-top" alt="placeholder_unive">
+                            </div>
+                        </div>
+                        <div class="card-text">
+                            <div class="row">
+                                <div class="col-11 mx-auto text-center mb-3">
+                                    <h5 class="dashboard_description">
+                                        Qui puoi visualizzare tutti i tuoi progetti caricati,
+                                        tenere traccia del loro stato o caricare nuovi progetti
+                                    </h5>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="d-grid gap-2 col-11 mx-auto">
+                                <a href="/vieweditableprojects" class="btn btn-primary btn-form">
+                                    Vai
+                                </a>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+
 {% endblock %}

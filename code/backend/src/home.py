@@ -27,7 +27,7 @@ def user_loader(user_id):
     @param user_id The user's ID
     @returs User associated with the ID
     """
-    return get_session().query(User).filter_by(id=user_id).first()
+    return get_session().query(User).filter(User.id == user_id).first()
 
 
 @home_blueprint.route("/")
@@ -36,7 +36,9 @@ def index():
     """
     Returns the route for the current user.
     """
-    return render_home(current_user)
+    if current_user.is_authenticated():
+        return render_home(current_user)
+    flash("Error")
 
 
 @home_blueprint.route("/logout")
@@ -45,7 +47,7 @@ def logout():
     Returns the route for logout
     """
     logout_user()
-    return redirect(url_for("home.index"))
+    return redirect(url_for("login_register.login"))
 
 
 @home_blueprint.route("/account", methods=["GET"])

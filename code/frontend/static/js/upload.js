@@ -75,9 +75,17 @@ $(document).ready(function () {
             },
         });
     }
-    $(".select_project").select2({
+
+    let select = $(".select_project").select2({
         width: "100%", // need to override the changed default
     });
+
+    let myUrl = new URLSearchParams(window.location.search);
+    let idType = myUrl.get("idType");
+
+    if(idType != null){
+        select.val(idType).trigger("change");
+    }
 });
 
 function cardDropdownOpen() {

@@ -31,13 +31,7 @@ def user_loader(user_id):
     @param user_id The user's ID
     @returs User associated with the ID
     """
-    try:
-        user = get_session().query(User).filter_by(id=user_id).first()
-        get_session().commit()
-    except:
-        get_session().rollback()
-        abort(500)  # TODO gestire benere l'errore
-    return user
+    return get_session().query(User).filter(User.id == user_id).first()
 
 
 @project_blueprint.route("/projects")
@@ -92,12 +86,7 @@ def viewproject(project_id):
         flash("You forgot something while creating the project.")
         return redirect("/projects")
 
-    project = (
-        get_session()
-        .query(Project)
-        .filter(Project.id == project_id)
-        .first()
-    )
+    project = get_session().query(Project).filter(Project.id == project_id).first()
 
     if project is None:
         flash("Project not found")
@@ -116,10 +105,13 @@ def createProjectHistory(request, project, id_state=None):
     note = None
     if id_state is None:  # 3 = Submitted for Evaluation
         id_state = State.getSubmittedID()
-    if request.form["note"] is not None and request.form["note"] != '':
+    if request.form["note"] is not None and request.form["note"] != "":
         note = request.form["note"]
     new_project_history = ProjectHistory(
-        id_project=project.id, id_state=id_state, note=note, id_user_reviewer=current_user.id
+        id_project=project.id,
+        id_state=id_state,
+        note=note,
+        id_user_reviewer=current_user.id
         # TODO UN BEL TRIGGER CHE CONTROLLA CHE LE HISTORY CON STATO SUBMIT POSSANO ESSERE AGGIUNTE SOLO DALL AUTORE DEL PROGETTO
     )
 
@@ -130,6 +122,7 @@ def createProjectHistory(request, project, id_state=None):
 
 def makeHistoryFilePath(project, project_history):
     import shutil
+
     dir_path = os.path.join(
         os.getcwd(),
         "db_files",
@@ -150,9 +143,7 @@ def placeFileInDirectory(request, dir_path, project_history):
         file_path = os.path.join(dir_path, file.filename)
         file.save(file_path)
         get_session().add(
-            ProjectFiles(
-                path=file_path, id_project_history=project_history.id
-            )
+            ProjectFiles(path=file_path, id_project_history=project_history.id)
         )
     get_session().commit()
 
@@ -160,13 +151,12 @@ def placeFileInDirectory(request, dir_path, project_history):
 def rollBackProjectHistory(path_to_rm, project_history):
     # Delete directories and files
     import shutil
+
     shutil.rmtree(path_to_rm)
     # Delete project_files commit
     get_session().rollback()
     # Delete project_history
-    get_session().query(ProjectHistory).filter_by(
-        id=project_history.id
-    ).delete()
+    get_session().query(ProjectHistory).filter_by(id=project_history.id).delete()
     get_session().commit()
 
 
@@ -180,13 +170,25 @@ def addproject():
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
         try:
-            if not request.form["name"] or request.form["name"] == '' or request.form["name"] is None:
+            if (
+                    not request.form["name"]
+                    or request.form["name"] == ""
+                    or request.form["name"] is None
+            ):
                 flash("Did you forget to add a name to the project?")
                 return "Parameters error", 500
-            if not request.form["description"] or request.form["name"] == '' or request.form["name"] is None:
+            if (
+                    not request.form["description"]
+                    or request.form["name"] == ""
+                    or request.form["name"] is None
+            ):
                 flash("Did you forget to add a description to the project?")
                 return "Parameters error", 500
-            if not request.form["type"] or request.form["type"] == '' or request.form["type"] is None:
+            if (
+                    not request.form["type"]
+                    or request.form["type"] == ""
+                    or request.form["type"] is None
+            ):
                 flash("Did you forget to select a type?")
             get_session().begin()
             new_project = Project(
@@ -204,7 +206,9 @@ def addproject():
         new_project_history = None
         try:
             new_project_history = createProjectHistory(request, new_project)
-            dir_path = makeHistoryFilePath(new_project, new_project_history)  # Add project files
+            dir_path = makeHistoryFilePath(
+                new_project, new_project_history
+            )  # Add project files
             placeFileInDirectory(request, dir_path, new_project_history)
             return jsonify({"new_project_id": new_project.id})
         except:
@@ -264,22 +268,25 @@ def view_editable_projects():
 @login_required
 def editproject(project_id):
     if not project_id.isdigit():
-        flash('Error while getting the project')
+        flash("Error while getting the project")
         return redirect("/vieweditableprojects")
     try:
         project = get_session().query(Project).filter(Project.id == project_id).first()
         if project.isClosed():
-            flash('You can not review a closed project')
+            flash("You can not review a closed project")
             return redirect("/vieweditableprojects")
 
         states = get_session().query(State)
         if project.id_user == current_user.id:
-            states = states.filter(State.id == 2)  # we  want that a normal user can only submit
+            states = states.filter(
+                State.id == 2
+            )  # we  want that a normal user can only submit
         else:
             states = states.filter(State.id != 2)  # we want reviwer can not  submit
         states = states.all()
     except:
-        flash('Error while getting the project or states from the db_bk')
+
+        flash("Error while getting the project or states from the db")
         return redirect("/vieweditableprojects")
     # Check if current user can review
 
@@ -292,10 +299,19 @@ def editproject(project_id):
 
     elif request.method == "POST":
         try:
-            if not request.form["state"] or request.form["state"] == '' or request.form["state"] is None:
+            if (
+                    not request.form["state"]
+                    or request.form["state"] == ""
+                    or request.form["state"] is None
+            ):
                 flash("Did you forget chose a state for the review?")
                 return "Parameters error", 500
-            state = get_session().query(State).filter(State.id == request.form["state"]).first()
+            state = (
+                get_session()
+                .query(State)
+                .filter(State.id == request.form["state"])
+                .first()
+            )
             if state is None:
                 flash("State not found")
                 return "Parameters error", 500
@@ -312,7 +328,10 @@ def editproject(project_id):
         except:
             # Delete project_hisotry
             path_to_rm = os.path.join(
-                os.getcwd(), "db_files", str(current_user.id), str(new_project_history.id)
+                os.getcwd(),
+                "db_files",
+                str(current_user.id),
+                str(new_project_history.id),
             )
             rollBackProjectHistory(path_to_rm, new_project_history)
             return "General Error", 500

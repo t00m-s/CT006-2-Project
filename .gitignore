@@ -136,6 +136,7 @@ dmypy.json
 
 *.DS_Store
 db_bk/*
+db/*
 *.run/
 
 # DB files dump

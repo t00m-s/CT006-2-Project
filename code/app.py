@@ -27,7 +27,6 @@ migrate()  # we want to generate the db_bk table on app load
 
 login_manager.init_app(app)
 login_manager.login_view = "login_register.login"
-
 UPLOAD_FOLDER = os.path.join(app.root_path, "db_files")
 ALLOWED_EXTENSIONS = {"pdf"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -126,7 +125,5 @@ def handle_message(data):
 
 
 # endregion
-
-
 if __name__ == "__main__":
     socketio.run(app, debug=True)
