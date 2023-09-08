@@ -83,7 +83,7 @@ $(document).ready(function () {
     let myUrl = new URLSearchParams(window.location.search);
     let idType = myUrl.get("idType");
 
-    if(idType != null){
+    if (idType != null) {
         select.val(idType).trigger("change");
     }
 });

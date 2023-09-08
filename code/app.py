@@ -1,8 +1,7 @@
 from flask import *
 from .backend.database.engine import *
 from .backend.database.migration import *
-from flask_login import login_required, current_user
-
+from flask_login import *
 # tra tutti i file che hanno rotte deve essere il primo in quando definisce flas_login
 from .backend.src.home import *
 from .backend.src.login_register import *
@@ -23,17 +22,28 @@ app.register_blueprint(chat_blueprint, url_prefix="/")
 app.register_blueprint(admin_blueprint, url_prefix="/")
 # Secret Key for session management and flash messages
 app.secret_key = os.getenv("SECRET_KEY")
-migrate()  # we want to generate the db table on app load
+migrate()  # we want to generate the db_bk table on app load
 
 login_manager.init_app(app)
 login_manager.login_view = "login_register.login"
-
-
 UPLOAD_FOLDER = os.path.join(app.root_path, "db_files")
 ALLOWED_EXTENSIONS = {"pdf"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # 5 Mb as maximum file size
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1000 * 1000
+
+login_manager = LoginManager(app)
+
+
+@login_manager.user_loader
+def user_loader(user_id):
+    """
+    Loads user from database with given ID
+
+    @param user_id The user's ID
+    @returs User associated with the ID
+    """
+    return get_session().query(User).filter(User.id == user_id).first()
 
 
 @app.route("/favicon.ico")
@@ -84,7 +94,7 @@ def download(file_id):
     last_backslash = path.rfind("/")
     return send_from_directory(
         path[:last_backslash],
-        path[last_backslash + 1 :],
+        path[last_backslash + 1:],
         as_attachment=True,
         mimetype="application/pdf",
     )
@@ -127,7 +137,5 @@ def handle_message(data):
 
 
 # endregion
-
-
 if __name__ == "__main__":
     socketio.run(app, debug=True)
