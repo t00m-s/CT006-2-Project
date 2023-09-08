@@ -60,7 +60,8 @@ $(document).ready(function () {
                     window.location.replace("/viewproject/" + response.new_project_id);
                 });
                 sono_io.on("errormultiple", function (files, response) {
-                    window.location.reload();
+                    console.log(response);
+                    // window.location.reload();
                 });
                 sono_io.on("addedfile", (file) => {
                     cardDropdownOpen();
@@ -83,7 +84,7 @@ $(document).ready(function () {
     let myUrl = new URLSearchParams(window.location.search);
     let idType = myUrl.get("idType");
 
-    if(idType != null){
+    if (idType != null) {
         select.val(idType).trigger("change");
     }
 });

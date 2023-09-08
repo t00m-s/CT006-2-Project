@@ -1,5 +1,5 @@
 from flask import *
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager, current_user, login_required
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..database.session import get_session
@@ -19,24 +19,13 @@ home_blueprint = Blueprint("home", __name__)
 login_manager = LoginManager()
 
 
-@login_manager.user_loader
-def user_loader(user_id):
-    """
-    Loads user from database with given ID
-
-    @param user_id The user's ID
-    @returs User associated with the ID
-    """
-    return get_session().query(User).filter(User.id == user_id).first()
-
-
 @home_blueprint.route("/")
 @login_required
 def index():
     """
     Returns the route for the current user.
     """
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return render_home(current_user)
     flash("Error")
 

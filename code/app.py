@@ -1,8 +1,7 @@
 from flask import *
 from .backend.database.engine import *
 from .backend.database.migration import *
-from flask_login import login_required, current_user
-
+from flask_login import *
 # tra tutti i file che hanno rotte deve essere il primo in quando definisce flas_login
 from .backend.src.home import *
 from .backend.src.login_register import *
@@ -32,6 +31,19 @@ ALLOWED_EXTENSIONS = {"pdf"}
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # 5 Mb as maximum file size
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1000 * 1000
+
+login_manager = LoginManager(app)
+
+
+@login_manager.user_loader
+def user_loader(user_id):
+    """
+    Loads user from database with given ID
+
+    @param user_id The user's ID
+    @returs User associated with the ID
+    """
+    return get_session().query(User).filter(User.id == user_id).first()
 
 
 @app.route("/favicon.ico")

@@ -3,10 +3,10 @@ from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
 from .role import *
 from .type import *
+from flask_login import UserMixin, login_manager
 
 from ..session import get_session
 import hashlib
-from flask_login import *
 
 Base = declarative_base()  # tabella = classe che eredita da Base
 
@@ -63,7 +63,7 @@ class User(Base, UserMixin):
 
     def set_role(self):
         if (
-            self.id_role is None
+                self.id_role is None
         ):  # nel caso in cui non sto impostando nessun valore, di default sarà un ricercatore
             self.id_role = 3  # provvisoriamete metto l'id forzato
             # FIXME self.role = get_session().query(Role).filter_by(name='Researcher').first().id

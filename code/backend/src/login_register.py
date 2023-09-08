@@ -1,6 +1,6 @@
 from front_login_register import *
 from flask import Blueprint, request, redirect, url_for, flash, abort
-from flask_login import login_user, current_user
+from flask_login import *
 import hashlib
 import re
 from ..database.session import get_session
@@ -10,6 +10,8 @@ from datetime import date
 # region per importare file molto distanti dal package corrent
 import sys
 import os
+
+from ...app import app
 
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "frontend", "src"))
 
@@ -24,6 +26,7 @@ def login():
     if request.method == "GET":
         return render_login()
     user = get_session().query(User).filter(User.email == request.form["email"]).first()
+    get_session().commit()
     if user is None:
         flash("User not found.")
         return redirect(url_for("login_register.login"))
@@ -68,7 +71,7 @@ def register():
             password=request.form["password"],
             birth_date=request.form["birth_date"]
             if request.form["birth_date"] is not None
-            and request.form["birth_date"] != ""
+               and request.form["birth_date"] != ""
             else None,
             id_role=3,
             ban=False,
@@ -105,9 +108,9 @@ def check_register_parameters(my_request, backurl):
     # html salva l'input date secondo il formato year-month-day
     # separo l'input e salvo in una list di dimensione 3
     if (
-        hasattr(my_request.form, "birth_date")
-        and my_request.form["birth_date"] is not None
-        and my_request.form["birth_date"] != ""
+            hasattr(my_request.form, "birth_date")
+            and my_request.form["birth_date"] is not None
+            and my_request.form["birth_date"] != ""
     ):
         dateTokens = my_request.form["birth_date"].split("-")
         # creo l'oggetto date di python
@@ -119,7 +122,7 @@ def check_register_parameters(my_request, backurl):
 
 def check_email(my_request, backurl):
     if not re.match(
-        r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", my_request.form["email"]
+            r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", my_request.form["email"]
     ):
         flash("Email malformed.")
         return redirect(url_for(backurl))
@@ -128,16 +131,16 @@ def check_email(my_request, backurl):
 
 def check_password(my_request, backurl):
     if (
-        "password" not in my_request.form
-        or my_request.form["password"] is None
-        or my_request.form["password"] == ""
+            "password" not in my_request.form
+            or my_request.form["password"] is None
+            or my_request.form["password"] == ""
     ):
         flash("Password can not be empty.")
         return redirect(url_for(backurl))
     if (
-        "password_2" not in my_request.form
-        or my_request.form["password_2"] is None
-        or my_request.form["password_2"] == ""
+            "password_2" not in my_request.form
+            or my_request.form["password_2"] is None
+            or my_request.form["password_2"] == ""
     ):
         flash("Confirmation password can not be empty.")
         return redirect(url_for(backurl))

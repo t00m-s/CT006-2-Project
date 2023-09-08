@@ -169,40 +169,37 @@ def addproject():
     if request.method == "GET":
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
-        try:
-            if (
-                    not request.form["name"]
-                    or request.form["name"] == ""
-                    or request.form["name"] is None
-            ):
-                flash("Did you forget to add a name to the project?")
-                return "Parameters error", 500
-            if (
-                    not request.form["description"]
-                    or request.form["name"] == ""
-                    or request.form["name"] is None
-            ):
-                flash("Did you forget to add a description to the project?")
-                return "Parameters error", 500
-            if (
-                    not request.form["type"]
-                    or request.form["type"] == ""
-                    or request.form["type"] is None
-            ):
-                flash("Did you forget to select a type?")
-            get_session().begin()
-            new_project = Project(
-                id_user=current_user.id,
-                id_type=request.form["type"],
-                name=request.form["name"],
-                description=request.form["description"],
-            )
-            get_session().add(new_project)
-            get_session().commit()
-        except:
-            get_session().rollback()
-            flash("General error")
+
+        if (
+                not request.form["name"]
+                or request.form["name"] == ""
+                or request.form["name"] is None
+        ):
+            flash("Did you forget to add a name to the project?")
             return "Parameters error", 500
+        if (
+                not request.form["description"]
+                or request.form["name"] == ""
+                or request.form["name"] is None
+        ):
+            flash("Did you forget to add a description to the project?")
+            return "Parameters error", 500
+        if (
+                not request.form["type"]
+                or request.form["type"] == ""
+                or request.form["type"] is None
+        ):
+            flash("Did you forget to select a type?")
+        get_session().begin()
+        new_project = Project(
+            id_user=current_user.id,
+            id_type=request.form["type"],
+            name=request.form["name"],
+            description=request.form["description"],
+        )
+        get_session().add(new_project)
+        get_session().commit()
+
         new_project_history = None
         try:
             new_project_history = createProjectHistory(request, new_project)
