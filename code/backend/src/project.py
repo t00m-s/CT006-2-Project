@@ -169,7 +169,6 @@ def addproject():
     if request.method == "GET":
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
-
         if (
                 not request.form["name"]
                 or request.form["name"] == ""
@@ -179,8 +178,8 @@ def addproject():
             return "Parameters error", 500
         if (
                 not request.form["description"]
-                or request.form["name"] == ""
-                or request.form["name"] is None
+                or request.form["description"] == ""
+                or request.form["description"] is None
         ):
             flash("Did you forget to add a description to the project?")
             return "Parameters error", 500
@@ -190,15 +189,20 @@ def addproject():
                 or request.form["type"] is None
         ):
             flash("Did you forget to select a type?")
-        get_session().begin()
+
         new_project = Project(
             id_user=current_user.id,
             id_type=request.form["type"],
             name=request.form["name"],
             description=request.form["description"],
         )
-        get_session().add(new_project)
-        get_session().commit()
+        try:
+            get_session().add(new_project)
+            get_session().commit()
+        except:
+            get_session().rollback()
+            flash("Error 1 while creating project")
+            return "General Error", 500
 
         new_project_history = None
         try:
@@ -219,7 +223,7 @@ def addproject():
             get_session().query(Project).filter_by(id=new_project.id).delete()
 
             get_session().commit()  # Delete does not autocommit
-            flash("Error while creating project")
+            flash("Error 2 while creating project")
             return "General Error", 500
 
 

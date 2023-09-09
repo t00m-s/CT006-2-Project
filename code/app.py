@@ -32,7 +32,8 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 # 5 Mb as maximum file size
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1000 * 1000
 
-login_manager = LoginManager(app)
+
+# login_manager = LoginManager(app)
 
 
 @login_manager.user_loader

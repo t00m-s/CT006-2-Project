@@ -27,7 +27,8 @@ def index():
     """
     if current_user.is_authenticated:
         return render_home(current_user)
-    flash("Error")
+    else:
+        return redirect(url_for("login_register.login"))
 
 
 @home_blueprint.route("/logout")

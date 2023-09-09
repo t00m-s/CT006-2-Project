@@ -60,7 +60,11 @@ $(document).ready(function () {
                     window.location.replace("/viewproject/" + response.new_project_id);
                 });
                 sono_io.on("errormultiple", function (files, response) {
+                    if (response.indexOf('File is too big') >= 0) {
+                        alert(response);
+                    }
                     window.location.reload();
+
                 });
                 sono_io.on("addedfile", (file) => {
                     cardDropdownOpen();
