@@ -1,6 +1,6 @@
 from flask_login import LoginManager, current_user, login_required
 from front_project import *
-from flask import Blueprint, request, jsonify, redirect, abort, flash
+from flask import Blueprint, request, jsonify, redirect, abort, flash, url_for
 from pip._vendor.requests.compat import str
 
 from ..database.session import get_session

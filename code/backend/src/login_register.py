@@ -50,6 +50,16 @@ def register():
         return render_register()
 
     backurl = "login_register.register"
+    if "email" not in request.form:
+        flash("You forgot the email.")
+        return redirect(url_for(backurl))
+    if "password" not in request.form:
+        flash("You forgot the password.")
+        return redirect(url_for(backurl))
+    if "password_2" not in request.form:
+        flash("You forgot the password.")
+        return redirect(url_for(backurl))
+
     check_register_parameters(request, backurl)
     user = None
     try:
@@ -96,11 +106,12 @@ def check_register_parameters(my_request, backurl):
     if my_request.form["surname"] is None:
         flash("Did you forget your surname?")
         return redirect(url_for(backurl))
-    if my_request.form["email"] is None:
+    if "email" in my_request.form and (my_request.form["email"] is None or my_request.form["email"] == ''):
         flash("You forgot the email.")
         return redirect(url_for(backurl))
     check_email(my_request, backurl)
-    if request.form["password"] is None:
+    if "password" in my_request.form and (
+            my_request.form["password"] is None or my_request.form["password"] == ''):
         flash("You forgot the password")
         return redirect(url_for(backurl))
     check_password(my_request, backurl)
@@ -108,7 +119,8 @@ def check_register_parameters(my_request, backurl):
     # html salva l'input date secondo il formato year-month-day
     # separo l'input e salvo in una list di dimensione 3
     if (
-            hasattr(my_request.form, "birth_date")
+            "birth_date" in my_request.form
+            and hasattr(my_request.form, "birth_date")
             and my_request.form["birth_date"] is not None
             and my_request.form["birth_date"] != ""
     ):
@@ -121,7 +133,7 @@ def check_register_parameters(my_request, backurl):
 
 
 def check_email(my_request, backurl):
-    if not re.match(
+    if "email" in my_request.form and not re.match(
             "[^@]+@[^@]+\.[^@]+", my_request.form["email"]
     ):
         flash("Email malformed.")
@@ -131,20 +143,21 @@ def check_email(my_request, backurl):
 
 def check_password(my_request, backurl):
     if (
-            "password" not in my_request.form
-            or my_request.form["password"] is None
-            or my_request.form["password"] == ""
+            "password" in my_request.form and (
+            my_request.form["password"] is None
+            or my_request.form["password"] == "")
     ):
         flash("Password can not be empty.")
         return redirect(url_for(backurl))
     if (
-            "password_2" not in my_request.form
-            or my_request.form["password_2"] is None
-            or my_request.form["password_2"] == ""
+            "password_2" in my_request.form and (
+            my_request.form["password_2"] is None
+            or my_request.form["password_2"] == "")
     ):
         flash("Confirmation password can not be empty.")
         return redirect(url_for(backurl))
-    if my_request.form["password"] != my_request.form["password_2"]:
+    if ("password" in my_request and "password_2" in my_request) and my_request.form["password"] != my_request.form[
+        "password_2"]:
         flash("Your passwords do not match.")
         return redirect(url_for(backurl))
 
