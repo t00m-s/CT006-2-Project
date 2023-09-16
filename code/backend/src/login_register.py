@@ -60,7 +60,9 @@ def register():
         flash("You forgot the password.")
         return redirect(url_for(backurl))
 
-    check_register_parameters(request, backurl)
+    test = check_register_parameters(request, backurl)
+    if test is not None:
+        return test
     user = None
     try:
         user = get_session().query(User).filter_by(email=request.form["email"]).first()
@@ -109,18 +111,21 @@ def check_register_parameters(my_request, backurl):
     if "email" in my_request.form and (my_request.form["email"] is None or my_request.form["email"] == ''):
         flash("You forgot the email.")
         return redirect(url_for(backurl))
-    check_email(my_request, backurl)
+    test = check_email(my_request, backurl)
+    if test is not None:
+        return test
     if "password" in my_request.form and (
             my_request.form["password"] is None or my_request.form["password"] == ''):
         flash("You forgot the password")
         return redirect(url_for(backurl))
-    check_password(my_request, backurl)
+    test = check_password(my_request, backurl)
+    if test is not None:
+        return test
 
     # html salva l'input date secondo il formato year-month-day
     # separo l'input e salvo in una list di dimensione 3
     if (
             "birth_date" in my_request.form
-            and hasattr(my_request.form, "birth_date")
             and my_request.form["birth_date"] is not None
             and my_request.form["birth_date"] != ""
     ):
@@ -130,6 +135,7 @@ def check_register_parameters(my_request, backurl):
         if date.today() < pythonDate:
             flash("Are you a time traveller? Your birth date is later than today")
             return redirect(url_for(backurl))
+    return None
 
 
 def check_email(my_request, backurl):
@@ -156,10 +162,11 @@ def check_password(my_request, backurl):
     ):
         flash("Confirmation password can not be empty.")
         return redirect(url_for(backurl))
-    if ("password" in my_request and "password_2" in my_request) and my_request.form["password"] != my_request.form[
-        "password_2"]:
+    if ("password" in my_request.form and "password_2" in my_request.form) \
+            and my_request.form["password"] != my_request.form["password_2"]:
         flash("Your passwords do not match.")
         return redirect(url_for(backurl))
+    return None
 
 
 @login_register_blueprint.route("/account", methods=["POST"])
@@ -168,15 +175,6 @@ def edit_account():
     test = check_register_parameters(request, backurl)
     if test is not None:
         return test
-    if "password" in request.form:
-        test = check_password(request, backurl)
-        if test is not None:
-            return test
-    if "email" in request.form:
-        test = check_email(request, backurl)
-        if test is not None:
-            return test
-
     for key, val in request.form.items():
         setattr(current_user, key, val)
 
