@@ -10,7 +10,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./db:/var/lib/postgresql/data
+      - ./db_bk:/var/lib/postgresql/data
     networks:
       - custom_connection
 
