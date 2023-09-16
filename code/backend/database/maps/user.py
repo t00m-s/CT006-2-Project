@@ -40,6 +40,9 @@ class User(Base, UserMixin):
     def isReviewer(self):
         return self.role.is_reviewer
 
+    def isAdmin(self):
+        return self.role_id == 1
+
     # region setter
     """
     

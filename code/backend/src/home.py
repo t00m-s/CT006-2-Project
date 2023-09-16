@@ -1,5 +1,5 @@
 from flask import *
-from flask_login import LoginManager, current_user, login_required
+from flask_login import LoginManager, current_user, login_required, logout_user
 from sqlalchemy.exc import SQLAlchemyError
 
 from ..database.session import get_session
