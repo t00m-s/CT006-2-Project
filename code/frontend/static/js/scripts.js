@@ -2,6 +2,7 @@ $(document).ready(function () {
     // Richiama la funzione per randomizzare l'ordine all'avvio della pagina
     randomizeListOrder();
     activeNavbar();
+    btnRounded();
 });
 
 
@@ -12,6 +13,7 @@ function shuffleArray(array) {
         [array[i], array[j]] = [array[j], array[i]];
     }
 }
+
 
 // Funzione per randomizzare l'ordine della lista
 function randomizeListOrder() {
@@ -52,7 +54,11 @@ function activeNavbar(){
             $("#AccountNav").addClass("active");
             break;
     }
+}
 
+function btnRounded(){
+    const btn = $(".btn");
+    btn.addClass("rounded");
 }
 
 
