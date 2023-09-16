@@ -122,7 +122,7 @@ def check_register_parameters(my_request, backurl):
 
 def check_email(my_request, backurl):
     if not re.match(
-            r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$", my_request.form["email"]
+            "[^@]+@[^@]+\.[^@]+", my_request.form["email"]
     ):
         flash("Email malformed.")
         return redirect(url_for(backurl))

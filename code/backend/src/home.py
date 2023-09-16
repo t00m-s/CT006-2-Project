@@ -20,7 +20,6 @@ login_manager = LoginManager()
 
 
 @home_blueprint.route("/")
-@login_required
 def index():
     """
     Returns the route for the current user.
@@ -28,6 +27,7 @@ def index():
     if current_user.is_authenticated:
         return render_home(current_user)
     else:
+        login_manager.login_message = ''
         return redirect(url_for("login_register.login"))
 
 
