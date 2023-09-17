@@ -1,4 +1,4 @@
-from flask import Blueprint, abort, request, redirect, url_for
+from flask import Blueprint, abort, request, redirect, url_for, flash
 from flask_login import LoginManager, current_user, login_required
 from front_admin import *
 from ..database.session import get_session
@@ -35,15 +35,9 @@ def user_loader(user_id):
 @admin_blueprint.route("/admin", methods=["GET"])
 @login_required
 def admin():
-    users = get_session().query(
-        User.id,
-        User.name,
-        User.surname,
-        User.created_at,
-        Role.name.label("role_name"),
-    )
+    users = get_session().query(User)
 
-    columns = users.statement.columns.keys()
+    columns = ['ID', 'Nome', 'Cognome', 'Email', 'Data Di Nascita', 'Ruolo', 'Ban']
 
     users = users.join(Role).filter(User.id != current_user.id, User.id_role != 1).all()
     available_roles = (
@@ -55,33 +49,47 @@ def admin():
 @admin_blueprint.route("/editrole", methods=["POST"])
 @login_required
 def editrole():
+    if not current_user.isAdmin():
+        flash("Non sei autorizzato")
+        return redirect(url_for("admin_blueprint.admin"))
     if (
-        "selected_role" not in request.form
-        or request.form["selected_role"] is None
-        or request.form["selected_role"] == ""
+            "selected_role" not in request.form
+            or request.form["selected_role"] is None
+            or request.form["selected_role"] == ""
     ):
         flash("Error while changing role")
         return redirect(url_for("admin_blueprint.admin"))
-
-    user = get_session().query(User).filter(User.id == request.form["user_id"]).first()
-
-    if user.id_role == request.form["selected_role"]:
-        flash("Trying to update with same role")
+    if (
+            "user_id" not in request.form
+            or request.form["user_id"] is None
+            or request.form["user_id"] == ""
+    ):
+        flash("Utente non selezionato")
         return redirect(url_for("admin_blueprint.admin"))
 
-    setattr(user, id_role, request.form["selected_role"])
+    role = get_session().query(Role).filter(Role.id == request.form["selected_role"]).first()
+    if role is None:
+        flash("Nuovo ruolo non trovato")
+        return redirect(url_for("admin_blueprint.admin"))
+
+    user = get_session().query(User).filter(User.id == request.form["user_id"]).first()
+    if user is None:
+        flash("Utente non trovato")
+        return redirect(url_for("admin_blueprint.admin"))
+
+    setattr(user, "id_role", role.id)
     get_session().commit()
     flash("Succesfully updated role")
-    return redirect(url_for("admin_blueprint.admin"))
+    return redirect(url_for("admin.admin"))
 
 
 @admin_blueprint.route("/banuser", methods=["POST"])
 @login_required
 def banuser():
     if (
-        "user_id" not in request.form
-        or request.form["user_id"] is None
-        or request.form["user_id"] == ""
+            "user_id" not in request.form
+            or request.form["user_id"] is None
+            or request.form["user_id"] == ""
     ):
         flash("Error while trying to ban user.")
         return redirect(url_for("admin_blueprint.admin"))

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy import *
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
@@ -42,6 +44,11 @@ class User(Base, UserMixin):
 
     def isAdmin(self):
         return self.id_role == 1
+
+    def getNascita(self):
+        if self.birth_date is None or self.birth_date == '':
+            return ''
+        return self.birth_date.strftime("%d/%m/%Y")
 
     # region setter
     """

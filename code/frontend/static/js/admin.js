@@ -1,3 +1,4 @@
 $(document).ready(function () {
-  $("#users_table").dataTable();
+    $("#users_table").dataTable();
+
 });

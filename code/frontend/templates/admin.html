@@ -17,8 +17,6 @@
                     {% for col in columns %}
                         <th scope="col">{{ col }}</th>
                     {% endfor %}
-                    <th scope="col">Change Role</th>
-                    <th scope="col">Ban user</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -27,29 +25,34 @@
                         <th scope="row">{{ user.id }}</th>
                         <td>{{ user.name }}</td>
                         <td>{{ user.surname }}</td>
-                        <td>{{ user.created_at }}</td>
-                        <td>{{ user.role_name }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.getNascita() }}</td>
                         <td>
-                            <form action="/editrole" method="POST">
-                                <input type="hidden" id="user_id" name="user_id" value={{ user.id }}>
-                                <select id="selected_role" name="selected_role" required>
-                                    {% for role in roles %}
-                                        <option id value={{ role.id }}>{{ role.name }}</option>
-                                    {% endfor %}
-                                </select>
-                                <button type="submit" class="btn btn-success">Change</button>
-                            </form>
+                            <input type="hidden" form="edit_user_{{ user.id }}" class="user_id" name="user_id"
+                                   value={{ user.id }}>
+                            <select form="edit_user_{{ user.id }}" class="selected_role" name="selected_role" required>
+                                {% for role in roles %}
+                                    <option
+                                            {{ "selected" if role.id==user.id_role }} data-aa="{{ user.id_role }}"
+                                                                                      value={{ role.id }}>{{ role.name }}</option>
+                                {% endfor %}
+                            </select>
+                            <button type="submit" form="edit_user_{{ user.id }}" class="btn btn-success">Change</button>
+
                         </td>
                         <td>
-                            <form action="/banuser" method="POST">
-                                <input type="hidden" id="user_id" name="user_id" value={{ user.id }}>
-                                <button type="submit" class="btn btn-danger">Ban</input>
-                            </form>
+                            <input type="hidden" form="ban_user_{{ user.id }}" class="user_id" name="user_id"
+                                   value={{ user.id }}>
+                            <button type="submit" form="ban_user_{{ user.id }}" class="btn btn-danger">Ban</button>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
+            {% for user in users %}
+                <form action="/editrole" method="POST" id="edit_user_{{ user.id }}"></form>
+                <form action="/banuser" method="POST" id="ban_user_{{ user.id }}"></form>
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
