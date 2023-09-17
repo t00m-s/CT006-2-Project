@@ -2,7 +2,7 @@
 
 
 {% block title %}
-<title>Account</title>
+    <title>Account</title>
 {% endblock %}
 
 
@@ -14,7 +14,7 @@
         <form method="POST" action="/account">
             <div class="row">
                 <div class="col-10 offset-1 mb-2">
-                    <h1 >Il tuo Account</h1> <h5 id="email">{{ user.email }}</h5><h6 id="role">
+                    <h1>Il tuo Account</h1> <h5 id="email">{{ user.email }}</h5><h6 id="role">
                     <i>{{ user.role.name }}</i></h6>
                     <div class="row border rounded justify-content-center"
                          style="background-color: #F6F4F4; border-bottom:  solid 2px !important;">
@@ -57,7 +57,7 @@
                     <div class="form-group">
                         <h5><label for="birth_date">Data Di Nascita</label></h5>
                         <input type="date" class="form-control" name="birth_date" id="birth_date"
-                               placeholder="dd/mm/yyyy" required value="{{ dob }}">
+                               placeholder="dd/mm/yyyy" value="{{ dob }}">
                     </div>
                     <div class="row border rounded justify-content-center mt-2" style="border: #eeeeee">
                     </div>

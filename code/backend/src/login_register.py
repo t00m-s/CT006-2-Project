@@ -176,6 +176,8 @@ def edit_account():
     if test is not None:
         return test
     for key, val in request.form.items():
+        if val == '':
+            val = None
         setattr(current_user, key, val)
 
     get_session().commit()
