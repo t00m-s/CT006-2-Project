@@ -2,6 +2,7 @@ from flask import *
 from .backend.database.engine import *
 from .backend.database.migration import *
 from flask_login import *
+
 # tra tutti i file che hanno rotte deve essere il primo in quando definisce flas_login
 from .backend.src.home import *
 from .backend.src.login_register import *
@@ -74,8 +75,11 @@ def download(file_id):
     )
 
     if file_path is None:
-        pass  # TODO send error
+        flash("The file does not exist.")
+        return redirect(url_for("home.index"))
     # Check if user has permissions to download this file
+
+    # TODO remove list
     project_id = list(
         get_session()
         .query(ProjectHistory.id_project)
@@ -90,12 +94,14 @@ def download(file_id):
     )
 
     if has_permission is None:
-        pass  # TODO refuse download
+        flash("You do not have permissions to download this file.")
+        return redirect(url_for("home.index"))
+
     path = str(file_path[0])
     last_backslash = path.rfind("/")
     return send_from_directory(
         path[:last_backslash],
-        path[last_backslash + 1:],
+        path[last_backslash + 1 :],
         as_attachment=True,
         mimetype="application/pdf",
     )
