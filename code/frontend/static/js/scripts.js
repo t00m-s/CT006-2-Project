@@ -56,9 +56,9 @@ function activeNavbar(){
     }
 }
 
-function btnRounded(){
+/*function btnRounded(){
     const btn = $(".btn");
     btn.addClass("rounded");
-}
+}*/
 
 
