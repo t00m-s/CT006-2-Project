@@ -2,7 +2,6 @@ $(document).ready(function () {
     // Richiama la funzione per randomizzare l'ordine all'avvio della pagina
     randomizeListOrder();
     activeNavbar();
-    btnRounded();
 });
 
 
@@ -35,10 +34,10 @@ function randomizeListOrder() {
 }
 
 
-function activeNavbar(){
+function activeNavbar() {
     const title = $("title").text();
 
-    switch (title){
+    switch (title) {
         case "Dashboard":
             $("#DashboardNav").addClass("active");
             break;
