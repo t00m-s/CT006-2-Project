@@ -1,6 +1,7 @@
 from sqlalchemy import *
 from sqlalchemy.ext.declarative import declarative_base
 from ..session import get_session
+
 Base = declarative_base()  # tabella = classe che eredita da Base
 
 
@@ -20,4 +21,4 @@ class State(Base):
 
     @staticmethod
     def getSubmittedID():
-        return get_session().query(State).filter_by(name='Submitted').first().id
+        return get_session().query(State).filter(State.name == 'Submitted').first().id

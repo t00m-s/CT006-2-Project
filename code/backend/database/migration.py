@@ -39,8 +39,17 @@ def migrate():
         except:
             get_session().rollback()
 
-    if not db_check.has_table(Type.__tablename__):
+    if not db_check.has_table(State.__tablename__):
         State.metadata.create_all(engine)
+        try:
+            get_session().add(State(id=1, name="Approved", is_closed=1))
+            get_session().add(State(id=2, name="Submitted", is_closed=0))
+            get_session().add(State(id=3, name="Requires Changes", is_closed=0))
+            get_session().add(State(id=4, name="Not Approved", is_closed=1))
+            get_session().commit()
+        except:
+            get_session().rollback()
+
     if not db_check.has_table(User.__tablename__):
         User.metadata.create_all(engine)
     if not db_check.has_table(Project.__tablename__):
