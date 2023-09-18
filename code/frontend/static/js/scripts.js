@@ -2,7 +2,6 @@ $(document).ready(function () {
     // Richiama la funzione per randomizzare l'ordine all'avvio della pagina
     randomizeListOrder();
     activeNavbar();
-    btnRounded();
 });
 
 
@@ -55,10 +54,5 @@ function activeNavbar(){
             break;
     }
 }
-
-/*function btnRounded(){
-    const btn = $(".btn");
-    btn.addClass("rounded");
-}*/
 
 

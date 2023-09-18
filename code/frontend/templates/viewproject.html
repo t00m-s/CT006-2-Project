@@ -11,7 +11,7 @@
 {% block content %}
 
     <div class="row">
-        <div class="col-10 col-md-8 offset-1 offset-md-2 rounded shadow" id="projectContainer">
+        <div class="col-11 col-sm-10 col-md-8 mx-auto rounded shadow" id="projectContainer">
             <div class="row mb-3">
                 <div class="col-1">
                     <a onclick="history.back()" role="button" type="button" class="btn btn-primary btn-form pt-0 pb-0">
@@ -29,16 +29,13 @@
 
                     <h5 style="color:#AD1637"> Descrizione: </h5>
                 </div>
-
-
-                <div class="mb-3 mt-3 rounded" id="viewProjectDescription">
+                <div class="mb-3 mt-3 rounded scrollable" id="viewProjectDescription">
                     {% if project.description %}
                         <h6 style="color:lightslategray;">
                             {{ project.get_description|safe }}
                         </h6>
                     {% endif %}
                 </div>
-
 
                 <div class="text-center">
                     <h5 style="color:#AD1637">Stati del progetto: </h5>

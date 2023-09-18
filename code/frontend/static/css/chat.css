@@ -45,12 +45,27 @@
     position: fixed;
     right: 20px;
     bottom: 135px;
-    width: 300px;
     background-color: #fff;
     border-radius: 5px;
     opacity: 0;
     transition: all 0.4s
 }
+
+/* Extra small devices (phones, 0px - 599px) */
+@media only screen and (max-width: 600px) {...}
+
+/* Small devices (portrait tablets and large phones, 600px - 767px) */
+@media only screen and (min-width: 600px) {}
+
+/* Medium devices (landscape tablets, 768px - 991px) */
+@media only screen and (min-width: 768px) { .wrapper{ width: 45% } }
+
+/* Large devices (laptops/desktops, 992px - 1200px) */
+@media only screen and (min-width: 992px) { .wrapper{ width: 33% } }
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) { .wrapper{ width: 33% } }
+
 
 #check:checked ~ .wrapper {
     opacity: 1
