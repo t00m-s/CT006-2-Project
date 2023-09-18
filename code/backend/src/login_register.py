@@ -37,6 +37,7 @@ def login():
     password = hash_object.hexdigest()
     if password == user.password:
         login_user(user)
+        flash("Login effettuato corretamente")
         return redirect(url_for("home.index"))  # RIGA ERRORE
     else:
         flash("Password errata.")
