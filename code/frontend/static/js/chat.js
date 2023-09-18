@@ -48,7 +48,7 @@ $(document).ready(function () {
 
 
 function scrollDown() {
-    $('#messages').animate({scrollTop: $(document).height()}, 100);
+    $('#messages').animate({scrollTop: 999999999999999}, 100);
 }
 
 
@@ -65,6 +65,6 @@ function isMe(obj) {
 }
 
 function aggiungiMessaggio(obj) {
-    $("#messages").append('<div class="card mx-2 rounded">' + obj.user_name + ': ' + obj.message + '</div>');
+    $("#messages").append('<div class="card mx-2 rounded">' + obj.user_name + ': ' + obj.message + obj.timestamp + '</div>');
     scrollDown();
 }
