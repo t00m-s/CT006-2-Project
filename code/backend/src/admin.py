@@ -37,7 +37,7 @@ def user_loader(user_id):
 def admin():
     users = get_session().query(User)
 
-    columns = ['ID', 'Nome', 'Cognome', 'Email', 'Data Di Nascita', 'Ruolo', 'Ban']
+    columns = ["ID", "Nome", "Cognome", "Email", "Data Di Nascita", "Ruolo", "Ban"]
 
     users = users.join(Role).filter(User.id != current_user.id, User.id_role != 1).all()
     available_roles = (
@@ -50,36 +50,41 @@ def admin():
 @login_required
 def editrole():
     if not current_user.isAdmin():
-        flash("Non sei autorizzato")
+        flash("Non sei autorizzato.", "error")
         return redirect(url_for("admin_blueprint.admin"))
     if (
-            "selected_role" not in request.form
-            or request.form["selected_role"] is None
-            or request.form["selected_role"] == ""
+        "selected_role" not in request.form
+        or request.form["selected_role"] is None
+        or request.form["selected_role"] == ""
     ):
-        flash("Error while changing role")
+        flash("Errore durante il cambio ruolo.", "error")
         return redirect(url_for("admin_blueprint.admin"))
     if (
-            "user_id" not in request.form
-            or request.form["user_id"] is None
-            or request.form["user_id"] == ""
+        "user_id" not in request.form
+        or request.form["user_id"] is None
+        or request.form["user_id"] == ""
     ):
-        flash("Utente non selezionato")
+        flash("Utente non selezionato.", "error")
         return redirect(url_for("admin_blueprint.admin"))
 
-    role = get_session().query(Role).filter(Role.id == request.form["selected_role"]).first()
+    role = (
+        get_session()
+        .query(Role)
+        .filter(Role.id == request.form["selected_role"])
+        .first()
+    )
     if role is None:
-        flash("Nuovo ruolo non trovato")
+        flash("Nuovo ruolo non trovato.", "error")
         return redirect(url_for("admin_blueprint.admin"))
 
     user = get_session().query(User).filter(User.id == request.form["user_id"]).first()
     if user is None:
-        flash("Utente non trovato")
+        flash("Utente non trovato.", "error")
         return redirect(url_for("admin_blueprint.admin"))
 
     setattr(user, "id_role", role.id)
     get_session().commit()
-    flash("Succesfully updated role")
+    flash("Ruolo aggiornato correttamente.")
     return redirect(url_for("admin.admin"))
 
 
@@ -87,20 +92,20 @@ def editrole():
 @login_required
 def banuser():
     if (
-            "user_id" not in request.form
-            or request.form["user_id"] is None
-            or request.form["user_id"] == ""
+        "user_id" not in request.form
+        or request.form["user_id"] is None
+        or request.form["user_id"] == ""
     ):
-        flash("Error while trying to ban user.")
+        flash("Errore durante il tentativo di ban dell'utente.", "error")
         return redirect(url_for("admin_blueprint.admin"))
 
     user = get_session().query(User).filter(User.id == request.form["user_id"]).first()
 
-    if not user.is_active:
-        flash("You can't ban again this user")
+    if user.ban:
+        flash("Non puoi eliminare nuovamente questo utente.", "error")
         return redirect(url_for("admin_blueprint.admin"))
     setattr(user, is_active, False)
     get_session().commit()
 
-    flash("User succesfully banned.")
+    flash("Utente rimosso correttamente.")
     return redirect(url_for("admin_blueprint.admin"))

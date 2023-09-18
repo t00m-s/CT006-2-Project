@@ -75,7 +75,7 @@ def download(file_id):
     )
 
     if file_path is None:
-        flash("The file does not exist.")
+        flash("Il file non esiste.", "error")
         return redirect(url_for("home.index"))
     # Check if user has permissions to download this file
 
@@ -94,7 +94,7 @@ def download(file_id):
     )
 
     if has_permission is None:
-        flash("You do not have permissions to download this file.")
+        flash("Non hai i permessi necessari per scaricare questo file.", "error")
         return redirect(url_for("home.index"))
 
     path = str(file_path[0])
