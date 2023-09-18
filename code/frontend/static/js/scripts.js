@@ -34,10 +34,10 @@ function randomizeListOrder() {
 }
 
 
-function activeNavbar(){
+function activeNavbar() {
     const title = $("title").text();
 
-    switch (title){
+    switch (title) {
         case "Dashboard":
             $("#DashboardNav").addClass("active");
             break;
