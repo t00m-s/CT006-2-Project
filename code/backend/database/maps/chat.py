@@ -10,24 +10,27 @@ Base = declarative_base()
 
 
 class Chat(Base):
-    __tablename__ = 'chat'
+    __tablename__ = "chat"
     id = Column(Integer, primary_key=True)
     id_project = Column(Integer, ForeignKey(Project.id), nullable=False)
-    id_user = Column(Integer, ForeignKey(User.id), nullable=False, comment='User that have sent the message')
+    id_user = Column(
+        Integer,
+        ForeignKey(User.id),
+        nullable=False,
+        comment="User that sent the message",
+    )
     message = Column(String, nullable=False)
-    created_at = Column(DateTime, default=func.now(),
-                        server_default=func.now())
+    created_at = Column(DateTime, default=func.now(), server_default=func.now())
 
-    sender = Relationship(User, back_populates='has_sent')
-    project = Relationship(Project, back_populates='messages')
+    sender = Relationship(User, back_populates="has_sent")
+    project = Relationship(Project, back_populates="messages")
 
 
-User.has_sent = relationship(
-    Chat, back_populates='sender')
+User.has_sent = relationship(Chat, back_populates="sender")
 
-Project.messages = relationship(Chat, back_populates='project')
+Project.messages = relationship(Chat, back_populates="project")
 
-'''
+"""
 LA CHAT E' SUL SINGOLO PROGETTO, OGNI PROGETTO PUò AVERE AL MASSIMO UNA SOLA CHAT (o non averne)
 
 I PARTECIPANTI DELLA CHAT, OVVERO COLORO CHE POSSONO SCRIVERE SONO: 
@@ -40,4 +43,4 @@ TUTTI REVIEWER POSSONO LEGGERE DA TUTTE LE CHAT, POSSONO SCRIVERE SOLO DOPO CHE 
 OVVIAMENTE I NON REVIWER (AUTORI) POSSONO VEDERE SOLO LE CHAT DEI PROPRI PROGETTI    
 IL TESTO DI UN MESSAGGIO E' DI MAX 255 CARATTERI 
 
-'''
+"""
