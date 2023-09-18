@@ -26,7 +26,6 @@ $(document).ready(function () {
 
     socket.on('message', function (msg) {
         aggiungiMessaggio(msg);
-        console.log('Received message');
     });
 
     $('#sendBtn').on('click', function () {
@@ -40,8 +39,10 @@ $(document).ready(function () {
 
     function mandaMessaggio() {
         let msg = $('#message');
-        socket.send({message: msg.val(), id_project: id_project});
-        msg.val('');
+        if (msg.val().trim() !== '') {
+            socket.send({message: msg.val(), id_project: id_project});
+            msg.val('');
+        }
     }
 });
 
