@@ -57,9 +57,11 @@ $(document).ready(function () {
                 //   // Hide the success button or the complete form.
                 // });
                 sono_io.on("successmultiple", function (files, response) {
+
                     window.location.replace("/viewproject/" + response.new_project_id);
                 });
                 sono_io.on("errormultiple", function (files, response) {
+                   
                     if (response.indexOf('File is too big') >= 0) {
                         alert(response);
                     }

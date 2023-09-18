@@ -50,6 +50,19 @@ function scrollDown() {
     $('#messages').animate({scrollTop: $(document).height()}, 2500);
 }
 
+
+function isMe(obj) {
+    let my_selector = $('#current_user_id');
+    if (my_selector.length <= 0) {
+        return false;
+    }
+    let my_id = my_selector.val();
+    if (obj.user_id !== undefined && my_id === obj.user_id) {
+        return true;
+    }
+    return false;
+}
+
 function aggiungiMessaggio(obj) {
     $("#messages").append('<li>' + obj.user_name + ': ' + obj.message + '</li>');
     scrollDown();
