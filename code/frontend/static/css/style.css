@@ -160,11 +160,6 @@ input {
     background-color: #f6f7fb;
 }
 
-button.btn {
-    border-radius: 2px !important;
-    box-shadow: none !important;
-}
-
 #left-menu {
     position: fixed;
     top: 0;
@@ -530,4 +525,8 @@ form i {
 
 #viewProjectDescription{
     border: 1px solid #c2bfbf;
+}
+
+.btn{
+    border-radius:.5rem !important;
 }
