@@ -110,5 +110,5 @@ def banuser():
     setattr(user, 'ban', not user.ban)
     get_session().commit()
 
-    flash("Utente rimosso correttamente.")
+    flash("Utente aggiornato correttamente.")
     return redirect(url_for("admin.admin"))
