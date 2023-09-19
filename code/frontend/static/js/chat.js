@@ -21,7 +21,7 @@ $(document).ready(function () {
     const socket = io.connect('http://localhost:5001', {query: 'id_project=' + id_project});
 
     socket.on('connect', function () {
-        socket.send({message: 'user has connected!', id_project: id_project});
+        // socket.send({message: 'user has connected!', id_project: id_project});
     });
 
     socket.on('message', function (msg) {
@@ -70,9 +70,11 @@ function isMe(obj) {
 function aggiungiMessaggio(obj) {
     let allineamento = '';
     let textPos = '';
+    let extraFix = ''
     if (isMe(obj)) {
         allineamento = 'justify-content-end';
-        textPos = 'text-end fix_pad_mex';
+        textPos = 'text-end ';
+        extraFix = ' fix_pad_mex ';
     } else {
         allineamento = 'justify-content-start';
         textPos = 'text-start ';
@@ -80,12 +82,14 @@ function aggiungiMessaggio(obj) {
 
     $("#messages").append(
         '<div class="row ">' +
-        '<small class="' + textPos + '"><i>' + obj.user_name + '</i></small>' +
+        '<small class="' + textPos + extraFix + '"><i>' + obj.user_name + '</i></small>' +
         '<div class=" d-flex ' + allineamento + '">' +
-        '<div class="text-center card p-2 mt-1 mb-1 rounded">' + obj.message + ' </div>' +
+        '<div class="' + textPos + ' card p-2 mt-1 mb-1 rounded">' + obj.message + '<br>' +
+        '<span class="text-end timestamp"> ' + obj.timestamp + '</span>' +
+        ' </div>' +
         '</div>' +
         '</div>'
     );
-    // + obj.user_name + ': ' + obj.message + obj.timestamp + '</div>'
+    // + obj.user_name + ': ' + obj.message +  + '</div>'
     scrollDown();
 }
