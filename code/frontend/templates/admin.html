@@ -37,14 +37,16 @@
                                                                                       value={{ role.id }}>{{ role.name }}</option>
                                 {% endfor %}
                             </select>
-                            <input type="submit" form="edit_user_{{ user.id }}" class="btn btn-sm btn-success" value="Cambia">
+                            <input type="submit" form="edit_user_{{ user.id }}" class="btn btn-sm btn-success"
+                                   value="Cambia">
 
                         </td>
                         <td>
                             <input type="hidden" form="ban_user_{{ user.id }}" class="user_id" name="user_id"
                                    value={{ user.id }}>
-                            <button type="submit" form="ban_user_{{ user.id }}" class="btn btn-sm btn-danger">
-                                Banna <i class="bi bi-hammer"></i>
+                            <button type="submit" form="ban_user_{{ user.id }}"
+                                    class="btn btn-sm {{ 'btn-success' if user.ban else 'btn-danger' }}">
+                                {{ 'Sblocca' if user.ban else 'Banna' }} <i class="bi bi-hammer"></i>
                             </button>
                         </td>
                     </tr>
