@@ -61,7 +61,9 @@ $(document).ready(function () {
                 });
                 sono_io.on("errormultiple", function (files, response) {
                     if (response.indexOf('File is too big') >= 0) {
-                        alert(response);
+                        alert('Stai provando a caricare un file troppo grande, il massimo è 10MiB');
+                    } else {
+                        alert('Errore generico, riprova');
                     }
                     window.location.reload();
 

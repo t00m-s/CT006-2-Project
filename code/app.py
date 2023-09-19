@@ -10,6 +10,7 @@ from .backend.src.chat import *
 from .frontend.src.index import *
 from .backend.src.project import *
 from .backend.src.admin import *
+from datetime import date
 import sys
 import os
 
@@ -135,7 +136,8 @@ def handle_message(data):
     chat_namespace = f"/chat/{chat_value}"
     join_room(chat_namespace)
 
-    new_message = {"user_name": current_user.name, "message": data["message"]}
+    new_message = {"user_name": current_user.name, "message": data["message"], "user_id": current_user.id,
+                   'timestamp': str(date.today())}
     if "user has connected!" in data["message"]:
         send(new_message, room=chat_namespace)
     else:

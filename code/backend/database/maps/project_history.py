@@ -29,6 +29,11 @@ class ProjectHistory(Base):
     def isClosed(self):
         return self.state.is_closed
 
+    def getFormattedDate(self):
+        if self.created_at is None or self.created_at == '':
+            return ''
+        return self.created_at.strftime("%d/%m/%Y %H:%M")
+
 
 Project.histories = relationship(
     ProjectHistory, back_populates="project", order_by=ProjectHistory.id.desc()

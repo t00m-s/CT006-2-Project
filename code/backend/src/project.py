@@ -142,6 +142,8 @@ def save_file_in_dir(request, dir_path, project_history):
         # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
         file = file[1]
         # TODO CONTROLLARE IL MIME TYPE in file.content_type
+        if not os.path.exists(dir_path):
+            os.makedirs(dir_path, exist_ok=True)
         file_path = os.path.join(dir_path, file.filename)
         file.save(file_path)
         get_session().add(

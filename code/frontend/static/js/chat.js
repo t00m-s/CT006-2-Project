@@ -26,7 +26,6 @@ $(document).ready(function () {
 
     socket.on('message', function (msg) {
         aggiungiMessaggio(msg);
-        console.log('Received message');
     });
 
     $('#sendBtn').on('click', function () {
@@ -40,17 +39,32 @@ $(document).ready(function () {
 
     function mandaMessaggio() {
         let msg = $('#message');
-        socket.send({message: msg.val(), id_project: id_project});
-        msg.val('');
+        if (msg.val().trim() !== '') {
+            socket.send({message: msg.val(), id_project: id_project});
+            msg.val('');
+        }
     }
 });
 
 
 function scrollDown() {
-    $('#messages').animate({scrollTop: $(document).height()}, 2500);
+    $('#messages').animate({scrollTop: 999999999999999}, 100);
+}
+
+
+function isMe(obj) {
+    let my_selector = $('#current_user_id');
+    if (my_selector.length <= 0) {
+        return false;
+    }
+    let my_id = my_selector.val();
+    if (obj.user_id !== undefined && my_id === obj.user_id) {
+        return true;
+    }
+    return false;
 }
 
 function aggiungiMessaggio(obj) {
-    $("#messages").append('<li>' + obj.user_name + ': ' + obj.message + '</li>');
+    $("#messages").append('<div class="card mx-2 rounded">' + obj.user_name + ': ' + obj.message + obj.timestamp + '</div>');
     scrollDown();
 }
