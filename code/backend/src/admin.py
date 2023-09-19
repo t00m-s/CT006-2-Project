@@ -16,22 +16,6 @@ admin_blueprint = Blueprint("admin", __name__)
 login_manager = LoginManager()
 
 
-@login_manager.user_loader
-def user_loader(user_id):
-    """
-    Loads user from database with given ID
-
-    @param user_id The user's ID
-    @returs User associated with the ID
-    """
-    try:
-        return (
-            get_session().query(User).filter(User.id_role == 1).first()
-        )  # TODO remove hardcoded value
-    except:
-        abort(500)
-
-
 @admin_blueprint.route("/admin", methods=["GET"])
 @login_required
 def admin():

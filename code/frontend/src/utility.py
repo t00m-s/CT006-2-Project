@@ -54,7 +54,4 @@ def render_with_lib(page, **kwargs):
 
     kwargs["year"] = datetime.today().year
 
-    # TODO FARE LO STESSO PER QUANTO RIGUARDA GLI STATI DEL PROGETTO, PER FARLO: PER OGNI PROGETTO PRENDERE L'ULTIMO STATO
-    # TODO: Deve esserci un modo pythonesco per fare tipo set(kwargs) senza
-    #       cicli
     return render_template(page, **kwargs)

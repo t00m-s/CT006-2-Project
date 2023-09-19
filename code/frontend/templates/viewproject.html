@@ -36,13 +36,9 @@
                         </h6>
                     {% endif %}
                 </div>
-
                 <div class="text-center">
                     <h5 style="color:#AD1637">Stati del progetto: </h5>
                 </div>
-
-
-
                 {% if project.histories|length >0 %} <!-- ciclo tutte hisotry di questo progetto-->
                     <div class="mb-3 mt-3 text-center">
                         {% for history in project.histories %}
@@ -50,10 +46,8 @@
                                 <div class="row mt-3 mb-2 mx-2 opener">
                                     <div class="col-md-2 col-1"></div>
                                     <div class="col-md-8 col-10">
-                                        <!-- TODO: aggiungere i timestamp(sono nel db_bk) -->
                                         <div class="text-center">
                                             <h5 style="color:#888DA8">
-
                                                 {% if history.state.id == 1 %}
                                                     {{ history.state.name }}
                                                     <i style="color:lawngreen" class="bi bi-check-circle-fill"></i>
@@ -76,12 +70,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="collapsible" style="display:none">
-
                                     <hr>
-
                                     <div class="row">
                                         <h6><strong>Files:</strong></h6>
                                     </div>
@@ -150,22 +140,11 @@
                                             </div>
                                         </div>
                                     </div>
-
-
-                                    <!--
-                                    TODO: * mettere iconcine download
-                                          * fare più swag
-                                          * togliere l'elenco puntato
-                                    -->
-
-
                                 </div>
                             </div>
                         {% endfor %}
                     </div>
-
                     <hr>
-
                     <div class="text-center">
                         {% if not project.isClosed() %}
                             <a role="button" href="{{ url_for('project.editproject', project_id=project.id) }}"
