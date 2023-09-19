@@ -3,6 +3,7 @@ from flask import Blueprint, abort
 from flask_login import LoginManager, current_user, login_required
 
 from ..database.maps.project import Project
+from ..database.maps.user import User
 from ...frontend.src.front_chat import render_chat
 from ..database.session import get_session
 from ..database.maps.chat import Chat
@@ -31,10 +32,15 @@ def chat(project_id):
 
 
 def save_message(message, id_sender, id_project):
-    print(message)  # TODO CONTROLLARE INJECTION SUL MESSAGGIO
-    print(id_project)  # TODO CONTROLLOARE CHE IL PROGETTO ESSISTA
-    print(
-        id_sender)  # TODO CONTROLLARE CHE SIA UN UTENTE ABILITATO PER POTER SCRIVERE IN QUESTA CHAT (per capirlo, vedi commenti in nella classe Chat)
+    test_project = get_session().query(Project).filter(Project.id == id_project).first()
+    if test_project is None:
+        abort(400)
+    test_user = get_session().query(User).filter(User.id == id_sender).first()
+    if test_user is None:
+        abort(400)
+    if not (test_user.isReviewer() or test_project.id_user == test_user.id):
+        abort(400)
+
     try:
         new_chat = Chat(message=message, id_user=id_sender, id_project=id_project)
         get_session().add(new_chat)

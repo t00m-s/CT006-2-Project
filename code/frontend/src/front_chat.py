@@ -10,7 +10,7 @@ def render_chat(messages):
     for msg in messages:
         json[msg.id] = {
             'user_name': msg.sender.name,
-            'message': msg.message,
+            'message': msg.get_message(),
             'user_id': msg.id_user,
             'timestamp': msg.getFormattedDate()
         }

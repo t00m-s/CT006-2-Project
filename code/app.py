@@ -80,7 +80,6 @@ def download(file_id):
         return redirect(url_for("home.index"))
     # Check if user has permissions to download this file
 
-    # TODO remove list
     project_id = list(
         get_session()
         .query(ProjectHistory.id_project)

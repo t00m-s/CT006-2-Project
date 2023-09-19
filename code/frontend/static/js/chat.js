@@ -47,7 +47,7 @@ $(document).ready(function () {
 });
 
 
-function scrollDown() {
+function scrollDown() {  //TODO FIXARE SAFARI
     $('#messages').animate({scrollTop: 999999999999999}, 100);
 }
 

@@ -1,4 +1,7 @@
+from pydoc import html
+
 from sqlalchemy import *
+from sqlalchemy import event
 from sqlalchemy.sql import text
 from sqlalchemy.orm import *
 from sqlalchemy.ext.declarative import declarative_base
@@ -30,10 +33,24 @@ class Chat(Base):
             return ''
         return self.created_at.strftime("%d/%m/%Y %H:%M")
 
+    def set_message(self):
+        self.message = html.escape(self.message)
+
+    def get_message(self):
+        self.message = html.unescape(self.message)
+
 
 User.has_sent = relationship(Chat, back_populates="sender")
 
 Project.messages = relationship(Chat, back_populates="project")
+
+
+def my_before_insert_listener_project(mapper, connection, target: Chat):
+    target.set_message()
+
+
+event.listen(Project, "before_insert", my_before_insert_listener_project)
+event.listen(Project, "before_update", my_before_insert_listener_project)
 
 """
 LA CHAT E' SUL SINGOLO PROGETTO, OGNI PROGETTO PUò AVERE AL MASSIMO UNA SOLA CHAT (o non averne)
