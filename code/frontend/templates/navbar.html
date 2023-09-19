@@ -81,6 +81,19 @@
                         >
                     </li>
                 {% endif %}
+                <!-- AMMINISTRAZIONE -->
+                {% if current_user.isAdmin() %}
+                    <li class="nav-item px-3">
+                        <a
+                                class="nav-link nav-white"
+                                id="EditProjectsNav"
+                                aria-current="page"
+                                href="/admin"
+                        >Amministrazione</a
+                        >
+                    </li>
+                {% endif %}
+
                 <!-- ACCOUNT -->
                 <li class="nav-item px-3">
                     <a
