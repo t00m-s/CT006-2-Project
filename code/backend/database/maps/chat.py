@@ -25,6 +25,11 @@ class Chat(Base):
     sender = Relationship(User, back_populates="has_sent")
     project = Relationship(Project, back_populates="messages")
 
+    def getFormattedDate(self):
+        if self.created_at is None or self.created_at == '':
+            return ''
+        return self.created_at.strftime("%d/%m/%Y %H:%M")
+
 
 User.has_sent = relationship(Chat, back_populates="sender")
 

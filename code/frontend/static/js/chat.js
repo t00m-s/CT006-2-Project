@@ -55,16 +55,37 @@ function scrollDown() {
 function isMe(obj) {
     let my_selector = $('#current_user_id');
     if (my_selector.length <= 0) {
+        //  console.log('bb');
         return false;
     }
     let my_id = my_selector.val();
-    if (obj.user_id !== undefined && my_id === obj.user_id) {
+    if (obj.user_id !== undefined && my_id == obj.user_id) {
+
         return true;
     }
+    //console.log('ccc', obj.user_id, my_id);
     return false;
 }
 
 function aggiungiMessaggio(obj) {
-    $("#messages").append('<div class="card mx-2 rounded">' + obj.user_name + ': ' + obj.message + obj.timestamp + '</div>');
+    let allineamento = '';
+    let textPos = '';
+    if (isMe(obj)) {
+        allineamento = 'justify-content-end';
+        textPos = 'text-end fix_pad_mex';
+    } else {
+        allineamento = 'justify-content-start';
+        textPos = 'text-start ';
+    }
+
+    $("#messages").append(
+        '<div class="row ">' +
+        '<small class="' + textPos + '"><i>' + obj.user_name + '</i></small>' +
+        '<div class=" d-flex ' + allineamento + '">' +
+        '<div class="text-center card p-2 mt-1 mb-1 rounded">' + obj.message + ' </div>' +
+        '</div>' +
+        '</div>'
+    );
+    // + obj.user_name + ': ' + obj.message + obj.timestamp + '</div>'
     scrollDown();
 }

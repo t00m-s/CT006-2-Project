@@ -102,7 +102,7 @@ def download(file_id):
     last_backslash = path.rfind("/")
     return send_from_directory(
         path[:last_backslash],
-        path[last_backslash + 1 :],
+        path[last_backslash + 1:],
         as_attachment=True,
         mimetype="application/pdf",
     )
@@ -137,7 +137,7 @@ def handle_message(data):
     join_room(chat_namespace)
 
     new_message = {"user_name": current_user.name, "message": data["message"], "user_id": current_user.id,
-                   'timestamp': str(date.today())}
+                   'timestamp': str(date.today().strftime("%d/%m/%Y %H:%M"))}
     if "user has connected!" in data["message"]:
         send(new_message, room=chat_namespace)
     else:
