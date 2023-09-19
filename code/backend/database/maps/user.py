@@ -75,10 +75,7 @@ class User(Base, UserMixin):
         if (
                 self.id_role is None
         ):  # nel caso in cui non sto impostando nessun valore, di default sarà un ricercatore
-            self.id_role = 3  # provvisoriamete metto l'id forzato
-            # FIXME self.role = get_session().query(Role).filter_by(name='Researcher').first().id
-            # va in errore, penso sia perchè non posso usare la sessione per fare una select finchè ho una sessione per fare l'inser
-            # il che mi sembra assurdo
+            self.id_role = get_session().query(Role).filter(Role.is_reviewer == False).first().id
         else:
             self.id_role = self.id_role
 
@@ -88,13 +85,20 @@ class User(Base, UserMixin):
 Role.users = relationship(User, back_populates="role")
 
 
-def my_before_insert_listener(mapper, connection, target: User):
+def my_before__update__listener(mapper, connection, target: User):
     target.set_name()
     target.set_surname()
     target.set_email()
-    target.set_password()
     target.set_role()
 
 
-event.listen(User, "before_insert", my_before_insert_listener)
-event.listen(User, "before_update", my_before_insert_listener)
+def my_before__real__insert_listener(mapper, connection, target: User):
+    target.set_password()
+    target.set_name()
+    target.set_surname()
+    target.set_email()
+    target.set_role()
+
+
+event.listen(User, "before_insert", my_before__real__insert_listener)
+event.listen(User, "before_update", my_before__update__listener)

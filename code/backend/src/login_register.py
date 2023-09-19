@@ -40,7 +40,7 @@ def login():
         flash("Login effettuato corretamente")
         return redirect(url_for("home.index"))
     else:
-        flash("Password errata.")
+        flash("Password errata.", "error")
         return redirect(url_for("login_register.login"))
 
 
@@ -83,7 +83,7 @@ def register():
             password=request.form["password"],
             birth_date=request.form["birth_date"]
             if request.form["birth_date"] is not None
-            and request.form["birth_date"] != ""
+               and request.form["birth_date"] != ""
             else None,
             id_role=3,
             ban=False,
@@ -110,7 +110,7 @@ def check_register_parameters(my_request, backurl):
         flash("Hai dimenticato il cognome.", "error")
         return redirect(url_for(backurl))
     if "email" in my_request.form and (
-        my_request.form["email"] is None or my_request.form["email"] == ""
+            my_request.form["email"] is None or my_request.form["email"] == ""
     ):
         flash("Hai dimenticato l'email?", "error")
         return redirect(url_for(backurl))
@@ -118,7 +118,7 @@ def check_register_parameters(my_request, backurl):
     if test is not None:
         return test
     if "password" in my_request.form and (
-        my_request.form["password"] is None or my_request.form["password"] == ""
+            my_request.form["password"] is None or my_request.form["password"] == ""
     ):
         flash("Hai dimenticato la password.", "error")
         return redirect(url_for(backurl))
@@ -127,9 +127,9 @@ def check_register_parameters(my_request, backurl):
     # html salva l'input date secondo il formato year-month-day
     # separo l'input e salvo in una list di dimensione 3
     if (
-        "birth_date" in my_request.form
-        and my_request.form["birth_date"] is not None
-        and my_request.form["birth_date"] != ""
+            "birth_date" in my_request.form
+            and my_request.form["birth_date"] is not None
+            and my_request.form["birth_date"] != ""
     ):
         dateTokens = my_request.form["birth_date"].split("-")
         # creo l'oggetto date di python
@@ -142,7 +142,7 @@ def check_register_parameters(my_request, backurl):
 
 def check_email(my_request, backurl):
     if "email" in my_request.form and not re.match(
-        "[^@]+@[^@]+\.[^@]+", my_request.form["email"]
+            "[^@]+@[^@]+\.[^@]+", my_request.form["email"]
     ):
         flash("Email non valida.", "error")
         return redirect(url_for(backurl))
@@ -151,12 +151,12 @@ def check_email(my_request, backurl):
 
 def check_password(my_request, backurl):
     if "password" in my_request.form and (
-        my_request.form["password"] is None or my_request.form["password"] == ""
+            my_request.form["password"] is None or my_request.form["password"] == ""
     ):
         flash("La password non può essere vuota.", "error")
         return redirect(url_for(backurl))
     if "password_2" in my_request.form and (
-        my_request.form["password_2"] is None or my_request.form["password_2"] == ""
+            my_request.form["password_2"] is None or my_request.form["password_2"] == ""
     ):
         flash("La password di conferma non può essere vuota.", "error")
         return redirect(url_for(backurl))
