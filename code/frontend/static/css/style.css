@@ -15,7 +15,7 @@
 
 .text-github {
     color: lightslategrey;
-    transition:0.5s;
+    transition:0.5s ease;
 }
 
 .bi {
@@ -447,7 +447,7 @@ form i {
 }
 
 .stateContainer{
-    transition: 1s;
+    transition: 1s ease;
 }
 
 .stateContainer:hover{
@@ -456,7 +456,7 @@ form i {
 }
 
 .collapsible{
-    transition: 1s;
+    transition: 1s ease;
 }
 
 .hovered{
@@ -474,7 +474,7 @@ form i {
 .text-downloadable{
     color:#AD1637;
     text-decoration: none;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
 .text-downloadable:hover{
@@ -484,7 +484,7 @@ form i {
 
 .h-100{
     height: 65vh !important;
-    transition: 0.25s;
+    transition: 0.25s ease;
 }
 
 .h-100:hover{
@@ -527,4 +527,13 @@ form i {
 
 .btn{
     border-radius:.5rem !important;
+}
+
+#editableProject{
+    min-height: 65vh;
+    transition: 0.25s ease;
+}
+
+#editableProject:hover{
+    transform: scale(1.02);
 }
