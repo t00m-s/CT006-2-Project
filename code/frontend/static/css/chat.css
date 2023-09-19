@@ -18,6 +18,13 @@
     pointer-events: auto;
     transform: rotate(180deg)
 }
+.fix_pad_mex{
+    padding-right: 20px!important;
+}
+.timestamp{
+    font-size: 6pt;
+    color: #888da8;
+}
 
 #check:checked ~ .chat-btn .comment {
     display: none

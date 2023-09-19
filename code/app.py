@@ -10,7 +10,7 @@ from .backend.src.chat import *
 from .frontend.src.index import *
 from .backend.src.project import *
 from .backend.src.admin import *
-from datetime import date
+from datetime import datetime
 import sys
 import os
 
@@ -102,7 +102,7 @@ def download(file_id):
     last_backslash = path.rfind("/")
     return send_from_directory(
         path[:last_backslash],
-        path[last_backslash + 1 :],
+        path[last_backslash + 1:],
         as_attachment=True,
         mimetype="application/pdf",
     )
@@ -137,12 +137,10 @@ def handle_message(data):
     join_room(chat_namespace)
 
     new_message = {"user_name": current_user.name, "message": data["message"], "user_id": current_user.id,
-                   'timestamp': str(date.today())}
-    if "user has connected!" in data["message"]:
-        send(new_message, room=chat_namespace)
-    else:
-        save_message(data["message"], current_user.id, data["id_project"])
-        send(new_message, room=chat_namespace)
+                   'timestamp': str(datetime.now().strftime("%d/%m/%Y %H:%M"))}
+
+    save_message(data["message"], current_user.id, data["id_project"])
+    send(new_message, room=chat_namespace)
 
 
 # endregion

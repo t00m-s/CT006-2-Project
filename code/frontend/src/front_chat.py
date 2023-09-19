@@ -12,6 +12,6 @@ def render_chat(messages):
             'user_name': msg.sender.name,
             'message': msg.message,
             'user_id': msg.id_user,
-            'timestamp': msg.created_at
+            'timestamp': msg.getFormattedDate()
         }
     return jsonify(json)
