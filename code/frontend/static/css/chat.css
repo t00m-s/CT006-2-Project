@@ -52,10 +52,10 @@
 }
 
 /* Extra small devices (phones, 0px - 599px) */
-@media only screen and (max-width: 600px) {...}
+@media only screen and (max-width: 600px) { .wrapper{ width: 75% }}
 
 /* Small devices (portrait tablets and large phones, 600px - 767px) */
-@media only screen and (min-width: 600px) {}
+@media only screen and (min-width: 600px) { .wrapper{ width: 65% } }
 
 /* Medium devices (landscape tablets, 768px - 991px) */
 @media only screen and (min-width: 768px) { .wrapper{ width: 45% } }

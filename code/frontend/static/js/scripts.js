@@ -52,6 +52,9 @@ function activeNavbar() {
         case "Account":
             $("#AccountNav").addClass("active");
             break;
+        case "Admin panel":
+            $("#AdminNav").addClass("active");
+            break;
     }
 }
 
