@@ -141,7 +141,6 @@ def save_file_in_dir(request, dir_path, project_history):
     for file in request.files.items():
         # vogliamo solo l'oggetto della classe FileStorage non il suo key del form
         file = file[1]
-        # TODO CONTROLLARE IL MIME TYPE in file.content_type
         if not os.path.exists(dir_path):
             os.makedirs(dir_path, exist_ok=True)
         file_path = os.path.join(dir_path, file.filename)
@@ -174,23 +173,23 @@ def addproject():
         return render_addproject(current_user, get_session().query(Type).all())
     elif request.method == "POST":
         if (
-            not request.form["name"]
-            or request.form["name"] == ""
-            or request.form["name"] is None
+                not request.form["name"]
+                or request.form["name"] == ""
+                or request.form["name"] is None
         ):
             flash("Non è stato inserito il nome.", "error")
             return redirect(url_for("project.addproject"))
         if (
-            not request.form["description"]
-            or request.form["description"] == ""
-            or request.form["description"] is None
+                not request.form["description"]
+                or request.form["description"] == ""
+                or request.form["description"] is None
         ):
             flash("Non è stata inserita la descrizione.", "error")
             return redirect(url_for("project.addproject"))
         if (
-            not request.form["type"]
-            or request.form["type"] == ""
-            or request.form["type"] is None
+                not request.form["type"]
+                or request.form["type"] == ""
+                or request.form["type"] is None
         ):
             flash("Non è stato selezionato il tipo di progetto.", "error")
             return redirect(url_for("project.addproject"))
@@ -305,9 +304,9 @@ def editproject(project_id):
     elif request.method == "POST":
         try:
             if (
-                not request.form["state"]
-                or request.form["state"] == ""
-                or request.form["state"] is None
+                    not request.form["state"]
+                    or request.form["state"] == ""
+                    or request.form["state"] is None
             ):
                 flash("Non è stato selezionato uno stato.", "error")
                 return "Parameters error", 500
