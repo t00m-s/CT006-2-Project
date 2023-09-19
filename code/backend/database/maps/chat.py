@@ -1,4 +1,4 @@
-from pydoc import html
+import html
 
 from sqlalchemy import *
 from sqlalchemy import event

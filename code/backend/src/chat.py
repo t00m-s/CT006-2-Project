@@ -17,14 +17,16 @@ def chat(project_id):
     messages = None
     try:
         project = get_session().query(Project).filter_by(id=project_id).first()
+        if project is None:
+            abort(400)
         messages = project.messages
-
-        # TODO CONTROLLARE CHE IL PROGETTO ESISTA E ALTRI CONTROLLI DI AUTORIZZAZIONI (chi sta facendo l'accesso) E SICUREZZA
-
         if messages is None:
             abort(500)
         elif len(messages) == 0:
             return 'No messages'
+        test_user = get_session().query(User).filter(User.id == current_user.id).first()
+        if not (test_user.isReviewer() or project.id_user == test_user.id):
+            abort(401)
         return render_chat(messages)
     except:
         get_session().rollback()
@@ -39,7 +41,7 @@ def save_message(message, id_sender, id_project):
     if test_user is None:
         abort(400)
     if not (test_user.isReviewer() or test_project.id_user == test_user.id):
-        abort(400)
+        abort(401)
 
     try:
         new_chat = Chat(message=message, id_user=id_sender, id_project=id_project)
