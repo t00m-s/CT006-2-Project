@@ -53,16 +53,16 @@ def editrole():
         flash("Non sei autorizzato.", "error")
         return redirect(url_for("admin_blueprint.admin"))
     if (
-        "selected_role" not in request.form
-        or request.form["selected_role"] is None
-        or request.form["selected_role"] == ""
+            "selected_role" not in request.form
+            or request.form["selected_role"] is None
+            or request.form["selected_role"] == ""
     ):
         flash("Errore durante il cambio ruolo.", "error")
         return redirect(url_for("admin_blueprint.admin"))
     if (
-        "user_id" not in request.form
-        or request.form["user_id"] is None
-        or request.form["user_id"] == ""
+            "user_id" not in request.form
+            or request.form["user_id"] is None
+            or request.form["user_id"] == ""
     ):
         flash("Utente non selezionato.", "error")
         return redirect(url_for("admin_blueprint.admin"))
@@ -91,21 +91,24 @@ def editrole():
 @admin_blueprint.route("/banuser", methods=["POST"])
 @login_required
 def banuser():
+    if not current_user.isAdmin():
+        flash("Non sei autorizzato.", "error")
+        return redirect('/')
     if (
-        "user_id" not in request.form
-        or request.form["user_id"] is None
-        or request.form["user_id"] == ""
+            "user_id" not in request.form
+            or request.form["user_id"] is None
+            or request.form["user_id"] == ""
     ):
         flash("Errore durante il tentativo di ban dell'utente.", "error")
         return redirect(url_for("admin_blueprint.admin"))
 
     user = get_session().query(User).filter(User.id == request.form["user_id"]).first()
 
-    if user.ban:
-        flash("Non puoi eliminare nuovamente questo utente.", "error")
-        return redirect(url_for("admin_blueprint.admin"))
-    setattr(user, is_active, False)
+    if user is None:
+        flash("Non cambiare l'accesso ad un utente inesistente.", "error")
+        return redirect(url_for("admin.admin"))
+    setattr(user, 'ban', not user.ban)
     get_session().commit()
 
     flash("Utente rimosso correttamente.")
-    return redirect(url_for("admin_blueprint.admin"))
+    return redirect(url_for("admin.admin"))
