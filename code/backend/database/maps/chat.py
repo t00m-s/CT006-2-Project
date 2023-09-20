@@ -37,7 +37,7 @@ class Chat(Base):
         self.message = html.escape(self.message)
 
     def get_message(self):
-        self.message = html.unescape(self.message)
+        return html.unescape(self.message)
 
 
 User.has_sent = relationship(Chat, back_populates="sender")
