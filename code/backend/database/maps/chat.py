@@ -37,7 +37,7 @@ class Chat(Base):
         self.message = html.escape(self.message)
 
     def get_message(self):
-        self.message = html.unescape(self.message)
+        return html.unescape(self.message)
 
 
 User.has_sent = relationship(Chat, back_populates="sender")
@@ -49,8 +49,8 @@ def my_before_insert_listener_project(mapper, connection, target: Chat):
     target.set_message()
 
 
-event.listen(Project, "before_insert", my_before_insert_listener_project)
-event.listen(Project, "before_update", my_before_insert_listener_project)
+event.listen(Chat, "before_insert", my_before_insert_listener_project)
+event.listen(Chat, "before_update", my_before_insert_listener_project)
 
 """
 LA CHAT E' SUL SINGOLO PROGETTO, OGNI PROGETTO PUò AVERE AL MASSIMO UNA SOLA CHAT (o non averne)
