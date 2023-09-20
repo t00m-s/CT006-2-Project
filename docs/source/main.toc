@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {0}Tema del progetto}{2}{}%
+\contentsline {subsection}{\numberline {0.1}Valutazione di Progetti di Ricerca}{2}{}%
+\contentsline {section}{\numberline {1}Introduzione}{2}{}%
+\contentsline {section}{\numberline {2}Funzionalità principali}{3}{}%
+\contentsline {subsection}{\numberline {2.1}Gestione degli account}{3}{}%
+\contentsline {subsection}{\numberline {2.2}Gestione dei progetti}{3}{}%
+\contentsline {subsection}{\numberline {2.3}Amministrazione}{3}{}%
+\contentsline {section}{\numberline {3}Progettazione concettuale e logica della base di dati}{3}{}%
+\contentsline {section}{\numberline {4}Query principali}{3}{}%
+\contentsline {section}{\numberline {5}Principali scelte progettuali}{3}{}%
+\contentsline {section}{\numberline {6}Ulteriori informazioni}{3}{}%
+\contentsline {section}{\numberline {7}Contributo al progetto}{3}{}%

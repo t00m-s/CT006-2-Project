@@ -529,11 +529,10 @@ form i {
     border-radius:.5rem !important;
 }
 
-#editableProject{
-    min-height: 65vh;
+.editableProject{
     transition: 0.25s ease;
 }
 
-#editableProject:hover{
+.editableProject:hover{
     transform: scale(1.02);
 }
