@@ -5,9 +5,13 @@
 \usepackage{titlesec}
 \usepackage{tcolorbox}
 \usepackage[margin=1in]{geometry}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage[export]{adjustbox}
+
 
 \titleformat*{\section}{\huge\bfseries}
-\titleformat*{\subsection}{\Large\bfseries}
+\titleformat*{\subsection}{\LARGE\bfseries}
 \titleformat*{\subsubsection}{\large\bfseries}
 \titleformat*{\paragraph}{\large\bfseries}
 \titleformat*{\subparagraph}{\small\bfseries}
@@ -75,8 +79,9 @@
 \maketitle
 \tableofcontents
 \newpage
-\section{Tema del progetto}
-\subsection{Valutazione di Progetti di Ricerca}
+
+\section{Introduzione}
+\subsection{Tema del progetto}
 \par
 Viene richiesto di curare il design e l'implementazione di una web application per la valutazione interna dei
 progetti di ricerca da sottoporre per finanziamento all'Unione Europea. I ricercatori devono poter creare
@@ -107,30 +112,80 @@ i loro progetti alla luce degli stessi, finchè non vengono approvati o rifiutat
 \end{itemize}
 
 
-\section{Introduzione}
+\subsection{Descrizione}
 L'applicazione è una piattaforma completa per la gestione della valutazione dei progetti di ricerca. L'obiettivo principale di questa piattaforma è fornire ai ricercatori uno strumento efficiente per la valutazione dei progetti.\\\\Una delle caratteristiche chiave dell'applicazione è la possibilità di inserire i propri progetti all'interno del sistema, consentendo ad altri utenti autorizzati di eseguire la valutazione.\\\\Ogni progetto ha più stati visibili all'autore e a tutti gli utenti autorizzati, in modo da tenere traccia dell'avanzamento della valutazione.\\\\La piattaforma offre una serie di funzionalità  per facilitare il processo di valutazione, come la possibilità di scrivere note e caricare correzioni.\\\\L'obiettivo finale dell'applicazione è migliorare l'efficienza nel processo di valutazione dei progetti di ricerca, fornendo una soluzione completa e intuitiva per gli utenti.
 \section{Funzionalità principali}
 Di seguito forniremo una breve descrizione delle principali funzionalità implementate nell'applicazione. 
 \subsection{Gestione degli account}
-\begin{itemize}
-    \item Registrazione: l'utente ha la possibilità di registrarsi autonomamente tramite un form in cui inserire i propri dati ed effettuare la creazione della password, inizialmente tutti gli utenti sono registrati come ricercatori, se dovesse essere necessaria la modifica di un ruolo sarà compito dell'amministratore;
-    \begin{figure}[H]
+\subsubsection{Registrazione}
+L'utente ha la possibilità di registrarsi autonomamente tramite un form in cui inserire i propri dati ed effettuare la creazione della password, inizialmente tutti gli utenti sono registrati come ricercatori, se dovesse essere necessaria la modifica di un ruolo sarà compito dell'amministratore;
+
+\subsubsection{Login}
+Dopo aver effettuato la registrazione rispettando i vari criteri per mail e password l'utente potrà effettuare il login all'interno dell'applicazione. 
+
+\begin{figure}[!h]
+    \begin{minipage}[c]{0.5\linewidth}
         \centering
-        \fbox{\includegraphics[width=0.60\textwidth]{foresta.png}}\\
-        \label{foresta.png} Figura \ref{foresta.png}, differenza tra un albero e una foresta(è ancora informatica non botanica)
-    \end{figure}
-    \item Login: dopo aver effettuato la registrazione rispettando i vari criteri per mail e password l'utente potrà effettuare il login all'interno dell'applicazione. 
-\end{itemize}
+        \fbox{\includegraphics[width=0.5\textwidth]{registrazione}}\\
+        \caption{\raggedleft Screenshot registrazione}
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.5\linewidth}
+        \centering
+        \fbox{\includegraphics[width=0.7\textwidth]{login}}\\
+        \caption{Screenshot login}
+    \end{minipage}
+\end{figure}
 
 \subsection{Gestione dei progetti}
-\begin{itemize}
-    \item Caricamento di un progetto: l'utente ha la possibilità di caricare un progetto allegando multipli file $.pdf$, per concludere l'operazione è necessario selezionare il tipo di progetto da un menù a tendina, inserire una breve descrizione e facoltativamente scrivere una nota a riguardo.
-    \item Creazione degli stati per la valutazione
-    \item Valutazione dei progetti
-\end{itemize}
+\subsubsection{Caricamento di un progetto} 
+L'utente ha la possibilità di caricare un progetto allegando multipli file $.pdf$, per concludere l'operazione è necessario selezionare il tipo di progetto da un menù a tendina, inserire una breve descrizione e facoltativamente scrivere una nota a riguardo.
+\subsubsection{Creazione degli stati per la valutazione}
+I possibili stati di un progetto sono rimasti gli stessi descritti nel tema del progetto(Submitted, Require Changes, Approved, Not Approved), nella visualizzazione di un progetto l'utente può osservare ogni stato di tale progetto, al quale vengono affiancate 3 informazioni: i file allegati, le note del valutatore e la data.
+\subsubsection{Valutazione dei progetti}
+Un utente valutatore può cambiare lo stato dei progetti aggungendone uno nuovo, per farlo deve caricare uno o più file $.pdf$, così da poter mantenere il file originale e magari aggiungerne un altro con le eventuali correzioni, dopo aver caricato i file può selezionare il nuovo stato da un menù a tendina e aggiungere delle eventuali note, come indicato dal tema del progetto. 
+\subsubsection{Chat}
+In ogni progetto è presente una chat sulla quale possono scrivere il creatore del progetto e gli eventuali valutatori.
+\begin{figure}[!h]
+    \begin{minipage}[c]{0.5\linewidth}
+        \centering
+        \fbox{\includegraphics[width=0.7\textwidth]{nuovo}}\\
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.5\linewidth}
+        \centering
+        \fbox{\includegraphics[width=0.7\textwidth]{valuta}}\\
+    \end{minipage}
+    \caption{Pagine per la creazione e la valutazione di un progetto}
+\end{figure}
+
+\begin{figure}[!h]
+    \begin{minipage}[c]{0.5\linewidth}
+        \centering
+        \fbox{\includegraphics[width=0.7\textwidth]{stati}}\\
+        \caption{Esempio di visualizzazione degli stati di un progetto}
+    \end{minipage}\hfill
+    \begin{minipage}[c]{0.5\linewidth}
+        \centering
+        \fbox{\includegraphics[width=0.7\textwidth]{chat}}\\
+        \caption{Chat di un progetto}
+    \end{minipage}
+\end{figure}
+
 
 \subsection{Amministrazione}
-
+\subsubsection{Ruoli}
+L'assegnazione dei privilegi agli utenti dell'applicazione si basa su 3 ruoli: 
+\begin{itemize}
+    \item Researcher: è il ruolo con meno privilegi, può solo creare i propri progetti senza valutarne altri;
+    \item Reviewer: è un Researcher che ha anche la possibilità di valutare i progetti degli altri utenti;
+    \item Admin: può accedere alla Admin Dashboard e può anche valutare i progetti, questo ruolo viene assegnato dall'amministratore di sistema.
+\end{itemize}
+\subsubsection{Admin Dashboard}
+Questa pagina consiste in una tabella interattiva con la quale l'utente admin può avere accesso ai dati anagrafici dei singoli utenti, modificarne il ruolo ed eventualmente rimuovere gli utenti dal sistema.
+\begin{figure}[!h] 
+    \centering
+    \fbox{\includegraphics[width=0.9\textwidth]{admin}}\\
+    \caption{Admin Dashboard}
+\end{figure}
 
 \section{Progettazione concettuale e logica della base di dati}
 
