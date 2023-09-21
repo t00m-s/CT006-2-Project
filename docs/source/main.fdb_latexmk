@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1695316072 "/Users/nicolapanizzolo/Desktop/universita/secondo anno/basi di dati/CT006-2-Project/docs/source/main.tex" "main.pdf" "main" 1695316074 0
-  "/Users/nicolapanizzolo/Desktop/universita/secondo anno/basi di dati/CT006-2-Project/docs/source/main.tex" 1695316072 10809 0c3686d1758acf70940c42ff97f1deab ""
+["pdflatex"] 1695326208 "/Users/nicolapanizzolo/Desktop/universita/secondo anno/basi di dati/CT006-2-Project/docs/source/main.tex" "main.pdf" "main" 1695326209 0
+  "/Users/nicolapanizzolo/Desktop/universita/secondo anno/basi di dati/CT006-2-Project/docs/source/main.tex" 1695326206 14470 739d5dea03a5e463b570ac1c1db78b5f ""
   "/usr/local/texlive/2023/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc" 1136849721 2900 1537cc8184ad1792082cd229ecc269f4 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2023/texmf-dist/fonts/tfm/jknappen/ec/tcrm1000.tfm" 1136768653 1536 e07581a4bb3136ece9eeb4c3ffab8233 ""
@@ -123,13 +123,15 @@
   "/usr/local/texlive/2023/texmf.cnf" 1678822455 577 1b2b1af17af2508fb20dd85783af4050 ""
   "admin.png" 1695316045 51102 23cde7de0d8d3544684ffb16cadd0c60 ""
   "chat.png" 1695301768 38906 fe659074258d74486125cb190e106d07 ""
+  "dropzone.png" 1695326031 36981 c1c75efed1e8c3c59a36147234819cf0 ""
   "login.png" 1695252100 27047 cd61e5b4f57ae29a35aa944ce7dee318 ""
-  "main.aux" 1695316073 3143 cae8c169150c2406d4955a32a40845f8 "pdflatex"
-  "main.tex" 1695316072 10809 0c3686d1758acf70940c42ff97f1deab ""
-  "main.toc" 1695316073 1441 005a30fd01eccdb07af7e7ee48903598 "pdflatex"
+  "main.aux" 1695326209 4493 826276665ff9a61126d46f1cbc77bcfd "pdflatex"
+  "main.tex" 1695326206 14470 739d5dea03a5e463b570ac1c1db78b5f ""
+  "main.toc" 1695326209 2096 d5dfdf52a742a6428a57f5aa958fa01c "pdflatex"
   "nuovo.png" 1695301335 48475 f27468db39330d9f5da79d60a9cf5dbc ""
   "registrazione.png" 1695252207 47359 be41e2f4a00c1bc63b009f22f29b1df1 ""
   "stati.png" 1695301530 46852 a096084250fe46178a24c4c80533eef0 ""
+  "tiny.png" 1695325988 103565 14b3888c3170b3709a52e5746bde4e80 ""
   "valuta.png" 1695301377 47219 7a5f9e991912010012d62c7d07794819 ""
   (generated)
   "main.aux"

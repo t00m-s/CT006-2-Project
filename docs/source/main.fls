@@ -582,6 +582,14 @@ INPUT ./admin.png
 INPUT admin.png
 INPUT ./admin.png
 INPUT ./admin.png
+INPUT ./dropzone.png
+INPUT dropzone.png
+INPUT ./dropzone.png
+INPUT ./dropzone.png
+INPUT ./tiny.png
+INPUT tiny.png
+INPUT ./tiny.png
+INPUT ./tiny.png
 INPUT main.aux
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmb10.pfb
 INPUT /usr/local/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb

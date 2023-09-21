@@ -17,4 +17,14 @@
 \contentsline {section}{\numberline {3}Query principali}{5}{}%
 \contentsline {section}{\numberline {4}Principali scelte progettuali}{5}{}%
 \contentsline {section}{\numberline {5}Ulteriori informazioni}{5}{}%
-\contentsline {section}{\numberline {6}Contributo al progetto}{5}{}%
+\contentsline {subsection}{\numberline {5.1}Backend}{5}{}%
+\contentsline {subsubsection}{\numberline {5.1.1}Flask}{5}{}%
+\contentsline {subsubsection}{\numberline {5.1.2}Flask Login}{6}{}%
+\contentsline {subsubsection}{\numberline {5.1.3}SQLAlchemy}{6}{}%
+\contentsline {subsection}{\numberline {5.2}Frontend}{6}{}%
+\contentsline {subsubsection}{\numberline {5.2.1}Bootstrap 5}{6}{}%
+\contentsline {subsubsection}{\numberline {5.2.2}Jquery}{6}{}%
+\contentsline {subsubsection}{\numberline {5.2.3}Dropzone}{6}{}%
+\contentsline {subsubsection}{\numberline {5.2.4}TinyMCE}{6}{}%
+\contentsline {subsubsection}{\numberline {5.2.5}Libreria della chat???}{7}{}%
+\contentsline {section}{\numberline {6}Contributo al progetto}{7}{}%
