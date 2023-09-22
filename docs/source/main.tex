@@ -36,7 +36,7 @@
 
 \lstset{
     columns=fixed,       
-    numbers=left,                                        
+    numbers=none,                                        
     frame=none,                                          
     backgroundcolor=\color{backcolour},            
     keywordstyle=\color[RGB]{255,0,127},                 
@@ -55,7 +55,7 @@
 \date{CT006 2023/2024}
 \usepackage{tgadventor}
 
-\setcounter{section}{-1}
+%\setcounter{section}{-1}
 \begin{document}
 
 \lstset{inputencoding = utf8,  % Input encoding
@@ -190,8 +190,163 @@ Questa pagina consiste in una tabella interattiva con la quale l'utente admin pu
 \section{Progettazione concettuale e logica della base di dati}
 
 \section{Query principali}
+\subsection{Metodologia}
+Nel corso del nostro progetto, abbiamo scelto di utilizzare query molto semplici per interagire con il database. Questa scelta è stata guidata da due considerazioni principali.
+\subsubsection{Nessuna Necessità di Richieste Particolari al Database}
+Inizialmente, abbiamo valutato le nostre esigenze di accesso ai dati e abbiamo constatato che non vi era alcuna necessità di richieste particolari o complesse. Le informazioni di cui avevamo bisogno potevano essere recuperate in modo efficace attraverso query dirette e semplici. L'assenza di complessità nelle nostre richieste ha reso inutile l'uso di query più intricate.
+\subsubsection{Struttura Ottimale del Database}
+Un elemento chiave che ha influenzato la nostra scelta è stata l'ottima struttura del database. Le tabelle erano organizzate in modo chiaro e logico, con attributi ben definiti e relazioni ben gestite tra di loro. Questa struttura ha semplificato notevolmente l'interrogazione del database.
+
+
+\subsection{Discussione}
+Grazie all'adozione di query semplici, siamo stati in grado di ottenere risultati soddisfacenti nel nostro progetto. La struttura ben progettata delle tabelle del database è stata fondamentale in questo processo. 
+Inoltre l'astrazione delle tabelle tramite i Model di Flask ha permesso di ridurre l'utilizzo dei join solo nel momento in cui strettamente necessario.
+Di seguito, discutiamo alcune delle principali ragioni per cui abbiamo adottato questo approccio.
+\subsubsection{Riduzione del Carico di Lavoro del Database}
+L'uso di query semplici ha comportato un carico di lavoro minore sul database, riducendo il tempo di esecuzione delle operazioni, in quanto vengono sfruttati gli indici generati tramite le foreign keys.
+\subsubsection{Facilità di Manutenzione}
+La gestione di query semplici è stata vantaggiosa anche dal punto di vista della manutenzione. Le query erano facilmente comprensibili e modificabili, semplificando il processo di adattamento alle nuove esigenze del progetto.
+
+
+\subsection{Query Principali}
+\subsubsection{Creazione di un progetto}
+La creazione di un progetto risulta essere una sequenza di query che vanno ad  effettuare l'insert in più tabelle.\\
+\begin{enumerate}
+    \item Utilizziamo la query seguente per produrre il menù a tendina dove l'utente può selezionare il tipo del progetto che sta andando a creare.
+    \begin{lstlisting}
+    SELECT id, name FROM types
+    \end{lstlisting}
+    Con la prossima query avviene l'effettiva creazione del progetto.
+    \item 
+    \begin{lstlisting}
+    INSERT INTO projects( id_user, id_type, name, description) 
+            VALUES (1,1, 'TEST', 'TEXT')
+    \end{lstlisting}
+    Per ottenere l'id\_user abbiamo utilizzato l'oggetto current\_user della classe flask\_login istanziato sulla base del risultato della query di login:
+    \begin{lstlisting}
+    SELECT * FROM users WHERE email='test@test.it'
+    \end{lstlisting}
+    \item Tramite flask abbiamo quindi la possibilità di ottenere l'id della row appena creata nella tabella projects.
+    \item Otteniamo l'id stato “Submitted” tramite una query (ci servirà come valore di default).
+    \begin{lstlisting}
+    SELECT id FROM states WHERE name='Submitted'
+    \end{lstlisting}
+    \item Andiamo a creare lo stato (history) per questo nuovo progetto. Ci permetterà di avere uno storico di tutti gli stati del progetto.
+    \begin{lstlisting}
+    INSERT INTO project_history(id_project, id_state, id_user_reviewer) 
+           VALUES (1,2,1)
+    \end{lstlisting}
+    \item Tramite flask abbiamo quindi la possibilità di ottenere l'id della row appena creata nella tabella projects\_history.
+    \item Andiamo infine a definire il path di caricamento dei file per questo progetto in questo preciso stato.
+    \begin{lstlisting}
+    INSERT INTO project_files(path, id_project_history) VALUES 
+        ('/app/db_files/1/1/1/TEST1.pdf',1),
+        ('/app/db_files/1/1/1/TEST2.pdf',1),
+        ('/app/db_files/1/1/1/TEST3.pdf',1)
+    \end{lstlisting}
+\end{enumerate}
+
+\subsubsection{Elenco dei progetti da valutare}
+Abbiamo avuto l'esigenza di dover mostrare ai reviewer solo i progetti che non sono stati chiusi affinché possano avere la possibilità di valutarli.
+\begin{enumerate}
+    \item  
+    \begin{lstlisting}
+    SELECT * FROM users WHERE id=1 AND id_role IN 
+        (SELECT id FROM roles WHERE is_reviewer=TRUE)
+    \end{lstlisting} 
+    Se questa query (dove l'id corrisponde all'id dell'utente che ha effettuato il login) non ritorna alcuna riga blocchiamo l'accesso alla pagina in quanto l'utente non è autorizzato
+    \item 
+    \begin{lstlisting}
+    SELECT *
+    FROM projects
+    WHERE id IN 
+       (SELECT id_project
+        FROM project_history
+        WHERE id IN 
+           (SELECT MAX(id)
+            FROM project_history
+            WHERE id_project NOT IN
+                (SELECT id FROM projects WHERE id_user = 1)
+            GROUP BY id_project)
+        AND id_state IN 
+           (SELECT id 
+            FROM states
+            WHERE is_closed = FALSE))    
+    \end{lstlisting}
+    Questa query ci permette di avere l'elenco di tutti i progetti, senza duplicati, che non sono stati creati dall'utente loggato (non vogliamo che un reviewer si possa approvare un progetto in modo autonomo) e che possiedono come ultimo stato attribuito (history) uno stato con flag “non chiuso”. 
+    \item Andiamo quindi a prendere i tipi di progetto disponibili nel software, questo permetterà al backend in python di raggruppare gli oggetti Project in sezioni del dizionario Types divise per Project.id\_type ai fini una stampa ordinata per tipo:
+    \begin{lstlisting}
+    SELECT id, name FROM types
+    \end{lstlisting}
+\end{enumerate}
+
 
 \section{Principali scelte progettuali}
+\subsection{Trigger}
+Il trigger \textbf{is\_reviewer\_trigger} implementa un rigoroso controllo di validazione per garantire che gli utenti designati come revisori siano effettivamente qualificati come tali prima di consentire loro di apportare inserimenti o aggiornamenti alla tabella project\_history. Inoltre estende la possibilità di inserimento per un dato progetto agli utenti che non sono qualificati come revisori ma sono autori dello stesso. 
+Questa funzione rappresenta una soluzione efficace per garantire l'integrità dei dati e la conformità alle regole imposte dal sistema di valutazione.
+\begin{lstlisting}
+CREATE OR REPLACE FUNCTION is_reviewer()
+RETURNS TRIGGER AS
+$$
+BEGIN
+IF NEW.id_user_reviewer IS NOT NULL THEN
+IF (NEW.id_user_reviewer NOT IN
+(SELECT u.id
+FROM users u JOIN roles r ON u.id_role=r.id
+WHERE r.is_reviewer AND u.id=NEW.id_user_reviewer) AND
+(NEW.id_user_reviewer != (SELECT id_user FROM projects WHERE id=NEW.id_project))
+) THEN
+RETURN NULL;
+END IF;
+END IF;
+RETURN NEW;
+END $$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE TRIGGER is_reviewer_trigger
+BEFORE INSERT OR UPDATE ON project_history
+FOR EACH ROW EXECUTE FUNCTION is_reviewer()
+\end{lstlisting}
+\subsection{Sicurezza}
+È stata adottata una soluzione avanzata basata su Docker per garantire un elevato grado di isolamento e controllo dell'accesso al database e ogni dato viene analizzato prima di essere inserito nella base di dati.
+In particolare il progetto, sotto il punto di vista della sicurezza, tocca i seguenti punti:
+\begin{itemize}
+    \item Container Docker Isolato: Per garantire un ambiente altamente sicuro, è stato creato un contenitore Docker isolato dal resto della rete. L'isolamento è fondamentale per proteggere il database da accessi non autorizzati in particolare: 
+    \begin{itemize}
+        \item Accesso Limitato agli Utenti: Solo due utenti hanno accesso a questo database, il superutente (root) e un utente specifico denominato "progetto";
+        \item Network Isolata: Il container Docker è configurato in modo da essere completamente isolato dalla rete esterna. Questo significa che il database non è accessibile dalla rete pubblica o da altre risorse di rete, garantendo una protezione aggiuntiva contro attacchi esterni;
+        \item Controllo Preciso dell'Accesso: limitare l'accesso al database solo al container Python impedisce ad altri servizi o applicazioni non autorizzati di interagire direttamente con il database.
+    \end{itemize}
+    \item Sanitizzazione delle Query: tutte le query eseguite nel database sono sanificate attraverso SQLAlchemy ORM:
+    \begin{itemize}
+        \item Prevenzione degli Attacchi SQL Injection: L'ORM SQLAlchemy è progettato per prevenire gli attacchi di SQL injection, in quanto sanitizza automaticamente le query, impedendo l'inserimento di codice SQL dannoso;
+        \item Prevenzione degli Attacchi XSS: dove l'ORM non può arrivare siamo intervenuti manualmente a sanificare i dati in modo che i testi stampati nel DOM (descrizione dei progetti, note e messaggi della chat) fossero sanificati anche da iniezioni di codice JavaScript.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Politiche di autorizzazione}
+La tabella "Roles" è progettata per contenere informazioni sulle tipologie di ruoli assegnabili agli utenti del sistema. Ogni utente è associato a un ruolo specifico attraverso un campo "id\_role". La gestione delle politiche di autorizzazione per la valutazione dei progetti è implementata attraverso la tabella "Roles" in questo modo:
+\begin{itemize}
+    \item Flag per Valutazione dei Progetti: all'interno della tabella "Roles", è presente un flag che indica se gli utenti con quel ruolo specifico hanno il permesso di valutare i progetti;
+    \item Ruolo dell'Amministratore(id\_role=1): L'utente con "id\_role=1", ovvero l'amministratore, è l'unico che può:
+    \begin{itemize}
+        \item Cambiare i ruoli degli altri utenti: questo privilegio consente all'amministratore di assegnare o revocare il diritto di valutare i progetti ad altri utenti;
+        \item Bannare: in caso di comportamenti ritenuti non corretti ha la possibilità di bloccare l'accesso agli utenti incriminati.
+    \end{itemize}
+    \item Privilegi Amministrativi: La gestione dei privilegi amministrativi è stata configurata in modo da impedire che un utente possa promuovere(se stesso o altri) a ruolo di amministratore. Per farlo è necessario un intervento diretto da parte degli sviluppatori del sistema all'interno del database, previa esplicita richiesta.
+\end{itemize}
+
+\subsection{Performance}
+Nella progettazione e nell'utilizzo del database, abbiamo adottato una strategia di ottimizzazione basata sull'utilizzo di indici generati dalle foreign key delle tabelle del database e sfruttato il "lazy loading" implicito offerto da SQLAlchemy per massimizzare le performance.\\\\In modo specifico, gli indici Foreign Key consentono quanto segue:
+\begin{itemize}
+    \item Join Efficienti: Quando si eseguono operazioni di join tra tabelle che condividono chiavi esterne, la presenza di indici FK riduce notevolmente il tempo necessario per effettuare join;
+    \item Mantenimento dell'Integrità dei Dati: Gli indici FK impediscono l'inserimento di dati non validi nelle tabelle. Ciò contribuisce a garantire che i dati siano coesi e che rispettino le relazioni previste.
+\end{itemize}
+Mentre il Lazy Loading Implicito di SQLAlchemy offre i seguenti vantaggi:
+\begin{itemize}
+    \item Accesso On-Demand: Quando si accede a un oggetto collegato tramite una relazione, SQLAlchemy carica solo quei dati dal database che sono necessari in quel momento, evitando il caricamento eccessivo di dati inutilizzati;
+    \item Riduzione del Carico di Lavoro del Database: L'uso del lazy loading impedisce al database di eseguire query pesanti in modo prematuro, contribuendo a ridurre il carico di lavoro del database e a migliorare le prestazioni complessive del sistema.
+\end{itemize}
 
 \section{Ulteriori informazioni}
 Per la realizzazione dell'applicazione sono state utilizzate diverse librerie e framework, alcuni per lo sviluppo del backend e alcuni di frontend.
@@ -212,8 +367,8 @@ Jquery è una libreria JavaScript open-source ampiamente utilizzata per semplifi
 Nelle pagine dove gli utenti caricano i progetti viene viene utilizzata Dropzone.js: è una libreria JavaScript open-source che semplifica l'implementazione del caricamento di file da parte degli utenti in un'applicazione web.
 \subsubsection{TinyMCE}
 TinyMCE è un editor di testo WYSIWYG (What You See Is What You Get) open-source ampiamente utilizzato per l'integrazione in applicazioni web e siti web. Il nome "TinyMCE" è l'acronimo di "Tiny Moxiecode Content Editor", è utilizzato da qualsiasi sito web o applicazione che richiede un editor di testo WYSIWYG per consentire agli utenti di creare e modificare contenuti in modo intuitivo, nel nostro caso viene utilizzato per la descrizione dei progetti.
-\subsubsection{Libreria della chat???}
-
+\subsubsection{Socket.IO}
+Socket.IO è una libreria JavaScript open-source che consente la comunicazione bidirezionale in tempo reale tra un server web e un client web. È spesso utilizzato per implementare applicazioni web interattive, chat in tempo reale, giochi online e altre applicazioni che richiedono una comunicazione istantanea tra il server e il client. Nel nostro scenario, Socket.IO offre un modo efficiente per consentire la comunicazione in tempo reale tra i partecipanti ai progetti di ricerca all'interno dell'applicazione. Consentendo ai proprietari dei progetti e ai valutatori di scambiare informazioni istantaneamente, migliora l'efficienza e la collaborazione all'interno del sistema di valutazione dei progetti.
 \begin{figure}[H]
     \begin{minipage}[c]{0.5\linewidth}
         \centering
