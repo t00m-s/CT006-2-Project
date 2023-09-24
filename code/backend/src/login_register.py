@@ -160,7 +160,8 @@ def check_password(my_request, backurl):
     ):
         flash("La password di conferma non può essere vuota.", "error")
         return redirect(url_for(backurl))
-    if my_request.form["password"] != my_request.form["password_2"]:
+    if ("password" in my_request.form and "password_2" in my_request.form) and my_request.form["password"] != \
+            my_request.form["password_2"]:
         flash("Le due password non corrispondono.", "error")
         return redirect(url_for(backurl))
 
