@@ -175,6 +175,8 @@ def edit_account():
     for key, val in request.form.items():
         if val == "":
             val = None
+        elif key == "password":
+            val = hashlib.sha512(val.encode("utf-8")).hexdigest()
         setattr(current_user, key, val)
 
     get_session().commit()
